@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, ForeignKey, Text, Date
+from sqlalchemy import String, Boolean, ForeignKey, Text, Date, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import date
@@ -16,6 +16,10 @@ class User(db.Model):
     rol: Mapped[str] = mapped_column(String(55), unique=False, nullable=True)
     email: Mapped[str] = mapped_column(
         String(120), unique=True, nullable=False)
+    income_doctor: Mapped[list["Income"]] = relationship(
+        back_populates="doctor", foreign_keys="Income.id_doctor")
+    income_nurse: Mapped[list["Income"]] = relationship(
+        back_populates="nurse", foreign_keys="Income.id_nurse")
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
     password_hash: Mapped[str] = mapped_column(nullable=True)
 
@@ -39,6 +43,12 @@ class Income(db.Model):
     id: Mapped[str] = mapped_column(primary_key=True)
     id_patient: Mapped[str] = mapped_column(ForeignKey("patient.dni"))
     patient: Mapped["Patient"] = relationship(back_populates="income")
+    id_doctor: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))
+    doctor: Mapped["User"] = relationship(
+        back_populates="income_doctor", foreign_keys=[id_doctor])
+    id_nurse: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))
+    nurse: Mapped["User"] = relationship(
+        back_populates="income_nurse", foreign_keys=[id_nurse])
     reason_consultation: Mapped[str] = mapped_column(
         String(600), nullable=False, unique=False)
     triage_priority: Mapped[int] = mapped_column(nullable=True)
@@ -51,7 +61,9 @@ class Income(db.Model):
             "reason_consultation": self.reason_consultation,
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
-            "state": self.state
+            "state": self.state,
+            "doctor": self.doctor.firstname if self.doctor else None,
+            "nurse": self.nurse.firstname if self.nurse else None
         }
 
     def serialize_patient_data(self):
