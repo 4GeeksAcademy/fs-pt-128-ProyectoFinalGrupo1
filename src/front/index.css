@@ -7,6 +7,10 @@
   --spacer: #e2e8f0;
 }
 
+*{
+  font-family: "Inter", sans-serif;
+}
+
 /* @media (prefers-color-scheme: dark) {
   :root {
     --primaryBackground: #1a202c;
