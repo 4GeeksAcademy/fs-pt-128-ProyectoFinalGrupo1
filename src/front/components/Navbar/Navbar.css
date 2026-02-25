@@ -1,25 +1,49 @@
 .custom_navbar {
-  color: var(--primaryText);
+  color: var(--primaryBackground);
   background-color: var(--navBar);
   width: 80px;
   min-height: 100vh;
   transition: width 0.5s ease-in-out;
   overflow: hidden;
 }
+
 .expended {
   width: 250px;
   opacity: 1;
 }
+@media (max-width: 768px) {
+  .expended {
+    width: 80px;
+    overflow: hidden;
+  }
+  .text-expended {
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
 .img_contianer {
   min-width: 80px;
-  height: 60px;
+  height: 80px;
+  margin: 0 auto;
 }
 .img_contianer-expend {
-  min-width: 250px;
+  max-width: 200px;
 }
 .img_contianer img {
-  width: 50px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
+}
+@media (max-width: 768px) {
+  .img_contianer {
+    min-width: 60px;
+    height: 60px;
+    margin: auto;
+  }
+  .img_contianer img {
+    width: 50px;
+    height: 50px;
+  }
 }
 .navbar_icons {
   cursor: pointer;
@@ -27,12 +51,20 @@
   white-space: nowrap;
 }
 
-.navbar_icons h3 {
+.navbar_icons:hover {
+  color: var(--label);
+}
+.navbar_icons:active {
+  color: var(--label);
+}
+
+.width-icon {
+  max-width: 80px;
+}
+.width-icon i {
   font-size: 38px;
 }
-.width-icon {
-  min-width: 80px;
-}
+
 .navbar_icons-text {
   opacity: 0;
 }

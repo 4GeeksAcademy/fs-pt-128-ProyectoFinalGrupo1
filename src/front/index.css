@@ -7,7 +7,7 @@
   --spacer: #e2e8f0;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --primaryBackground: #1a202c;
     --primaryText: #f7fafc;
@@ -16,4 +16,4 @@
     --label: #a0aec0;
     --spacer: #4a5568;
   }
-}
+} */
