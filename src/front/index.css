@@ -1,15 +1,13 @@
-@media (prefers-color-scheme: light) {
-  :root {
-    --primaryBackground: #f7fafc;
-    --primaryText: #1a202c;
-    --cardBackground: #ffffff;
-    --navBar: #2b6cb0;
-    --label: #718096;
-    --spacer: #e2e8f0;
-  }
+:root {
+  --primaryBackground: #f7fafc;
+  --primaryText: #1a202c;
+  --cardBackground: #ffffff;
+  --navBar: #2b6cb0;
+  --label: #718096;
+  --spacer: #e2e8f0;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --primaryBackground: #1a202c;
     --primaryText: #f7fafc;
@@ -18,5 +16,6 @@
     --label: #a0aec0;
     --spacer: #4a5568;
   }
+} */
 }
 
