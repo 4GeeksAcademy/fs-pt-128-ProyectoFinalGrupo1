@@ -1,0 +1,42 @@
+.custom_navbar {
+  color: var(--primaryText);
+  background-color: var(--navBar);
+  width: 80px;
+  min-height: 100vh;
+  transition: width 0.5s ease-in-out;
+  overflow: hidden;
+}
+.expended {
+  width: 250px;
+  opacity: 1;
+}
+.img_contianer {
+  min-width: 80px;
+  height: 60px;
+}
+.img_contianer-expend {
+  min-width: 250px;
+}
+.img_contianer img {
+  width: 50px;
+  height: 40px;
+}
+.navbar_icons {
+  cursor: pointer;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.navbar_icons h3 {
+  font-size: 38px;
+}
+.width-icon {
+  min-width: 80px;
+}
+.navbar_icons-text {
+  opacity: 0;
+}
+.text-expended {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
