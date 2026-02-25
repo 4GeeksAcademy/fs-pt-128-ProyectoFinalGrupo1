@@ -13,8 +13,8 @@ export const Signup = () => {
                         <img src={image} className="img-fluid" alt="Rigo Baby" />
 
                     </div>
-                    <div className="col-5 rounded-4" style={{backgroundColor:"var(--cardBackground)"}}>
-                        <SignUpForm/>
+                    <div className="col-5 rounded-4" style={{ backgroundColor: "var(--cardBackground)" }}>
+                        <SignUpForm />
                     </div>
                 </div>
 

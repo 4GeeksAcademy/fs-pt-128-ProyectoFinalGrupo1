@@ -20,6 +20,22 @@
   }
 }
 
-.text, h1, h5{
+:root {
+  --bs-body-font-family: 'Inter', sans-serif;
+}
+
+.text, h2, h5, .form-control::placeholder{
   color:var(--primaryText)
+}
+
+.form-control, .form-control:focus, input{
+  background-color: transparent;
+  border: 0px;
+}
+
+input {
+  border: none;          /* Quita el borde normal */
+  outline: none;         /* Quita el borde de foco */
+  background-color: #1e293b; /* Ejemplo de fondo si quieres */
+  color: white;          /* Color del texto */
 }
