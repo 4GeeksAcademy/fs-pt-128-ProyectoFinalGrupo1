@@ -9,9 +9,9 @@ export const Layout = () => {
         <ScrollToTop>
             <div className="d-flex">
                 <Navbar />
-                <div className="w-100 mx-3">
+                <div className="m-auto">
                     <Outlet />
-                    <Footer />
+                    {/* <Footer /> */}
                 </div>
 
             </div>
