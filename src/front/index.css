@@ -23,3 +23,16 @@
 } */
 }
 
+:root {
+  --bs-body-font-family: 'Inter', sans-serif;
+}
+
+.text, h2, h5, .form-control::placeholder{
+  color:var(--primaryText)
+}
+
+.form-control, .form-control:focus, input{
+  background-color: transparent;
+  border: 0px;
+}
+
