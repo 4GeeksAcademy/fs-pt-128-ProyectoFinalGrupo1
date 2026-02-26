@@ -44,7 +44,7 @@ export const SignUpForm = () => {
                 <img src={logo} alt="" style={{ height: "100px", width: "100px" }} />
                 <div>
                     <h2>Registro en la plataforma!</h2>
-                    <h5>Por favor instroduzca sus datos</h5>
+                    <h5>Por favor introduzca sus datos</h5>
                 </div>
             </div>
             {error && <div class="alert alert-danger" role="alert">
@@ -58,7 +58,7 @@ export const SignUpForm = () => {
                 <div className="mb-3">
                     <div className="input-group">
                         <input type={showPwd ? "text" : "password"} name="password" placeholder="Contraseña" onChange={handleChange} value={user.password} className="form-control" id="InputPassword" />
-                        <button className="btn" onClick={() => setShowPwd(!showPwd)}>
+                        <button type="button" className="btn" onClick={() => setShowPwd(!showPwd)}>
                             <i class={showPwd ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"} />
                         </button>
                     </div>
@@ -67,13 +67,13 @@ export const SignUpForm = () => {
                 <div className="mb-3">
                     <div className="input-group">
                         <input type={showConfPwd ? "text" : "password"} name="confirmPassword" placeholder="Confirme su contraseña" onChange={handleChange} value={user.confirmPassword} className="form-control" id="InputPassword2" />
-                        <button className="btn" onClick={() => setShowConfPwd(!showConfPwd)}>
+                        <button type="button" className="btn" onClick={() => setShowConfPwd(!showConfPwd)}>
                             <i class={showConfPwd ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"} />
                         </button>
                     </div>
                     <div className="mb-3 mx-auto" style={{ height: '2px', backgroundColor: "var(--primaryText)", width: "95%" }}></div>
                 </div>
-                <div className="mb-3 text mt-4" style={{ paddingInline: "12px" }}>
+                <div className="mb-3 text mt-4" style={{ paddingInline: "12px", fontSize:"12px" }}>
                     {/* Aqui falta por meter la URL del login cuando esté creado */}
                     Do you have already have an account? <a className="text" href="http://">Log In</a>
                 </div>
