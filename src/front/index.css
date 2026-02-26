@@ -33,5 +33,6 @@
 .form-control, .form-control:focus, input{
   background-color: transparent;
   border: 0px;
+  box-shadow: none;
 }
 

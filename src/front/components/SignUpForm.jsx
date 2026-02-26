@@ -5,10 +5,10 @@ export const SignUpForm = () => {
     return (
         <>
             <div className="text-center py-3">
-                <img src={logo} alt="" style={{ height: "100px", width: "100px", color: "#000" }} />
+                <img src={logo} alt="" style={{ height: "100px", width: "100px", color: "#c20707" }} />
                 <div>
-                    <h2>Registration to the<br/>platform!</h2>
-                    <h5>Please entrer your details</h5>
+                    <h2>Registro en la plataforma!</h2>
+                    <h5>Por favor instroduzca sus datos</h5>
                 </div>
             </div>
             <form>
@@ -18,11 +18,11 @@ export const SignUpForm = () => {
                     <div className="mb-3 mx-auto" style={{ height: '2px', backgroundColor: "var(--primaryText)", width: "95%" }}></div>
                 </div>
                 <div className="mb-3">
-                    <input type="text" placeholder="Password" className="form-control" id="InputPassword" />
+                    <input type="text" placeholder="Contraseña" className="form-control" id="InputPassword" />
                     <div className="mb-3 mx-auto" style={{ height: '2px', backgroundColor: "var(--primaryText)", width: "95%" }}></div>
                 </div>
                 <div className="mb-3">
-                    <input type="text" placeholder="Repeat your password" className="form-control" id="InputPassword2" />
+                    <input type="text" placeholder="Confirme su contraseña" className="form-control" id="InputPassword2" />
                     <div className="mb-3 mx-auto" style={{ height: '2px', backgroundColor: "var(--primaryText)", width: "95%" }}></div>
                 </div>
                 <div className="mb-3 text mt-4" style={{paddingInline: "12px"}}>
@@ -31,7 +31,7 @@ export const SignUpForm = () => {
                 </div>
 
                 <div className="text-center my-3">
-                    <button type="submit" className="btn btn-primary rounded-pill col-11 align-self-center mt-4">Sign Up</button>
+                    <button type="submit" className="btn btn-primary rounded-pill col-11 align-self-center mt-4">Enviar</button>
                 </div>
             </form>
         </>
