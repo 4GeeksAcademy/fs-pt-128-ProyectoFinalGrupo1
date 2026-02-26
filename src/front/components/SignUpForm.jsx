@@ -1,31 +1,79 @@
-import React from "react"
+import React, { useState } from "react"
 import logo from "../assets/img/Logo.svg";
+import { useNavigate } from "react-router-dom";
 
 export const SignUpForm = () => {
+
+    const navigate = useNavigate()
+    const [error, setError] = useState(null)
+    const [showPwd, setShowPwd] = useState(false)
+    const [showConfPwd, setShowConfPwd] = useState(false)
+    const [user, setUser] = useState({
+        "email": "",
+        "password": "",
+        "confirmPassword": ""
+    })
+
+
+    const handleChange = (e) => {
+        setUser({
+            ...user,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = (e) => {
+        setError(null)
+        console.log(user);
+        e.preventDefault()
+        if (!user.email || !user.password) {
+            setError("Todos los campos son obligatorios")
+            return
+        }
+        if (user.password != user.confirmPassword) {
+            setError("Las contraseñas no coinciden")
+            return
+        }
+        register(user, navigate)
+
+    }
+
     return (
         <>
             <div className="text-center py-3">
-                <img src={logo} alt="" style={{ height: "100px", width: "100px", color: "#c20707" }} />
+                <img src={logo} alt="" style={{ height: "100px", width: "100px" }} />
                 <div>
                     <h2>Registro en la plataforma!</h2>
                     <h5>Por favor instroduzca sus datos</h5>
                 </div>
             </div>
-            <form>
-
+            {error && <div class="alert alert-danger" role="alert">
+                {error}
+            </div>}
+            <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                    <input type="email" placeholder="Email" className="form-control" id="InputEmail" aria-describedby="emailHelp" />
+                    <input type="email" name="email" placeholder="Email" onChange={handleChange} value={user.email} className="form-control" id="InputEmail" aria-describedby="emailHelp" />
                     <div className="mb-3 mx-auto" style={{ height: '2px', backgroundColor: "var(--primaryText)", width: "95%" }}></div>
                 </div>
                 <div className="mb-3">
-                    <input type="text" placeholder="Contraseña" className="form-control" id="InputPassword" />
+                    <div className="input-group">
+                        <input type={showPwd ? "text" : "password"} name="password" placeholder="Contraseña" onChange={handleChange} value={user.password} className="form-control" id="InputPassword" />
+                        <button className="btn" onClick={() => setShowPwd(!showPwd)}>
+                            <i class={showPwd ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"} />
+                        </button>
+                    </div>
                     <div className="mb-3 mx-auto" style={{ height: '2px', backgroundColor: "var(--primaryText)", width: "95%" }}></div>
                 </div>
                 <div className="mb-3">
-                    <input type="text" placeholder="Confirme su contraseña" className="form-control" id="InputPassword2" />
+                    <div className="input-group">
+                        <input type={showConfPwd ? "text" : "password"} name="confirmPassword" placeholder="Confirme su contraseña" onChange={handleChange} value={user.confirmPassword} className="form-control" id="InputPassword2" />
+                        <button className="btn" onClick={() => setShowConfPwd(!showConfPwd)}>
+                            <i class={showConfPwd ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"} />
+                        </button>
+                    </div>
                     <div className="mb-3 mx-auto" style={{ height: '2px', backgroundColor: "var(--primaryText)", width: "95%" }}></div>
                 </div>
-                <div className="mb-3 text mt-4" style={{paddingInline: "12px"}}>
+                <div className="mb-3 text mt-4" style={{ paddingInline: "12px" }}>
                     {/* Aqui falta por meter la URL del login cuando esté creado */}
                     Do you have already have an account? <a className="text" href="http://">Log In</a>
                 </div>
