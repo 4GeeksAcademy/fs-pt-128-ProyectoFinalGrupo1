@@ -26,12 +26,13 @@
   --bs-body-font-family: 'Inter', sans-serif;
 }
 
-.text, h2, h5, .form-control::placeholder{
+.text, h2, h5{
   color:var(--primaryText)
 }
 
 .form-control, .form-control:focus, input{
   background-color: transparent;
   border: 0px;
+  box-shadow: none;
 }
 
