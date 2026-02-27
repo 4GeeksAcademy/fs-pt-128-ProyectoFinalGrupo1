@@ -7,11 +7,11 @@ import { Footer } from "../components/Footer"
 export const Layout = () => {
     return (
         <ScrollToTop>
-            <div className="d-flex">
+            <div className="d-flex min-vh-100">
                 <Navbar />
-                <div className="w-100 mx-3">
+                <div className="flex-grow-1">
                     <Outlet />
-                    <Footer />
+                    {/* <Footer /> */}
                 </div>
 
             </div>
