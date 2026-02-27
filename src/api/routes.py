@@ -112,3 +112,26 @@ def register_user():
 
     return jsonify({'token': validation_token,
                     'msg': 'Email send successfully'}), 201
+
+
+@api.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    if not data.get("email") or not data.get("password"):
+        return jsonify({"Error": "All fields are required"}), 409
+    if User.query.count() >= 1:
+        return jsonify({"Error": "Forbidden: Admin already exist"}), 403
+
+    new_user = User(
+        firstname="Admin",
+        email=data.get("email"),
+        rol="admin",
+        is_active=True
+    )
+
+    new_user.generate_hash(data.get("password"))
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({"user": new_user.serialize()})
