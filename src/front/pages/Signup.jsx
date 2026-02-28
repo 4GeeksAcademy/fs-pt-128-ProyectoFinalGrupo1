@@ -6,7 +6,7 @@ export const Signup = () => {
 
     return (
         <>
-            <div className="container">
+            <div className="d-flex justify-content-center align-items-center min-vh-100">
                 <div className="row">
 
                     <div className="col-7 text-center">

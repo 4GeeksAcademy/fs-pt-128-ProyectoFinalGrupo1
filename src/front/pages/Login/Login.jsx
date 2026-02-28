@@ -7,6 +7,7 @@ import { useState } from "react";
 export const Login = () => {
 
     const [visiblePassword, setVisiblePassword] = useState(false)
+    const [error, setError] = useState("")
     const [user, setUser] = useState({
         email: "",
         password: ""
@@ -24,20 +25,35 @@ export const Login = () => {
             ...user,
             [e.target.name]: e.target.value
         })
-        
+        setError("")
+
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (!user.email || !user.password) {
+            setError("Todos los campos son obligatorios")
+        }
     }
 
 
     return (
         <>
-            <div className="container d-flex justify-content-between" style={{ "color": "var(--primaryText)" }}>
-                <div className="col-auto loginFormContainer d-flex flex-column text-center me-5" style={{ "backgroundColor": "var(--cardBackground)" }}>
-                    <div className="loginIconContainer mt-3">
+            <div className="container d-flex justify-content-around mt-5" style={{ "color": "var(--primaryText)" }}>
+                <div className="col-auto loginFormContainer d-flex flex-column text-center" style={{ "backgroundColor": "var(--cardBackground)" }}>
+                    <div className="loginIconContainer mt-5">
                         <img src={icon} alt="logo" className="iconLogo" />
                     </div>
                     <h1>Bienvenido!</h1>
                     <p>Introduce tus datos</p>
-                    <form>
+                    {
+                        error && (
+                            <div className="alert alert-danger d-flex align-items-center justify-content-around fade-alert" role="alert">
+                                {error} <i className="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                        )
+                    }
+                    <form onSubmit={handleSubmit}>
                         <div className="mb-3 w-75 loginInputs">
                             <input
                                 type="email"
@@ -93,7 +109,7 @@ export const Login = () => {
                 </div>
 
 
-                <div className="col-auto mt-2 imgLoginContainer ms-3">
+                <div className="col-auto mt-4 imgLoginContainer ms-3">
                     <img src={image} alt="imagen del doctor" />
                 </div>
             </div >
