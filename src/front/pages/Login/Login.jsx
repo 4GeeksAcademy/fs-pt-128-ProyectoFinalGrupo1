@@ -2,11 +2,15 @@ import image from "./Imagen login.png";
 import icon from "../../assets/img/Logo.svg"
 import "./Login.css";
 import { useState } from "react";
+import { login } from "../../APIServices/BACKENDservices";
+import { useNavigate } from "react-router-dom";
 
 
 export const Login = () => {
 
     const [visiblePassword, setVisiblePassword] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
     const [error, setError] = useState("")
     const [user, setUser] = useState({
         email: "",
@@ -29,18 +33,36 @@ export const Login = () => {
 
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         if (!user.email || !user.password) {
             setError("Todos los campos son obligatorios")
+            setLoading(false)
+            return
         }
+        setLoading(true)
+        const response = await login(user, navigate)
+        setError(response.Error)
+        setLoading(false)
     }
+
 
 
     return (
         <>
-            <div className="container d-flex justify-content-around mt-5" style={{ "color": "var(--primaryText)" }}>
-                <div className="col-auto loginFormContainer d-flex flex-column text-center" style={{ "backgroundColor": "var(--cardBackground)" }}>
+            <div
+                className="container d-flex justify-content-around mt-5"
+                style={{
+                    color: "var(--primaryText)",
+                    backgroundColor: "transparent",
+                    fontFamily: "var(--bs-body-font-family)"
+
+                }}>
+                <div
+                    className="col-auto loginFormContainer d-flex flex-column text-center"
+                    style={{
+                        backgroundColor: "var(--cardBackground)"
+                    }}>
                     <div className="loginIconContainer mt-5">
                         <img src={icon} alt="logo" className="iconLogo" />
                     </div>
@@ -100,8 +122,24 @@ export const Login = () => {
                             <p>Olvidaste tu contraseña?</p>
                         </div>
                         <div className="d-flex flex-column w-75 loginButtons">
-                            <button type="submit" className="btn btn-primary mt-2 mb-2 rounded-pill">Iniciar sesión</button>
-                            <button className="btn btn-secondary mt-2 rounded-pill">Iniciar sesión con Email</button>
+                            {loading ? (
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary mt-2 mb-2 rounded-pill"
+                                    style={{ backgroundColor: "var(--navBar)" }}
+                                    disabled
+                                    ><div className="spinner-border" role="status"></div>
+                                </button>
+                            ) : (
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary mt-2 mb-2 rounded-pill"
+                                    style={{ backgroundColor: "var(--navBar)" }}
+                                    >Iniciar Sesión
+                                </button>
+                            )}
+
+                            <button className="btn btn-secondary mt-2 rounded-pill" >Iniciar sesión con Email</button>
                         </div>
 
                     </form>
@@ -109,7 +147,7 @@ export const Login = () => {
                 </div>
 
 
-                <div className="col-auto mt-4 imgLoginContainer ms-3">
+                <div className="col-auto mt-5 imgLoginContainer ms-3">
                     <img src={image} alt="imagen del doctor" />
                 </div>
             </div >
