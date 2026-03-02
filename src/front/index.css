@@ -5,12 +5,22 @@
   --navBar: #2b6cb0;
   --label: #718096;
   --spacer: #e2e8f0;
+  --bs-body-font-family: "Inter", sans-serif;
 }
 
-*{
-  font-family: "Inter", sans-serif;
+.text,
+h2,
+h5 {
+  color: var(--primaryText);
 }
 
+.form-control,
+.form-control:focus,
+input {
+  background-color: transparent;
+  border: 0px;
+  box-shadow: none;
+}
 /* @media (prefers-color-scheme: dark) {
   :root {
     --primaryBackground: #1a202c;
@@ -26,7 +36,7 @@
   --bs-body-font-family: 'Inter', sans-serif;
 }
 
-.text, h2, h5{
+.text, h2, h5, .form-control::placeholder{
   color:var(--primaryText)
 }
 
@@ -34,5 +44,20 @@
   background-color: transparent;
   border: 0px;
   box-shadow: none;
+}
+
+.fade-alert {
+  animation: fadeSlideIn 0.4s ease forwards;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
