@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from sqlalchemy import select
-from api.models import db, User, Patient
+from api.models import db, User, Income, Patient
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt, jwt_required, create_access_token
@@ -32,7 +32,6 @@ def get_user():
     users = User.query.all()
     response = [user.serialize() for user in users]
     return jsonify(response), 200
-
 
 
 @api.route('/register/user', methods=['POST'])
@@ -190,3 +189,60 @@ def admission():
     db.session.commit()
     return jsonify ({'msg': 'La admisión ha sido registrada correctamente'}), 200
     
+@api.route('/incomes', methods=['GET'])
+def get_incomes():
+    incomes = Income.query.all()
+    response = [incomes.serialize() for income in incomes]
+    return jsonify(response), 200
+
+
+@api.route('/incomes', methods=['POST'])
+def post_incomes():
+    data = request.get_json()
+    dni = data.get('dni')
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
+    birth_date = data.get('birth_date')
+    reason_consultation = data.get('reason_consultation')
+    triage_priority = data.get('triage_priority')
+    allergies = data.get('allergies')
+    state = data.get('state')
+
+    required_fields = [
+        'dni',
+        'first_name',
+        'last_name',
+        'birth_date',
+        'reason_consultation',
+        'triage_priority',
+        'allergies',
+        'state'
+    ]
+
+    missing = [
+        field for field in required_fields
+        if field not in data or data[field] in (None, "")
+    ]
+    if missing:
+        return jsonify({"Error": f"Rellenar los siguientes campos: {missing}", }), 400
+
+    new_patient = Patient(dni=dni,
+                          firstname=first_name,
+                          lastname=last_name,
+                          birthdate=birth_date,
+                          allergies=allergies)
+
+    new_income = Income(patient=new_patient,
+                        reason_consultation=reason_consultation,
+                        triage_priority=triage_priority,
+                        state=state)
+    
+
+    db.session.add(new_patient)
+    db.session.add(new_income)
+    db.session.commit()
+
+    return jsonify({"Info": "admisión correcta",
+                    "Paciente": f"{new_patient.serialize()}",
+                    "Ingreso": f"{new_income.serialize()}"
+                    })
