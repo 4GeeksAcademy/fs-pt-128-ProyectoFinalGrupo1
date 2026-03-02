@@ -26,6 +26,14 @@ def handle_hello():
     return jsonify(response_body), 200
 
 
+@api.route('/users', methods=['GET'])
+def get_user():
+    users = User.query.all()
+    response = [user.serialize() for user in users]
+    return jsonify(response), 200
+
+
+
 @api.route('/register/user', methods=['POST'])
 def register_user():
     data = request.get_json()
