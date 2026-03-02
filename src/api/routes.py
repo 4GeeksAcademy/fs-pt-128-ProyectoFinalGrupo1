@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 from sqlalchemy import select
-from api.models import db, User
+from api.models import db, User, Income, Patient
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt, jwt_required, create_access_token
@@ -31,7 +31,6 @@ def get_user():
     users = User.query.all()
     response = [user.serialize() for user in users]
     return jsonify(response), 200
-
 
 
 @api.route('/register/user', methods=['POST'])
@@ -145,7 +144,6 @@ def register():
     return jsonify({"user": new_user.serialize()})
 
 
-
 @api.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -153,10 +151,11 @@ def login():
     password = data.get('password')
     if not email or not password:
         return jsonify({'Error': 'Todos los campos son obligatorios'}), 400
-    user = db.session.execute(select(User).where(User.email == email)).scalar_one_or_none()
+    user = db.session.execute(select(User).where(
+        User.email == email)).scalar_one_or_none()
     if user is None:
         return jsonify({'Error': 'Datos incorrectos'}), 400
-    
+
     if user.check_hash(password):
         acces_token = create_access_token(identity=str(user.id))
         return jsonify({
@@ -165,3 +164,62 @@ def login():
         }), 200
     else:
         return jsonify({'Error': 'Datos incorrectos'}), 400
+
+
+@api.route('/incomes', methods=['GET'])
+def get_incomes():
+    incomes = Income.query.all()
+    response = [incomes.serialize() for income in incomes]
+    return jsonify(response), 200
+
+
+@api.route('/incomes', methods=['POST'])
+def post_incomes():
+    data = request.get_json()
+    dni = data.get('dni')
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
+    birth_date = data.get('birth_date')
+    reason_consultation = data.get('reason_consultation')
+    triage_priority = data.get('triage_priority')
+    allergies = data.get('allergies')
+    state = data.get('state')
+
+    required_fields = [
+        'dni',
+        'first_name',
+        'last_name',
+        'birth_date',
+        'reason_consultation',
+        'triage_priority',
+        'allergies',
+        'state'
+    ]
+
+    missing = [
+        field for field in required_fields
+        if field not in data or data[field] in (None, "")
+    ]
+    if missing:
+        return jsonify({"Error": f"Rellenar los siguientes campos: {missing}", }), 400
+
+    new_patient = Patient(dni=dni,
+                          firstname=first_name,
+                          lastname=last_name,
+                          birthdate=birth_date,
+                          allergies=allergies)
+
+    new_income = Income(patient=new_patient,
+                        reason_consultation=reason_consultation,
+                        triage_priority=triage_priority,
+                        state=state)
+    
+
+    db.session.add(new_patient)
+    db.session.add(new_income)
+    db.session.commit()
+
+    return jsonify({"Info": "admisión correcta",
+                    "Paciente": f"{new_patient.serialize()}",
+                    "Ingreso": f"{new_income.serialize()}"
+                    })

@@ -40,13 +40,13 @@ class User(db.Model):
 
 
 class Income(db.Model):
-    id: Mapped[str] = mapped_column(primary_key=True)
-    id_patient: Mapped[str] = mapped_column(ForeignKey("patient.dni"))
+    id: Mapped[int] = mapped_column(primary_key=True)
+    id_patient: Mapped[str] = mapped_column(ForeignKey("patient.dni"), nullable=True)
     patient: Mapped["Patient"] = relationship(back_populates="income")
-    id_doctor: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))
+    id_doctor: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"), nullable=True)
     doctor: Mapped["User"] = relationship(
         back_populates="income_doctor", foreign_keys=[id_doctor])
-    id_nurse: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))
+    id_nurse: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"), nullable=True)
     nurse: Mapped["User"] = relationship(
         back_populates="income_nurse", foreign_keys=[id_nurse])
     reason_consultation: Mapped[str] = mapped_column(
@@ -88,7 +88,7 @@ class Patient(db.Model):
     lastname: Mapped[str] = mapped_column(
         String(120), nullable=False, unique=False)
     birthdate: Mapped[date] = mapped_column(Date, nullable=False, unique=False)
-    allergies: Mapped[str] = mapped_column(Text, nullable=False)
+    allergies: Mapped[list[str]] = mapped_column(Text, nullable=False)
     income: Mapped[list["Income"]] = relationship(back_populates="patient")
 
     def serialize(self):
