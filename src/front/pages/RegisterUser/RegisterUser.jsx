@@ -14,11 +14,11 @@ export const RegisterUser = () => {
                         <thead className="table-secondary">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Nombre y apellidos</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Rol</th>
-                                <th scope="col">Activado</th>
-                                <th scope="col">Acciones</th>
+                                <th scope="col" className="text-center">Nombre y apellidos</th>
+                                <th scope="col" className="text-center">Email</th>
+                                <th scope="col" className="text-center">Rol</th>
+                                <th scope="col" className="text-center">Activado</th>
+                                <th scope="col" className="text-center">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
