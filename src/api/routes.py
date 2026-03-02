@@ -112,3 +112,48 @@ def register_user():
 
     return jsonify({'token': validation_token,
                     'msg': 'Email send successfully'}), 201
+
+
+@api.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    if not data.get("email") or not data.get("password"):
+        return jsonify({"Error": "All fields are required"}), 409
+    if User.query.count() >= 1:
+        return jsonify({"Error": "Forbidden: Admin already exist"}), 403
+
+    new_user = User(
+        firstname="Admin",
+        email=data.get("email"),
+        rol="admin",
+        is_active=True
+    )
+
+    new_user.generate_hash(data.get("password"))
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({"user": new_user.serialize()})
+
+
+
+@api.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    if not email or not password:
+        return jsonify({'Error': 'Todos los campos son obligatorios'}), 400
+    user = db.session.execute(select(User).where(User.email == email)).scalar_one_or_none()
+    if user is None:
+        return jsonify({'Error': 'Datos incorrectos'}), 400
+    
+    if user.check_hash(password):
+        acces_token = create_access_token(identity=str(user.id))
+        return jsonify({
+            'Info': 'Inicio de sesión correcto',
+            'token': acces_token
+        }), 200
+    else:
+        return jsonify({'Error': 'Datos incorrectos'}), 400
