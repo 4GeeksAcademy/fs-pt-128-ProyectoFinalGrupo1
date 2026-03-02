@@ -1,0 +1,11 @@
+.flex-grow-1 {
+  background-color: var(--spacer);
+}
+.form-control,
+input {
+  background-color: var(--cardBackground);
+}
+.form-control:focus {
+  background-color: var(--cardBackground);
+  border: "2px solid black"
+}

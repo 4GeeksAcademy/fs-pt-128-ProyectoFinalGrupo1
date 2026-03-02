@@ -10,8 +10,8 @@ import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
 import { Signup } from "./pages/Signup";
+import { Admission } from "./pages/Admission/Admission";
 import { Login } from "./pages/Login/Login";
-import { Admission } from "./pages/Admission";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
