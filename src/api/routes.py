@@ -168,6 +168,27 @@ def login():
         return jsonify({'Error': 'Datos incorrectos'}), 400
 
 
+@api.route('/admission', methods=['POST'])
+def admission():
+    required = ["dni", "firstname", "lastname", "birthdate"]
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No se enviaron datos"}), 400
+    missing = [req for req in required if not data.get(req)]
+    if missing:
+        return jsonify({'Error': f'Todos los campos son obligatorios, faltan {", ".join(missing)}'}), 400
+    new_admission = Patient(
+        dni=data.get("dni"),
+        firstname=data.get("firstname"),
+        lastname=data.get("lastname"),
+        birthdate=data.get("birthdate"),
+        allergies=data.get("allergies")
+    )
+
+    db.session.add(new_admission)
+    db.session.commit()
+    return jsonify ({'msg': 'La admisión ha sido registrada correctamente'}), 200
+    
 @api.route('/incomes', methods=['GET'])
 def get_incomes():
     incomes = Income.query.all()
