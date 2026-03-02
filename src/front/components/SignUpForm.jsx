@@ -47,7 +47,7 @@ export const SignUpForm = () => {
                     <h5>Por favor introduzca sus datos</h5>
                 </div>
             </div>
-            {error && <div class="alert alert-danger" role="alert">
+            {error && <div class="alert fade-alert alert-danger " role="alert">
                 {error}
             </div>}
             <form onSubmit={handleSubmit}>
