@@ -14,6 +14,10 @@ export const Admission = () => {
     const [newAlergie, setNewAlergie] = useState("")
 
     const handleChange = (e) => {
+        if (e.target.name == "Alergies") {
+            setNewAlergie(e.target.value)
+            return
+        }
         setAdmission({
             ...admission,
             [e.target.name]: e.target.value
@@ -74,11 +78,32 @@ export const Admission = () => {
                         <div className="mb-3 d-flex align-items-center col-8">
                             <label htmlFor="InputLastName" className="form-label mb-0">Apellidos</label>
                             <input name="LastName" value={admission.LastName} onChange={handleChange} type="text" className="form-control rounded-pill ms-2" id="InputLastName" />
+
                         </div>
                     </div>
                     <div className="mb-3 d-flex align-items-center col-12">
                         <label htmlFor="InputAlergies" className="form-label mb-0">Alergias</label>
-                        <input name="Alergies" value={newAlergie} onChange={setNewAlergie} type="text" onKeyDown={handleKeyDown} className="form-control rounded-pill ms-2" id="InputAlergies" />
+                        <input name="Alergies" value={newAlergie} onChange={handleChange} type="text" onKeyDown={handleKeyDown} className="form-control rounded-pill ms-2" id="InputAlergies" />
+
+                    </div>
+                    <div className="d-flex flex-wrap gap-2 my-3">
+                        {admission.Alergies.map((alergie, index) => (
+                            <span
+                                key={index}
+                                className="badge bg-white border border-1 border-primary text-dark d-flex align-items-center"
+                            >
+                                {alergie}
+                                <button type="button" className="btn-close btn-close-dark ms-2" onClick={() => {
+                                    const updatedAlergies = admission.Alergies.filter(
+                                        (_, i) => i !== index
+                                    );
+                                    setAdmission({
+                                        ...admission,
+                                        Alergies: updatedAlergies,
+                                    });
+                                }} />
+                            </span>
+                        ))}
                     </div>
                     <div className="mb-3 d-flex flex-column align-items-start gap-2 col-12 ">
                         <label htmlFor="InputLastName" className="form-label mb-1">Motivo de la consulta</label>
