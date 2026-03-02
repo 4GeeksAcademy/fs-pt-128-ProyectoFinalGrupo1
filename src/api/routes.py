@@ -1,7 +1,7 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from sqlalchemy import select
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
@@ -9,6 +9,7 @@ from flask_cors import CORS
 from flask_jwt_extended import get_jwt, jwt_required, create_access_token
 import os
 import resend
+from flask_mail import Message
 
 api = Blueprint('api', __name__)
 
@@ -49,17 +50,19 @@ def register_user():
     db.session.add(new_user)
     db.session.commit()
 
+    mail = current_app.extensions['mail']
+
     additional_claims = {"type": "email_validation"}
     validation_token = create_access_token(
         identity=str(new_user.id), additional_claims=additional_claims)
     resend.api_key = os.environ["RESEND_API_KEY"]
     url = f"https://orange-eureka-x5vw9xv6p5rg2p5gx-3000.app.github.dev/activate/{validation_token}"
-
-    params: resend.Emails.SendParams = {
-        "from": "Soporte <onboarding@resend.dev>",
-        "to": [new_user.email],
-        "subject": "Confirma tu registro",
-        "html": f"""<!DOCTYPE html>
+    msg = Message(
+        subject="Confirma tu registro",
+        sender=("Soporte Medicina", "soporte@medicina.com"),
+        recipients=[new_user.email]
+    )
+    msg.html = f"""<!DOCTYPE html>
                     <html lang="es">
                     <head>
                     <meta charset="UTF-8">
@@ -107,8 +110,7 @@ def register_user():
                     </table>
                     </body>
                     </html>"""
-    }
-    resend.Emails.send(params)
+    mail.send(msg)
 
     return jsonify({'token': validation_token,
                     'msg': 'Email send successfully'}), 201
@@ -137,7 +139,6 @@ def register():
     return jsonify({"user": new_user.serialize()})
 
 
-
 @api.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -145,10 +146,11 @@ def login():
     password = data.get('password')
     if not email or not password:
         return jsonify({'Error': 'Todos los campos son obligatorios'}), 400
-    user = db.session.execute(select(User).where(User.email == email)).scalar_one_or_none()
+    user = db.session.execute(select(User).where(
+        User.email == email)).scalar_one_or_none()
     if user is None:
         return jsonify({'Error': 'Datos incorrectos'}), 400
-    
+
     if user.check_hash(password):
         acces_token = create_access_token(identity=str(user.id))
         return jsonify({

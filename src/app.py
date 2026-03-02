@@ -11,6 +11,7 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail, Message
 
 # from models import Person
 
@@ -20,6 +21,16 @@ static_file_dir = os.path.join(os.path.dirname(
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
 jwt = JWTManager(app)
+
+app.config.update(
+    MAIL_SERVER='sandbox.smtp.mailtrap.io',
+    MAIL_PORT=587,
+    MAIL_USERNAME='2c6dccfc3c7e46',  
+    MAIL_PASSWORD='570362d19bc647',
+    MAIL_USE_TLS=True,
+    MAIL_USE_SSL=False
+)
+mail = Mail(app)
 app.url_map.strict_slashes = False
 
 # database condiguration
