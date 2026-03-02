@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from sqlalchemy import select
-from api.models import db, User
+from api.models import db, User, Patient
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt, jwt_required, create_access_token
@@ -167,3 +167,26 @@ def login():
         }), 200
     else:
         return jsonify({'Error': 'Datos incorrectos'}), 400
+
+
+@api.route('/admission', methods=['POST'])
+def admission():
+    required = ["dni", "firstname", "lastname", "birthdate"]
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No se enviaron datos"}), 400
+    missing = [req for req in required if not data.get(req)]
+    if missing:
+        return jsonify({'Error': f'Todos los campos son obligatorios, faltan {", ".join(missing)}'}), 400
+    new_admission = Patient(
+        dni=data.get("dni"),
+        firstname=data.get("firstname"),
+        lastname=data.get("lastname"),
+        birthdate=data.get("birthdate"),
+        allergies=data.get("allergies")
+    )
+
+    db.session.add(new_admission)
+    db.session.commit()
+    return jsonify ({'msg': 'La admisión ha sido registrada correctamente'}), 200
+    
