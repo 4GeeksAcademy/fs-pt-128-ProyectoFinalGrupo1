@@ -21,8 +21,8 @@ wtforms = "==3.1.2"
 sqlalchemy = "*"
 flask-bcrypt = "*"
 resend = "*"
-flask-mail = "*"
 flask-jwt-extended = "*"
+flask-mail = "*"
 
 [requires]
 python_version = "3.13"
