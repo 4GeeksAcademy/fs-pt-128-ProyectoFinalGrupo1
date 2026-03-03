@@ -36,5 +36,5 @@ export const activateCount = async (password, token) => {
   if (!response.ok) {
     return data;
   }
-  return { success: true };
+  return { ok: true };
 };
