@@ -6,7 +6,7 @@ from sqlalchemy import select
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import get_jwt, jwt_required, create_access_token
+from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token
 import os
 import resend
 from flask_mail import Message
@@ -32,7 +32,6 @@ def get_user():
     users = User.query.all()
     response = [user.serialize() for user in users]
     return jsonify(response), 200
-
 
 
 @api.route('/register/user', methods=['POST'])
@@ -64,7 +63,7 @@ def register_user():
     validation_token = create_access_token(
         identity=str(new_user.id), additional_claims=additional_claims)
     resend.api_key = os.environ["RESEND_API_KEY"]
-    url = f"https://orange-eureka-x5vw9xv6p5rg2p5gx-3000.app.github.dev/activate/{validation_token}"
+    url = f"https://orange-eureka-x5vw9xv6p5rg2p5gx-3000.app.github.dev/activate?token={validation_token}"
     msg = Message(
         subject="Confirma tu registro",
         sender=("Soporte Medicina", "soporte@medicina.com"),
@@ -123,6 +122,25 @@ def register_user():
     return jsonify({'token': validation_token,
                     'msg': 'Email send successfully'}), 201
 
+@api.route('/activate', methods=['PATCH'])
+@jwt_required()
+def activate():
+    data = request.get_json()
+    user_id = get_jwt_identity()
+    user = db.session.execute(select(User).where(
+        User.id == user_id)).scalar_one_or_none()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    if user.is_active:
+        return jsonify({'error': 'This count already activate'}), 409
+    password = data.get("password")
+    if not password:
+        return jsonify({'error': 'Password is required'}), 400
+    user.generate_hash(password)
+    user.is_active = True
+    db.session.commit()
+
+    return jsonify({'msg': 'ok'}), 201
 
 @api.route('/register', methods=['POST'])
 def register():
