@@ -142,6 +142,27 @@ def activate():
 
     return jsonify({'msg': 'ok'}), 201
 
+@api.route('/activate', methods=['PATCH'])
+@jwt_required()
+def activate():
+    data = request.get_json()
+    user_id = get_jwt_identity()
+    user = db.session.execute(select(User).where(
+        User.id == user_id)).scalar_one_or_none()
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    if user.is_active:
+        return jsonify({'error': 'This count already activate'}), 409
+    password = data.get("password")
+    if not password:
+        return jsonify({'error': 'Password is required'}), 400
+    user.generate_hash(password)
+    user.is_active = True
+    db.session.commit()
+
+    return jsonify({'msg': 'ok'}), 201
+
+
 @api.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
