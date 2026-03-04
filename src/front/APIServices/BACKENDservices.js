@@ -67,3 +67,17 @@ export const registerUser = async (user) => {
   }
   return { ok: true };
 };
+
+export const deleteUser = async (user_id) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/delete/${user_id}`,
+    {
+      method: "DELETE",
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    return data;
+  }
+  return { ok: true };
+};
