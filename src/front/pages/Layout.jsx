@@ -11,7 +11,7 @@ export const Layout = () => {
         <ScrollToTop>
             <div className="d-flex min-vh-100">
                 {showNavbar && <Navbar />}
-                <div className="flex-grow-1">
+                <div className="flex-grow-1 p-2">
                     <Outlet />
                     {/* <Footer /> */}
                 </div>
