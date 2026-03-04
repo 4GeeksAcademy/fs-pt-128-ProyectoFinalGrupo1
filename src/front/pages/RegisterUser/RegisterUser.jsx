@@ -12,7 +12,7 @@ export const RegisterUser = () => {
     }, [])
 
     return (
-        <main className="container mt-5 fontst">
+        <main className="container mt-5 containerTable">
             <ModalAddUser />
             <div className="border rounded p-3">
                 <div className="d-flex justify-content-center">
@@ -31,7 +31,12 @@ export const RegisterUser = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {store.user == [] ? 'Not Found' :
+                            {!store.users && store.users.length < 1 ?
+                                <tr>
+                                    <td colSpan="6">
+                                        No hay usuarios registrados
+                                    </td>
+                                </tr> :
                                 store.users.map(user => (
                                     <TableRow key={user.id} user={user} />
                                 ))

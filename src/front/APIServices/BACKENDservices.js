@@ -44,9 +44,26 @@ export const getUser = async (dispatch) => {
 
   if (response.ok) {
     dispatch({ type: "get_users", payload: data });
-  }else{
-    dispatch({ type: "get_users", payload: []});
-    return data
+  } else {
+    dispatch({ type: "get_users", payload: [] });
+    return data;
   }
 };
 
+export const registerUser = async (user) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/register/user`,
+    {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    return data;
+  }
+  return { ok: true };
+};
