@@ -63,7 +63,7 @@ def register_user():
     validation_token = create_access_token(
         identity=str(new_user.id), additional_claims=additional_claims)
 
-    url = f"https://orange-eureka-x5vw9xv6p5rg2p5gx-3000.app.github.dev/activate?token={validation_token}"
+    url = f"{os.getenv('VITE_FRONTEND_URL')}/activate?token={validation_token}"
     msg = Message(
         subject="Confirma tu registro",
         sender=("Soporte Medicina", "soporte@medicina.com"),
@@ -165,6 +165,17 @@ def register():
     db.session.commit()
 
     return jsonify({"user": new_user.serialize()})
+
+
+@api.route('/delete/<int:user_id>', methods=['DELETE'])
+def delete(user_id):
+    user = User.query.get(user_id)
+
+    if user is None:
+        return jsonify({'error': 'User not found'}), 404
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'msg': 'User deleted successfully'})
 
 
 @api.route('/login', methods=['POST'])
