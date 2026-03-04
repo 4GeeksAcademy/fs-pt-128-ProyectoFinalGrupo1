@@ -35,18 +35,22 @@ class User(db.Model):
             "firstname": self.firstname,
             "lastname": self.lastname,
             "rol": self.rol,
+            "is_active": self.is_active,
             "email": self.email,
         }
 
 
 class Income(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    id_patient: Mapped[str] = mapped_column(ForeignKey("patient.dni"), nullable=True)
+    id_patient: Mapped[str] = mapped_column(
+        ForeignKey("patient.dni"), nullable=True)
     patient: Mapped["Patient"] = relationship(back_populates="income")
-    id_doctor: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"), nullable=True)
+    id_doctor: Mapped[int] = mapped_column(
+        Integer, ForeignKey("user.id"), nullable=True)
     doctor: Mapped["User"] = relationship(
         back_populates="income_doctor", foreign_keys=[id_doctor])
-    id_nurse: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"), nullable=True)
+    id_nurse: Mapped[int] = mapped_column(
+        Integer, ForeignKey("user.id"), nullable=True)
     nurse: Mapped["User"] = relationship(
         back_populates="income_nurse", foreign_keys=[id_nurse])
     reason_consultation: Mapped[str] = mapped_column(

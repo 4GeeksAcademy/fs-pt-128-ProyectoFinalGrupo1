@@ -62,7 +62,7 @@ def register_user():
     additional_claims = {"type": "email_validation"}
     validation_token = create_access_token(
         identity=str(new_user.id), additional_claims=additional_claims)
-    resend.api_key = os.environ["RESEND_API_KEY"]
+
     url = f"https://orange-eureka-x5vw9xv6p5rg2p5gx-3000.app.github.dev/activate?token={validation_token}"
     msg = Message(
         subject="Confirma tu registro",
@@ -208,8 +208,9 @@ def admission():
 
     db.session.add(new_admission)
     db.session.commit()
-    return jsonify ({'msg': 'La admisión ha sido registrada correctamente'}), 200
-    
+    return jsonify({'msg': 'La admisión ha sido registrada correctamente'}), 200
+
+
 @api.route('/incomes', methods=['GET'])
 def get_incomes():
     incomes = Income.query.all()
@@ -257,7 +258,6 @@ def post_incomes():
                         reason_consultation=reason_consultation,
                         triage_priority=triage_priority,
                         state=state)
-    
 
     db.session.add(new_patient)
     db.session.add(new_income)
