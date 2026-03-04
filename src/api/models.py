@@ -91,8 +91,9 @@ class Patient(db.Model):
         String(120), nullable=False, unique=False)
     lastname: Mapped[str] = mapped_column(
         String(120), nullable=False, unique=False)
-    birthdate: Mapped[date] = mapped_column(Date, nullable=False, unique=False)
-    allergies: Mapped[list[str]] = mapped_column(Text, nullable=False)
+    birthdate: Mapped[str] = mapped_column(String(10), nullable=False, unique=False)
+    allergies: Mapped[list[str]] = mapped_column(String(600), nullable=False)
+    visitreason: Mapped[str] = mapped_column(String(600), nullable=False)
     income: Mapped[list["Income"]] = relationship(back_populates="patient")
 
     def serialize(self):
