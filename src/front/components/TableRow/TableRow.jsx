@@ -4,7 +4,7 @@ import useGlobalReducer from "../../hooks/useGlobalReducer"
 export const TableRow = ({ user }) => {
     const { store, dispatch } = useGlobalReducer()
     const handlerClick = async () => {
-        await zzzzzdeleteUser(user.id)
+        await deleteUser(user.id)
         await getUser(dispatch)
         return
     }
