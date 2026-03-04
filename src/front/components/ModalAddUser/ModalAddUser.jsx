@@ -1,6 +1,54 @@
-export const ModalAddUser = () => {
+import { useState } from "react"
+import { useRef } from "react"
+import { getUser, registerUser } from "../../APIServices/BACKENDservices";
+import { useNavigate } from "react-router-dom";
+import useGlobalReducer from "../../hooks/useGlobalReducer";
 
-    
+export const ModalAddUser = () => {
+    const navigate = useNavigate()
+    const { store, dispatch } = useGlobalReducer()
+    const closeBtnRef = useRef(null)
+    const [user, setUser] = useState({
+        "firstname": "",
+        "lastname": "",
+        "rol": "",
+        "email": ""
+    });
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const handlerChange = (e) => {
+        setUser({
+            ...user,
+            [e.target.name]: e.target.value
+        })
+        setError("")
+    }
+
+    const handlerSubmit = async (e) => {
+        e.preventDefault()
+        if (!user.firstname || !user.lastname || !user.rol || !user.email) {
+            setError("Todos los campos son obligatorios")
+            setLoading(false)
+            return
+        }
+        setLoading(true)
+        const response = await registerUser(user)
+        if (response && !response.error) {
+            await getUser(dispatch)
+            closeBtnRef.current.click()
+            setUser({
+                "firstname": "",
+                "lastname": "",
+                "rol": "",
+                "email": ""
+            })
+            setError("")
+        } else {
+            setError(response.error)
+        }
+        setLoading(false)
+    }
+
 
     return (
         <div className="text-end mb-3">
@@ -16,7 +64,14 @@ export const ModalAddUser = () => {
                             <h1 className="modal-title fs-5" id="exampleModalLabel">Registro nuevo usuario</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form className="modal-body text-start">
+                        <form className="modal-body text-start" onSubmit={handlerSubmit}>
+                            {
+                                error && (
+                                    <div className="alert alert-danger d-flex align-items-center justify-content-around fade-alert" role="alert">
+                                        {error} <i className="fa-solid fa-triangle-exclamation"></i>
+                                    </div>
+                                )
+                            }
                             <div className="d-flex flex-column p-3 mt-0">
                                 <div className="input-group mb-3">
                                     <span className="input-group-text"
@@ -27,7 +82,10 @@ export const ModalAddUser = () => {
                                         className="form-control"
                                         placeholder="Nombre"
                                         aria-label="Username"
-                                        aria-describedby="basic-addon1" />
+                                        aria-describedby="basic-addon1"
+                                        name="firstname"
+                                        value={user.firstname}
+                                        onChange={handlerChange} />
                                 </div>
                                 <div className="input-group mb-3">
                                     <span className="input-group-text"
@@ -37,33 +95,57 @@ export const ModalAddUser = () => {
                                     <input type="text"
                                         className="form-control"
                                         placeholder="Apellidos"
-                                        aria-label="Username"
-                                        aria-describedby="basic-addon1" />
+                                        aria-label="lastname"
+                                        aria-describedby="basic-addon1"
+                                        name="lastname"
+                                        value={user.lastname}
+                                        onChange={handlerChange} />
                                 </div>
-                                <select className="form-select mb-3" aria-label="Default select example">
+                                <select className="form-select mb-3"
+                                    aria-label="Default select example"
+                                    name="rol"
+                                    value={user.rol}
+                                    onChange={handlerChange}>
                                     <option defaultValue>Seleccione un rol</option>
-                                    <option value="1">Médico</option>
-                                    <option value="2">Enfermero</option>
-                                    <option value="3">Administrativo</option>
+                                    <option value="Médico">Médico</option>
+                                    <option value="Enfermero">Enfermero</option>
+                                    <option value="Administrativo">Administrativo</option>
                                 </select>
                                 <div className="input-group mb-3">
                                     <span className="input-group-text"
                                         id="basic-addon1">
                                         @
                                     </span>
-                                    <input type="text"
+                                    <input type="email"
                                         className="form-control"
                                         placeholder="Email"
-                                        aria-label="Username"
-                                        aria-describedby="basic-addon1" />
+                                        aria-label="Email"
+                                        aria-describedby="basic-addon1"
+                                        name="email"
+                                        value={user.email}
+                                        onChange={handlerChange} />
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submi" className="btn btn-primary">
-                                    Notificar
-                                    <i className="fa-solid fa-envelope ms-2"></i>
-                                </button>
+                                <button type="button" className="btn btn-secondary rounded-pill" ref={closeBtnRef} data-bs-dismiss="modal">Cerrar</button>
+                                {loading ? (
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary mt-2 mb-2 rounded-pill"
+                                        style={{ backgroundColor: "var(--navBar)" }}
+                                        disabled
+                                    ><div className="spinner-border" role="status"></div>
+                                    </button>
+                                ) : (
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary mt-2 mb-2 rounded-pill"
+                                        style={{ backgroundColor: "var(--navBar)" }}
+                                    >
+                                        Notificar
+                                        <i className="fa-solid fa-envelope ms-2"></i>
+                                    </button>
+                                )}
                             </div>
                         </form>
                     </div>
