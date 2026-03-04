@@ -175,7 +175,7 @@ def delete(user_id):
         return jsonify({'error': 'User not found'}), 404
     db.session.delete(user)
     db.session.commit()
-    return jsonify({'msg': 'User deleted successfully'})
+    return jsonify({'msg': 'User deleted successfully'}),200
 
 
 @api.route('/login', methods=['POST'])
