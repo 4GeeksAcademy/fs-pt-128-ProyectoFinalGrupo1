@@ -38,3 +38,15 @@ export const activateCount = async (password, token) => {
   }
   return { ok: true };
 };
+export const getUser = async (dispatch) => {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`);
+  const data = await response.json();
+
+  if (response.ok) {
+    dispatch({ type: "get_users", payload: data });
+  }else{
+    dispatch({ type: "get_users", payload: []});
+    return data
+  }
+};
+

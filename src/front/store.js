@@ -13,11 +13,17 @@ export const initialStore = () => {
         background: null,
       },
     ],
+    users: [],
   };
 };
 
 export default function storeReducer(store, action = {}) {
   switch (action.type) {
+    case "get_users":
+      return {
+        ...store,
+        users: action.payload,
+      };
     case "set_hello":
       return {
         ...store,
@@ -33,6 +39,7 @@ export default function storeReducer(store, action = {}) {
           todo.id === id ? { ...todo, background: color } : todo,
         ),
       };
+
     default:
       throw Error("Unknown action.");
   }

@@ -1,7 +1,16 @@
+import { useEffect } from "react"
 import { ModalAddUser } from "../../components/ModalAddUser/ModalAddUser"
 import { TableRow } from "../../components/TableRow/TableRow"
+import { getUser } from "../../APIServices/BACKENDservices"
+import useGlobalReducer from "../../hooks/useGlobalReducer"
 
 export const RegisterUser = () => {
+    const { store, dispatch } = useGlobalReducer();
+    console.log(store)
+    useEffect(() => {
+        getUser(dispatch)
+    }, [])
+
     return (
         <main className="container mt-5 fontst">
             <ModalAddUser />
@@ -10,7 +19,7 @@ export const RegisterUser = () => {
                     <h2 className="mt-2 mb-2">Administrador de usuarios</h2>
                 </div>
                 <div>
-                    <table class="table">
+                    <table className="table">
                         <thead className="table-secondary">
                             <tr>
                                 <th scope="col">#</th>
@@ -22,7 +31,12 @@ export const RegisterUser = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <TableRow />
+                            {store.user == [] ? 'Not Found' :
+                                store.users.map(user => (
+                                    <TableRow key={user.id} user={user} />
+                                ))
+                            }
+
                         </tbody>
                     </table>
                 </div>

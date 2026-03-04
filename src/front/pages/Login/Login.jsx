@@ -49,14 +49,13 @@ export const Login = () => {
 
 
     return (
-        <>
+        < div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
             <div
-                className="container d-flex justify-content-around mt-5"
+                className="container d-flex justify-content-around align-items-center"
                 style={{
                     color: "var(--primaryText)",
                     backgroundColor: "transparent",
-                    fontFamily: "var(--bs-body-font-family)"
-
+                    fontFamily: "var(--bs-body-font-family)",
                 }}>
                 <div
                     className="col-auto loginFormContainer d-flex flex-column text-center"
@@ -128,14 +127,14 @@ export const Login = () => {
                                     className="btn btn-primary mt-2 mb-2 rounded-pill"
                                     style={{ backgroundColor: "var(--navBar)" }}
                                     disabled
-                                    ><div className="spinner-border" role="status"></div>
+                                ><div className="spinner-border" role="status"></div>
                                 </button>
                             ) : (
                                 <button
                                     type="submit"
                                     className="btn btn-primary mt-2 mb-2 rounded-pill"
                                     style={{ backgroundColor: "var(--navBar)" }}
-                                    >Iniciar Sesión
+                                >Iniciar Sesión
                                 </button>
                             )}
 
@@ -147,12 +146,12 @@ export const Login = () => {
                 </div>
 
 
-                <div className="col-auto mt-5 imgLoginContainer ms-3">
+                <div className="col-auto imgLoginContainer ms-3">
                     <img src={image} alt="imagen del doctor" />
                 </div>
             </div >
 
 
-        </>
+        </div>
     );
 }
