@@ -14,6 +14,7 @@ import { RegisterUser } from "./pages/RegisterUser/RegisterUser";
 import { Admission } from "./pages/Admission/Admission";
 import { Login } from "./pages/Login/Login";
 import { ActivateAccount } from "./pages/ActivateAccount/ActivateAccount";
+import { IncomeForm } from "./pages/IncomeForm/IncomeForm";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ export const router = createBrowserRouter(
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/Income/:id" element={<IncomeForm />} />
     </Route>
   )
 );

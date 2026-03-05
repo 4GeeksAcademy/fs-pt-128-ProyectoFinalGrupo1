@@ -64,7 +64,7 @@ export const ActivateAccount = () => {
             </div>
             <div className="d-flex flex-column align-items-center justify-content-center p-4 rounded position-relative"
                 style={{ backgroundColor: "var(--cardBackground)", minHeight: '60vh', width: "400px" }}>
-                <div className="text-center py-5 position-absolute top-0" >
+                <div className="text-center py-5 top-0" >
                     <img src={logo} alt="RegisterImage" style={{ height: "100px", width: "100px" }} />
                     <div>
                         <h2>Registro en la plataforma!</h2>
@@ -74,7 +74,7 @@ export const ActivateAccount = () => {
                 {error && <div class="alert fade-alert alert-danger " role="alert">
                     {error}
                 </div>}
-                <form onSubmit={handleSubmit} className="position-absolute top-50 start-0 end-0">
+                <form onSubmit={handleSubmit} >
                     <div className="mb-3">
                         <div className="input-group">
                             <input type={showPwd ? "text" : "password"} name="password" placeholder="Contraseña" onChange={handleChange} value={user.password} className="form-control" id="InputPassword" />
