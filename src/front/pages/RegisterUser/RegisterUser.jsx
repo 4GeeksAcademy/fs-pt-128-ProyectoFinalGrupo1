@@ -41,7 +41,6 @@ export const RegisterUser = () => {
                                     <TableRow key={user.id} user={user} />
                                 ))
                             }
-
                         </tbody>
                     </table>
                 </div>

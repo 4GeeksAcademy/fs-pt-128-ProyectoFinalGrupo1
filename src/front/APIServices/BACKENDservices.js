@@ -55,6 +55,30 @@ export const getUser = async (dispatch) => {
 };
 
 // region: registerUser
+export const getPatients = async (dispatch) => {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/patients`);
+  const data = await response.json();
+
+   if (response.ok) {
+    dispatch({ type: "get_patients", payload: data });
+  } else {
+    dispatch({ type: "get_patients", payload: [] });
+    return data;
+  }
+};
+
+export const getPatient = async (dispatch, id) => {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/patient/${id}`);
+  const data = await response.json();
+
+   if (response.ok) {
+    dispatch({ type: "get_patient", payload: data });
+  } else {
+    dispatch({ type: "get_patient", payload: null });
+    return data;
+  }
+};
+
 export const registerUser = async (user) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/register/user`,
@@ -92,3 +116,33 @@ export const createAdmission = async (admission, navigate) => {
   return {ok: true};
 
 }
+export const deleteUser = async (user_id) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/delete/${user_id}`,
+    {
+      method: "DELETE",
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    return data;
+  }
+  return { ok: true };
+};
+export const signup = async (user) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/register`,
+    {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    return data;
+  }
+  return { ok: true };
+};

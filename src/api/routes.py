@@ -33,6 +33,20 @@ def get_user():
     response = [user.serialize() for user in users]
     return jsonify(response), 200
 
+@api.route('/patients', methods=['GET'])
+def get_patients():
+    patients = Patient.query.all()
+    response = [patient.serialize() for patient in patients]
+    return jsonify(response), 200
+
+@api.route('/patient/<id>', methods=['GET'])
+def get_patient(id):
+    patient = Patient.query.get(id)
+    if not patient: 
+        return jsonify({"error": "Patient not found"}), 404
+    response = patient.serialize()
+    return jsonify(response), 200
+
 
 @api.route('/register/user', methods=['POST'])
 def register_user():
@@ -63,7 +77,7 @@ def register_user():
     validation_token = create_access_token(
         identity=str(new_user.id), additional_claims=additional_claims)
 
-    url = f"https://orange-eureka-x5vw9xv6p5rg2p5gx-3000.app.github.dev/activate?token={validation_token}"
+    url = f"{os.getenv('VITE_FRONTEND_URL')}/activate?token={validation_token}"
     msg = Message(
         subject="Confirma tu registro",
         sender=("Soporte Medicina", "soporte@medicina.com"),
@@ -167,6 +181,17 @@ def register():
     return jsonify({"user": new_user.serialize()})
 
 
+@api.route('/delete/<int:user_id>', methods=['DELETE'])
+def delete(user_id):
+    user = User.query.get(user_id)
+
+    if user is None:
+        return jsonify({'error': 'User not found'}), 404
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'msg': 'User deleted successfully'}),200
+
+
 @api.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -215,8 +240,10 @@ def admission():
 @api.route('/incomes', methods=['GET'])
 def get_incomes():
     incomes = Income.query.all()
-    response = [incomes.serialize() for income in incomes]
+    response = [income.serialize() for income in incomes]
     return jsonify(response), 200
+
+
 
 
 @api.route('/incomes', methods=['POST'])

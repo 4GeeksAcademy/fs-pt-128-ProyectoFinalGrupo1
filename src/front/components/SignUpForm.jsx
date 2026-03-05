@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import logo from "../assets/img/Logo.svg";
 import { useNavigate } from "react-router-dom";
+import { signup } from "../APIServices/BACKENDservices";
 
 export const SignUpForm = () => {
 
@@ -22,19 +23,28 @@ export const SignUpForm = () => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         setError(null)
         console.log(user);
-        e.preventDefault()
         if (!user.email || !user.password) {
             setError("Todos los campos son obligatorios")
             return
         }
-        if (user.password != user.confirmPassword) {
+        if (user.password !== user.confirmPassword) {
             setError("Las contraseñas no coinciden")
             return
         }
-        register(user, navigate)
+        const response = await signup(user);
+        if (response.error) {
+            setError(response.error)
+        }
+        setUser({
+            "email": "",
+            "password": "",
+            "confirmPassword": ""
+        })
+        navigate("/login")
 
     }
 
