@@ -1,3 +1,4 @@
+// region:login
 export const login = async (user, navigate) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/login`,
@@ -20,6 +21,7 @@ export const login = async (user, navigate) => {
   return data;
 };
 
+// region: activateCount
 export const activateCount = async (password, token) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/activate`,
@@ -38,6 +40,8 @@ export const activateCount = async (password, token) => {
   }
   return { ok: true };
 };
+
+// region:getUser
 export const getUser = async (dispatch) => {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`);
   const data = await response.json();
@@ -50,6 +54,7 @@ export const getUser = async (dispatch) => {
   }
 };
 
+// region: registerUser
 export const getPatients = async (dispatch) => {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/patients`);
   const data = await response.json();
@@ -92,6 +97,25 @@ export const registerUser = async (user) => {
   return { ok: true };
 };
 
+// region:createAdmission
+export const createAdmission = async (admission, navigate) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/admission`,
+    {
+      method: "POST",
+      body: JSON.stringify(admission),
+      headers:{
+        "Content-Type": "application/json",
+      }
+    }
+  )
+  if(!response.ok){
+    return {"Error": "La admisión no ha podido crearse correctamente"};
+  }
+  navigate("/admission")
+  return {ok: true};
+
+}
 export const deleteUser = async (user_id) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/delete/${user_id}`,

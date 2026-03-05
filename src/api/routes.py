@@ -228,12 +228,13 @@ def admission():
         firstname=data.get("firstname"),
         lastname=data.get("lastname"),
         birthdate=data.get("birthdate"),
-        allergies=data.get("allergies")
+        allergies=data.get("allergies"),
+        visitreason=data.get("visitreason")
     )
 
     db.session.add(new_admission)
     db.session.commit()
-    return jsonify({'msg': 'La admisión ha sido registrada correctamente'}), 200
+    return jsonify({'msg': 'La admision ha sido registrada correctamente'}), 200
 
 
 @api.route('/incomes', methods=['GET'])
