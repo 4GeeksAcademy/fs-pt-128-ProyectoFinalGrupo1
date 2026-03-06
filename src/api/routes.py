@@ -295,3 +295,21 @@ def put_incomes_consult(income_id):
     db.session.commit()
 
     return jsonify({'msg': 'Consult succesfully'}), 200
+
+@api.route('/reorder-incomes' , methods = ['PATCH'])
+def reorder_income(): 
+    data = request.get_json()
+
+    ordered_ids = data.get("ordered_ids")
+
+    if not ordered_ids: 
+        return jsonify({'error' : 'Do not send new order'}), 409
+    
+    for index , id in enumerate(ordered_ids): 
+        income = Income.query.get(id)
+
+        if income:
+            income.index = index
+    
+    db.session.commit()
+    return jsonify({'msg': 'Order updated successfully'}),201
