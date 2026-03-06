@@ -54,7 +54,7 @@ export const getUser = async (dispatch) => {
   }
 };
 
-// region: registerUser
+// region:getPatients
 export const getPatients = async (dispatch) => {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/patients`);
   const data = await response.json();
@@ -67,6 +67,7 @@ export const getPatients = async (dispatch) => {
   }
 };
 
+// region:getPatient
 export const getPatient = async (dispatch, id) => {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/patient/${id}`);
   const data = await response.json();
@@ -79,6 +80,7 @@ export const getPatient = async (dispatch, id) => {
   }
 };
 
+// region: registerUser
 export const registerUser = async (user) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/register/user`,
@@ -116,6 +118,8 @@ export const createAdmission = async (admission, navigate) => {
   return {ok: true};
 
 }
+
+// region:deleteUser
 export const deleteUser = async (user_id) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/delete/${user_id}`,
@@ -129,6 +133,8 @@ export const deleteUser = async (user_id) => {
   }
   return { ok: true };
 };
+
+// region:signUp
 export const signup = async (user) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/register`,

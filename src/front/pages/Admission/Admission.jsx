@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export const Admission = () => {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+    const prioBtn = document.querySelectorAll(".selected_button")
     const navigate = useNavigate()
     const [showSuccess, setShowSuccess] = useState(false)
     const [admission, setAdmission] = useState({
@@ -14,10 +15,12 @@ export const Admission = () => {
         "firstname": "",
         "lastname": "",
         "allergies": [],
-        "visitreason": ""
+        "visitreason": "",
+        "priority": ""
     })
     const [newAlergie, setNewAlergie] = useState("")
 
+    // region:handleChange
     const handleChange = (e) => {
         if (e.target.name == "allergies") {
             setNewAlergie(e.target.value)
@@ -28,7 +31,7 @@ export const Admission = () => {
             [e.target.name]: e.target.value
         })
     }
-
+    // region:handleSubmit
     const handleSubmit = async (e) => {
         setError(null)
         console.log(admission);
@@ -42,20 +45,35 @@ export const Admission = () => {
         if (response.ok) {
             setLoading(false)
             setShowSuccess(true)
-            
             setAdmission({
                 "dni": "",
                 "birthdate": "",
                 "firstname": "",
                 "lastname": "",
                 "allergies": [],
-                "visitreason": ""
+                "visitreason": "",
+                "priority": ""
             })
             setTimeout(() => {
                 setShowSuccess(false)
             }, 3000);
         }
     }
+
+    // region:handlePrio
+    const handlePrio = (e) => {
+        e.preventDefault()
+        const currentPrio = e.target.name
+        prioBtn.forEach(btn => { btn.classList.remove("selected_button") })
+        e.target.classList.add("selected_button")
+        setAdmission({
+            ...admission,
+            priority: Number(currentPrio.slice(4))
+        });
+
+    }
+
+    // region:handleKeyDown
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -135,6 +153,13 @@ export const Admission = () => {
                     <div className="mb-3 d-flex flex-column align-items-start gap-2 col-12 ">
                         <label htmlFor="InputLastName" className="form-label mb-1">Motivo de la consulta</label>
                         <textarea name="visitreason" value={admission.visitreason} onChange={handleChange} type="text" rows={8} className="form-control rounded-4" dni="InputVisitReason" />
+                    </div>
+                    <div className="text-center  mt-4 col-12">
+                        <button name="prio5" onClick={handlePrio} className="col-2 crit5 rounded-start-pill">No es urgente</button>
+                        <button name="prio4" onClick={handlePrio} className="col-2 crit4">Poco urgente</button>
+                        <button name="prio3" onClick={handlePrio} className="col-2 crit3">Urgente</button>
+                        <button name="prio2" onClick={handlePrio} className="col-2 crit2">Muy Urgente</button>
+                        <button name="prio1" onClick={handlePrio} className="col-2 crit1 rounded-end-pill">Emergencia</button>
                     </div>
                     <div className="text-center my-3">
                         {!loading ?
