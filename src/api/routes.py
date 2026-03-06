@@ -8,7 +8,6 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token
 import os
-import resend
 from flask_mail import Message
 
 api = Blueprint('api', __name__)
@@ -33,16 +32,18 @@ def get_user():
     response = [user.serialize() for user in users]
     return jsonify(response), 200
 
+
 @api.route('/patients', methods=['GET'])
 def get_patients():
     patients = Patient.query.all()
     response = [patient.serialize() for patient in patients]
     return jsonify(response), 200
 
+
 @api.route('/patient/<id>', methods=['GET'])
 def get_patient(id):
     patient = Patient.query.get(id)
-    if not patient: 
+    if not patient:
         return jsonify({"error": "Patient not found"}), 404
     response = patient.serialize()
     return jsonify(response), 200
@@ -189,7 +190,7 @@ def delete(user_id):
         return jsonify({'error': 'User not found'}), 404
     db.session.delete(user)
     db.session.commit()
-    return jsonify({'msg': 'User deleted successfully'}),200
+    return jsonify({'msg': 'User deleted successfully'}), 200
 
 
 @api.route('/login', methods=['POST'])
@@ -244,30 +245,18 @@ def get_incomes():
     return jsonify(response), 200
 
 
-
-
-@api.route('/incomes', methods=['POST'])
-def post_incomes():
+@api.route('/incomes-triage/<int:income_id>', methods=['PUT'])
+def put_incomes_triage(income_id):
     data = request.get_json()
-    dni = data.get('dni')
-    first_name = data.get('first_name')
-    last_name = data.get('last_name')
-    birth_date = data.get('birth_date')
-    reason_consultation = data.get('reason_consultation')
-    triage_priority = data.get('triage_priority')
-    allergies = data.get('allergies')
-    state = data.get('state')
+    actual_income = Income.query.get(income_id)
 
-    required_fields = [
-        'dni',
-        'first_name',
-        'last_name',
-        'birth_date',
-        'reason_consultation',
-        'triage_priority',
-        'allergies',
-        'state'
-    ]
+    if not actual_income:
+        return jsonify({'error': 'Income not found'}), 404
+
+    valoration_triage = data.get('valoration_triage')
+    new_triage_priority = data.get('triage_priority')
+
+    required_fields = ['valoration_triage']
 
     missing = [
         field for field in required_fields
@@ -276,22 +265,33 @@ def post_incomes():
     if missing:
         return jsonify({"Error": f"Rellenar los siguientes campos: {missing}", }), 400
 
-    new_patient = Patient(dni=dni,
-                          firstname=first_name,
-                          lastname=last_name,
-                          birthdate=birth_date,
-                          allergies=allergies)
-
-    new_income = Income(patient=new_patient,
-                        reason_consultation=reason_consultation,
-                        triage_priority=triage_priority,
-                        state=state)
-
-    db.session.add(new_patient)
-    db.session.add(new_income)
+    actual_income.valoration_triage = valoration_triage
+    actual_income.triage_priority = new_triage_priority if new_triage_priority else actual_income.triage_priority
+    actual_income.state = "Esperando consulta"
+    db.session.add(actual_income)
     db.session.commit()
 
     return jsonify({"Info": "admisión correcta",
-                    "Paciente": f"{new_patient.serialize()}",
-                    "Ingreso": f"{new_income.serialize()}"
-                    })
+                    "Ingreso": f"{actual_income.serialize()}"})
+
+
+@api.route('/incomes-consult/<int:income_id>', methods=['PUT'])
+def put_incomes_consult(income_id):
+    data = request.get_json()
+    actual_income = Income.query.get(income_id)
+
+    if not actual_income:
+        return jsonify({'error': 'Income not found'}), 404
+
+    diagnosis = data.get('diagnosis')
+
+    if not diagnosis:
+        return jsonify({'error': 'Diagnosis are required'}), 409
+
+    actual_income.diagnosis = diagnosis
+    actual_income.state = "Alta"
+
+    db.session.add(actual_income)
+    db.session.commit()
+
+    return jsonify({'msg': 'Consult succesfully'}), 200
