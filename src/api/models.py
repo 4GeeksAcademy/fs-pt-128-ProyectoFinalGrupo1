@@ -6,7 +6,7 @@ from datetime import date
 
 db = SQLAlchemy()
 
-
+# region:User
 class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     firstname: Mapped[str] = mapped_column(
@@ -39,9 +39,10 @@ class User(db.Model):
             "email": self.email,
         }
 
-
+# region:Income
 class Income(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
+    index: Mapped[int] = mapped_column(Integer, default=0, nullable=True)
     id_patient: Mapped[str] = mapped_column(
         ForeignKey("patient.dni"), nullable=True)
     patient: Mapped["Patient"] = relationship(back_populates="income")
@@ -53,7 +54,8 @@ class Income(db.Model):
         Integer, ForeignKey("user.id"), nullable=True)
     nurse: Mapped["User"] = relationship(
         back_populates="income_nurse", foreign_keys=[id_nurse])
-    reason_consultation: Mapped[str] = mapped_column(
+    visitreason: Mapped[str] = mapped_column(String(600), nullable=False)
+    valoration_triage: Mapped[str] = mapped_column(
         String(600), nullable=False, unique=False)
     triage_priority: Mapped[int] = mapped_column(nullable=True)
     diagnosis: Mapped[str] = mapped_column(Text, nullable=True, unique=False)
@@ -77,13 +79,15 @@ class Income(db.Model):
             "patient_lastname": self.patient.lastname,
             "patient_birthdate": self.patient.birthdate.isoformat(),
             "patient_allergies": self.patient.allergies,
+            "visitreason":self.visitreason,
+            "valoration_tiage": self.valoration_triage,
             "reason_consultation": self.reason_consultation,
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
             "state": self.state
         }
 
-
+# region:Patient
 class Patient(db.Model):
     # ID del paciente para evitar que se repita
     dni: Mapped[str] = mapped_column(primary_key=True)
@@ -91,9 +95,9 @@ class Patient(db.Model):
         String(120), nullable=False, unique=False)
     lastname: Mapped[str] = mapped_column(
         String(120), nullable=False, unique=False)
-    birthdate: Mapped[str] = mapped_column(String(10), nullable=False, unique=False)
+    birthdate: Mapped[str] = mapped_column(
+        String(10), nullable=False, unique=False)
     allergies: Mapped[list[str]] = mapped_column(String(600), nullable=False)
-    visitreason: Mapped[str] = mapped_column(String(600), nullable=False)
     income: Mapped[list["Income"]] = relationship(back_populates="patient")
 
     def serialize(self):
