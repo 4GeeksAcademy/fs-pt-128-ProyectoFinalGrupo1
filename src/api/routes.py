@@ -228,8 +228,7 @@ def admission():
         firstname=data.get("firstname"),
         lastname=data.get("lastname"),
         birthdate=data.get("birthdate"),
-        allergies=data.get("allergies"),
-        visitreason=data.get("visitreason")
+        allergies=data.get("allergies")
     )
 
     db.session.add(new_admission)
