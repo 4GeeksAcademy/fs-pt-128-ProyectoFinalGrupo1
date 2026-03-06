@@ -16,6 +16,32 @@ export const initialStore = () => {
     users: [],
     patients: [],
     patient: {},
+    incomes: [
+      {
+        id: 101,
+        patient_name: "Juan Pérez",
+        triage_priority: "Urgente",
+        state: "En espera",
+      },
+      {
+        id: 102,
+        patient_name: "María García",
+        triage_priority: "Normal",
+        state: "En espera",
+      },
+      {
+        id: 103,
+        patient_name: "Pedro Luis",
+        triage_priority: "Crítico",
+        state: "Triaje",
+      },
+      {
+        id: 104,
+        patient_name: "Ana Belén",
+        triage_priority: "Leve",
+        state: "En espera",
+      },
+    ],
   };
 };
 
@@ -44,7 +70,17 @@ export default function storeReducer(store, action = {}) {
         ...store,
         message: action.payload,
       };
+    case "get_incomes":
+      return {
+        ...store,
+        incomes: action.payload,
+      };
 
+    case "update_incomes_order":
+      return {
+        ...store,
+        incomes: action.payload,
+      };
     case "add_task":
       const { id, color } = action.payload;
 
