@@ -132,13 +132,13 @@ export const Login = () => {
                             ) : (
                                 <button
                                     type="submit"
-                                    className="btn btn-primary mt-2 mb-2 rounded-pill"
+                                    className="btn btn-primary mt-2 mb-3 rounded-pill"
                                     style={{ backgroundColor: "var(--navBar)" }}
                                 >Iniciar Sesión
                                 </button>
                             )}
 
-                            <button className="btn btn-secondary mt-2 rounded-pill" >Iniciar sesión con Email</button>
+                            
                         </div>
 
                     </form>
