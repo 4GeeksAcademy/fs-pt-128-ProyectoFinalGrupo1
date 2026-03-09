@@ -56,10 +56,12 @@ export const getUser = async (dispatch) => {
 
 // region:getPatients
 export const getPatients = async (dispatch) => {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/patients`);
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/patients`,
+  );
   const data = await response.json();
 
-   if (response.ok) {
+  if (response.ok) {
     dispatch({ type: "get_patients", payload: data });
   } else {
     dispatch({ type: "get_patients", payload: [] });
@@ -69,10 +71,12 @@ export const getPatients = async (dispatch) => {
 
 // region:getPatient
 export const getPatient = async (dispatch, id) => {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/patient/${id}`);
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/patient/${id}`,
+  );
   const data = await response.json();
 
-   if (response.ok) {
+  if (response.ok) {
     dispatch({ type: "get_patient", payload: data });
   } else {
     dispatch({ type: "get_patient", payload: null });
@@ -106,13 +110,13 @@ export const createAdmission = async (admission, navigate) => {
     {
       method: "POST",
       body: JSON.stringify(admission),
-      headers:{
+      headers: {
         "Content-Type": "application/json",
-      }
-    }
-  )
-  if(!response.ok){
-    return {"Error": "La admisión no ha podido crearse correctamente"};
+      },
+    },
+  );
+  if (!response.ok) {
+    return { Error: "La admisión no ha podido crearse correctamente" };
   }
   navigate("/admission")
   return {ok: true};
@@ -141,6 +145,23 @@ export const signup = async (user) => {
     {
       method: "POST",
       body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    return data;
+  }
+  return { ok: true };
+};
+export const loadNewOrder = async (orderIds) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/reorder-incomes`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(orderIds),
       headers: {
         "Content-Type": "application/json",
       },
