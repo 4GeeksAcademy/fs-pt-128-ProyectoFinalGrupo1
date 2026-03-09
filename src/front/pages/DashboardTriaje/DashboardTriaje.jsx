@@ -43,7 +43,7 @@ export const DashboardTriaje = () => {
                             <th scope="col">Handle</th>
                         </tr>
                     </thead>
-                    <SortableContext items={store.incomes.map(income => income.id)}>
+                    <SortableContext items={store.incomes.map(income => income.id)} strategy={verticalListSortingStrategy}>
                         <tbody className="list">
                             {
                                 store.incomes.map((income, index) =>
