@@ -78,6 +78,7 @@ export const getPatient = async (dispatch, id) => {
 
   if (response.ok) {
     dispatch({ type: "get_patient", payload: data });
+    return data
   } else {
     dispatch({ type: "get_patient", payload: null });
     return data;

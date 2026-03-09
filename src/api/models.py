@@ -56,7 +56,7 @@ class Income(db.Model):
         back_populates="income_nurse", foreign_keys=[id_nurse])
     visitreason: Mapped[str] = mapped_column(String(600), nullable=False)
     valoration_triage: Mapped[str] = mapped_column(
-        String(600), nullable=False, unique=False)
+        String(600), nullable=True, unique=False)
     triage_priority: Mapped[int] = mapped_column(nullable=True)
     diagnosis: Mapped[str] = mapped_column(Text, nullable=True, unique=False)
     state: Mapped[str] = mapped_column(
@@ -105,7 +105,7 @@ class Patient(db.Model):
             "dni": self.dni,
             "firstname": self.firstname,
             "lastname": self.lastname,
-            "birthdate": self.birthdate.isoformat(),
+            "birthdate": self.birthdate,
             "allergies": self.allergies,
             "income": [i.serialize() for i in self.income]
         }
