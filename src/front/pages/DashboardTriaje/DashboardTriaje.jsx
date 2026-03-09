@@ -24,14 +24,15 @@ export const DashboardTriaje = () => {
                 payload: newOrder
             })
 
-            // const orderedIds = newOrder.map(income => income.id)
-            // loadNewOrder(orderedIds)
+            const orderedIds = newOrder.map(income => income.id)
+            loadNewOrder(orderedIds)
         }
     }
 
 
     return (
         <div className="container mt-5" style={{ maxHeight: "80vh", overflowX: "hidden", overflowY: "auto" }} >
+            <h1 className="text-center text-uppercase fs-2 mb-3">Dashboard Triaje</h1>
             <DndContext collisionDetection={closestCenter} onDragEnd={handleDnD}>
                 <table class="table" >
                     <thead style={{ position: "sticky", top: "0", zIndex: "2" }}>
@@ -42,7 +43,7 @@ export const DashboardTriaje = () => {
                             <th scope="col">Handle</th>
                         </tr>
                     </thead>
-                    <SortableContext items={store.incomes.map(i => i.id)}>
+                    <SortableContext items={store.incomes.map(income => income.id)}>
                         <tbody className="list">
                             {
                                 store.incomes.map((income, index) =>
