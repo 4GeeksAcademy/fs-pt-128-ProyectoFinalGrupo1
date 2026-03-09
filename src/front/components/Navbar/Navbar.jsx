@@ -15,20 +15,20 @@ export const Navbar = () => {
 					<img src={LogoUrl} alt="" />
 				</div>
 				<div className="d-flex justify-content-center flex-column h-100">
-					<div className="mt-4 mb-4 navbar_icons d-flex align-items-center">
+					<Link to={'/admission'} className="mt-4 mb-4 navbar_icons d-flex align-items-center link-custom">
 						<div className="width-icon ms-2 ms-md-3 me-2">
 							<i className="fa-solid fa-hospital-user text-center"></i>
 						</div>
 						<h3 className={`${offCanvas ? `text-expended` : `navbar_icons-text`} fs-5 me-2`}>
 							Paciente
 						</h3>
-					</div>
-					<div className="mt-4 mb-4 navbar_icons d-flex align-items-center ">
+					</Link>
+					<Link to={'/triage'} className="mt-4 mb-4 navbar_icons d-flex align-items-center link-custom" >
 						<div className="width-icon ms-2 ms-md-3 me-2">
 							<i className="fa-solid fa-heart-pulse text-center"></i>
 						</div>
 						<h3 className={`${offCanvas ? `text-expended` : `navbar_icons-text`} fs-5 me-2`}>Triaje</h3>
-					</div>
+					</Link>
 					<div className="mt-4 mb-4 navbar_icons d-flex align-items-center">
 						<div className="width-icon ms-2 ms-md-3 me-2">
 							<i className="fa-solid fa-user-doctor text-center"></i>
