@@ -1,0 +1,55 @@
+.priorityResponsive{
+    display: none;
+}
+
+.piorityContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.prio-1{
+    background-color: #EF4444;
+    width: 120px;
+    height: 40px;
+    border: none;
+}
+
+.prio-2{
+    background-color: #F97316;
+    width: 100px;
+    height: 40px;
+    border: none;
+}
+
+.prio-3{
+    background-color: #FACC15;
+    width: 100px;
+    height: 40px;
+    border: none;
+}
+
+.prio-4{
+    background-color: #22C55E;
+    width: 100px;
+    height: 40px;
+    border: none;
+}
+
+.prio-5{
+    background-color: #3B82F6;
+    width: 100px;
+    height: 40px;
+    border: none;
+}
+
+
+
+@media (max-width: 425px){
+    .priorityResponsive{
+        display: flex;
+    }
+
+    .piorityContainer{
+        display: none;
+    }
+}
