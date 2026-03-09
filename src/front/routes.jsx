@@ -16,6 +16,7 @@ import { Login } from "./pages/Login/Login";
 import { ActivateAccount } from "./pages/ActivateAccount/ActivateAccount";
 import { IncomeForm } from "./pages/IncomeForm/IncomeForm";
 import { DashboardTriaje } from "./pages/DashboardTriaje/DashboardTriaje";
+import { Consultation } from "./pages/Consultation/Consultation";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +40,7 @@ export const router = createBrowserRouter(
       <Route path="/demo" element={<Demo />} />
       <Route path="/login" element={<Login />} />
       <Route path="/Income/:id" element={<IncomeForm />} />
+      <Route path="/consultation/:id" element={<Consultation />} />
     </Route>
   )
 );
