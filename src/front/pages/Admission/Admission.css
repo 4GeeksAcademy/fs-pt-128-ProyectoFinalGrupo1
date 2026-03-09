@@ -9,6 +9,9 @@ input {
   background-color: var(--cardBackground);
   border: "2px solid black"
 }
+.form-control:disabled{
+  background-color: #ffffff00;
+}
 
 .crit1{
   background-color: #EF4444;

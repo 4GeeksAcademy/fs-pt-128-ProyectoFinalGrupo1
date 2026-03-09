@@ -16,7 +16,7 @@ api = Blueprint('api', __name__)
 # Allow CORS requests to this API
 CORS(api)
 
-
+# region: /hello
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
 
@@ -26,19 +26,21 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-
+# region: /users - GET
 @api.route('/users', methods=['GET'])
 def get_user():
     users = User.query.all()
     response = [user.serialize() for user in users]
     return jsonify(response), 200
 
+# region: /patients - GET
 @api.route('/patients', methods=['GET'])
 def get_patients():
     patients = Patient.query.all()
     response = [patient.serialize() for patient in patients]
     return jsonify(response), 200
 
+# region: /patient/id - GET
 @api.route('/patient/<id>', methods=['GET'])
 def get_patient(id):
     patient = Patient.query.get(id)
@@ -47,7 +49,7 @@ def get_patient(id):
     response = patient.serialize()
     return jsonify(response), 200
 
-
+# region: /register/user - POST
 @api.route('/register/user', methods=['POST'])
 def register_user():
     data = request.get_json()
@@ -136,7 +138,7 @@ def register_user():
     return jsonify({'token': validation_token,
                     'msg': 'Email send successfully'}), 201
 
-
+# region: /activate - PATCH
 @api.route('/activate', methods=['PATCH'])
 @jwt_required()
 def activate():
@@ -157,7 +159,7 @@ def activate():
 
     return jsonify({'msg': 'ok'}), 201
 
-
+# region: /register - POST
 @api.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -180,7 +182,7 @@ def register():
 
     return jsonify({"user": new_user.serialize()})
 
-
+# region: /delete/user_id - DELETE
 @api.route('/delete/<int:user_id>', methods=['DELETE'])
 def delete(user_id):
     user = User.query.get(user_id)
@@ -191,7 +193,7 @@ def delete(user_id):
     db.session.commit()
     return jsonify({'msg': 'User deleted successfully'}),200
 
-
+# region: /login - POST
 @api.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -213,38 +215,49 @@ def login():
     else:
         return jsonify({'Error': 'Datos incorrectos'}), 400
 
-
+# region: /admission - POST
 @api.route('/admission', methods=['POST'])
 def admission():
-    required = ["dni", "firstname", "lastname", "birthdate"]
+    adm_required = ["dni", "firstname", "lastname", "birthdate"]
+    income_required = ["visitreason", "priority"]
     data = request.get_json()
+    data_admission = data["admission"]
+    data_income = data["income"]
+
     if not data:
         return jsonify({"error": "No se enviaron datos"}), 400
-    missing = [req for req in required if not data.get(req)]
+    missing = [req for req in adm_required if not data_admission.get(req) + req for req in income_required if not data_income.get(req)]
     if missing:
         return jsonify({'Error': f'Todos los campos son obligatorios, faltan {", ".join(missing)}'}), 400
-    new_admission = Patient(
-        dni=data.get("dni"),
-        firstname=data.get("firstname"),
-        lastname=data.get("lastname"),
-        birthdate=data.get("birthdate"),
-        allergies=data.get("allergies")
-    )
+    user = db.session.execute(select(Patient).where(Patient.dni == data["admission"]["dni"])).scalar_one_or_none()
+    if not user:   
+        new_admission = Patient(
+            dni=data_admission.get("dni"),
+            firstname=data_admission.get("firstname"),
+            lastname=data_admission.get("lastname"),
+            birthdate=data_admission.get("birthdate"),
+            allergies=data_admission.get("allergies")
+        )
+        db.session.add(new_admission)
 
-    db.session.add(new_admission)
+    new_income = Income(
+        id_patient=data_income.get("dni"),
+        visitreason=data_income.get("visitreason"),
+        triage_priority=data_income.get("priority"),
+        state="En espera de triaje")
+    db.session.add(new_income)
     db.session.commit()
+
     return jsonify({'msg': 'La admision ha sido registrada correctamente'}), 200
 
-
+# region: /incomes - GET
 @api.route('/incomes', methods=['GET'])
 def get_incomes():
     incomes = Income.query.all()
     response = [income.serialize() for income in incomes]
     return jsonify(response), 200
 
-
-
-
+# region: /incomes -POST
 @api.route('/incomes', methods=['POST'])
 def post_incomes():
     data = request.get_json()
