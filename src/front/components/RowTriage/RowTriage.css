@@ -1,0 +1,4 @@
+tr.color-primary td,
+tr.color-primary th {
+  background-color: inherit !important;
+}

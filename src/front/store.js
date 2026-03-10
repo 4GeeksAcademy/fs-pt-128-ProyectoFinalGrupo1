@@ -46,9 +46,10 @@ export default function storeReducer(store, action = {}) {
         message: action.payload,
       };
     case "get_incomes":
+      const data = Array.isArray(action.payload) ? action.payload : [];
       return {
         ...store,
-        incomes: action.payload,
+        incomes: data.filter((i) => i.state !== "Alta"),
       };
 
     case "update_incomes_order":

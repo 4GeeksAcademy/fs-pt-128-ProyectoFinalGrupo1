@@ -7,6 +7,8 @@ from datetime import date
 db = SQLAlchemy()
 
 # region:User
+
+
 class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     firstname: Mapped[str] = mapped_column(
@@ -40,9 +42,11 @@ class User(db.Model):
         }
 
 # region:Income
+
+
 class Income(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    index: Mapped[int] = mapped_column(Integer, default=0, nullable=True)
+    position: Mapped[int] = mapped_column(Integer, default=0, nullable=True)
     id_patient: Mapped[str] = mapped_column(
         ForeignKey("patient.dni"), nullable=True)
     patient: Mapped["Patient"] = relationship(back_populates="income")
@@ -64,30 +68,33 @@ class Income(db.Model):
 
     def serialize(self):
         return {
-            "reason_consultation": self.reason_consultation,
+            "visitreason": self.visitreason,
+            "valoration_tiage": self.valoration_triage,
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
-            "state": self.state,
             "doctor": self.doctor.firstname if self.doctor else None,
             "nurse": self.nurse.firstname if self.nurse else None
         }
 
     def serialize_patient_data(self):
         return {
+            "id": self.id,
             "patient_dni": self.patient.dni,
             "patient_firstname": self.patient.firstname,
             "patient_lastname": self.patient.lastname,
-            "patient_birthdate": self.patient.birthdate.isoformat(),
+            "patient_birthdate": self.patient.birthdate,
             "patient_allergies": self.patient.allergies,
-            "visitreason":self.visitreason,
+            "visitreason": self.visitreason,
             "valoration_tiage": self.valoration_triage,
-            "reason_consultation": self.reason_consultation,
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
-            "state": self.state
+            "state": self.state,
+            "position": self.position
         }
 
 # region:Patient
+
+
 class Patient(db.Model):
     # ID del paciente para evitar que se repita
     dni: Mapped[str] = mapped_column(primary_key=True)

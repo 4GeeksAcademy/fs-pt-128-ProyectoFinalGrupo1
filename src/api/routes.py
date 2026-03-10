@@ -16,6 +16,8 @@ api = Blueprint('api', __name__)
 CORS(api)
 
 # region: /hello
+
+
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
 
@@ -26,6 +28,8 @@ def handle_hello():
     return jsonify(response_body), 200
 
 # region: /users - GET
+
+
 @api.route('/users', methods=['GET'])
 def get_user():
     users = User.query.all()
@@ -33,6 +37,8 @@ def get_user():
     return jsonify(response), 200
 
 # region: /patients - GET
+
+
 @api.route('/patients', methods=['GET'])
 def get_patients():
     patients = Patient.query.all()
@@ -40,6 +46,8 @@ def get_patients():
     return jsonify(response), 200
 
 # region: /patient/id - GET
+
+
 @api.route('/patient/<id>', methods=['GET'])
 def get_patient(id):
     patient = Patient.query.get(id)
@@ -49,6 +57,8 @@ def get_patient(id):
     return jsonify(response), 200
 
 # region: /register/user - POST
+
+
 @api.route('/register/user', methods=['POST'])
 def register_user():
     data = request.get_json()
@@ -138,6 +148,8 @@ def register_user():
                     'msg': 'Email send successfully'}), 201
 
 # region: /activate - PATCH
+
+
 @api.route('/activate', methods=['PATCH'])
 @jwt_required()
 def activate():
@@ -159,6 +171,8 @@ def activate():
     return jsonify({'msg': 'ok'}), 201
 
 # region: /register - POST
+
+
 @api.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -182,6 +196,8 @@ def register():
     return jsonify({"user": new_user.serialize()})
 
 # region: /delete/user_id - DELETE
+
+
 @api.route('/delete/<int:user_id>', methods=['DELETE'])
 def delete(user_id):
     user = User.query.get(user_id)
@@ -193,6 +209,8 @@ def delete(user_id):
     return jsonify({'msg': 'User deleted successfully'}), 200
 
 # region: /login - POST
+
+
 @api.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -215,6 +233,8 @@ def login():
         return jsonify({'Error': 'Datos incorrectos'}), 400
 
 # region: /admission - POST
+
+
 @api.route('/admission', methods=['POST'])
 def admission():
     adm_required = ["dni", "firstname", "lastname", "birthdate"]
@@ -225,11 +245,13 @@ def admission():
 
     if not data:
         return jsonify({"error": "No se enviaron datos"}), 400
-    missing = [req for req in adm_required if not data_admission.get(req) + req for req in income_required if not data_income.get(req)]
+    missing = [req for req in adm_required if not data_admission.get(
+        req) + req for req in income_required if not data_income.get(req)]
     if missing:
         return jsonify({'Error': f'Todos los campos son obligatorios, faltan {", ".join(missing)}'}), 400
-    user = db.session.execute(select(Patient).where(Patient.dni == data["admission"]["dni"])).scalar_one_or_none()
-    if not user:   
+    user = db.session.execute(select(Patient).where(
+        Patient.dni == data["admission"]["dni"])).scalar_one_or_none()
+    if not user:
         new_admission = Patient(
             dni=data_admission.get("dni"),
             firstname=data_admission.get("firstname"),
@@ -238,25 +260,32 @@ def admission():
             allergies=data_admission.get("allergies")
         )
         db.session.add(new_admission)
-
+    last = db.session.query(db.func.max(Income.position)).scalar()
+    new_position = (last or 0) + 1
+    patient_to_link = user if user else new_admission
     new_income = Income(
-        id_patient=data_income.get("dni"),
+        patient=patient_to_link,
         visitreason=data_income.get("visitreason"),
         triage_priority=data_income.get("priority"),
-        state="En espera de triaje")
+        state="En espera de triaje",
+        position=new_position)
     db.session.add(new_income)
     db.session.commit()
 
     return jsonify({'msg': 'La admision ha sido registrada correctamente'}), 200
 
 # region: /incomes - GET
+
+
 @api.route('/incomes', methods=['GET'])
 def get_incomes():
-    incomes = Income.query.all()
-    response = [income.serialize() for income in incomes]
+    incomes = Income.query.order_by(Income.position.asc()).all()
+    response = [income.serialize_patient_data() for income in incomes]
     return jsonify(response), 200
 
 # region: /incomes - POST
+
+
 @api.route('/incomes', methods=['POST'])
 def post_incomes():
     data = request.get_json()
@@ -281,6 +310,8 @@ def post_incomes():
     ]
 
 # region: /incomes-triage/income_id - PUT
+
+
 @api.route('/incomes-triage/<int:income_id>', methods=['PUT'])
 def put_incomes_triage(income_id):
     data = request.get_json()
@@ -311,6 +342,8 @@ def put_incomes_triage(income_id):
                     "Ingreso": f"{actual_income.serialize()}"})
 
 # region: /incomes-consult - PUT
+
+
 @api.route('/incomes-consult/<int:income_id>', methods=['PUT'])
 def put_incomes_consult(income_id):
     data = request.get_json()
@@ -333,20 +366,22 @@ def put_incomes_consult(income_id):
     return jsonify({'msg': 'Consult succesfully'}), 200
 
 # region: /reorder_incomes - PATCH
-@api.route('/reorder-incomes' , methods = ['PATCH'])
-def reorder_income(): 
+
+
+@api.route('/reorder-incomes', methods=['PATCH'])
+def reorder_income():
     data = request.get_json()
 
     ordered_ids = data.get("ordered_ids")
 
-    if not ordered_ids: 
-        return jsonify({'error' : 'Do not send new order'}), 409
-    
-    for index , id in enumerate(ordered_ids): 
-        income = Income.query.get(id)
+    if not ordered_ids:
+        return jsonify({'error': 'Do not send new order'}), 409
+
+    for index, id in enumerate(ordered_ids):
+        income = db.session.get(Income, id)
 
         if income:
-            income.index = index
-    
+            income.position = index
+
     db.session.commit()
-    return jsonify({'msg': 'Order updated successfully'}),201
+    return jsonify({'msg': 'Order updated successfully'}), 201
