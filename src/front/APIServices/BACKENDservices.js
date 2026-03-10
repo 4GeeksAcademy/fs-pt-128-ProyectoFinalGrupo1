@@ -1,3 +1,5 @@
+import { useAsyncValue } from "react-router-dom";
+
 // region:login
 export const login = async (user, navigate) => {
   const response = await fetch(
@@ -48,12 +50,28 @@ export const getUser = async (dispatch) => {
 
   if (response.ok) {
     dispatch({ type: "get_users", payload: data });
+    return;
   } else {
     dispatch({ type: "get_users", payload: [] });
     return data;
   }
 };
 
+// region:getIncomes
+export const getIncomes = async (dispatch) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/incomes`,
+  );
+  const data = await response.json();
+
+  if (response.ok) {
+    dispatch({ type: "get_incomes", payload: data });
+    return;
+  } else {
+    dispatch({ type: "get_incomes", payload: [] });
+    return data;
+  }
+};
 // region:getPatients
 export const getPatients = async (dispatch) => {
   const response = await fetch(
@@ -78,7 +96,7 @@ export const getPatient = async (dispatch, id) => {
 
   if (response.ok) {
     dispatch({ type: "get_patient", payload: data });
-    return data
+    return data;
   } else {
     dispatch({ type: "get_patient", payload: null });
     return data;
@@ -119,10 +137,9 @@ export const createAdmission = async (admission, navigate) => {
   if (!response.ok) {
     return { Error: "La admisión no ha podido crearse correctamente" };
   }
-  navigate("/admission")
-  return {ok: true};
-
-}
+  navigate("/admission");
+  return { ok: true };
+};
 
 // region:deleteUser
 export const deleteUser = async (user_id) => {
@@ -157,12 +174,13 @@ export const signup = async (user) => {
   }
   return { ok: true };
 };
+
 export const loadNewOrder = async (orderIds) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/reorder-incomes`,
     {
       method: "PATCH",
-      body: JSON.stringify(orderIds),
+      body: JSON.stringify({ ordered_ids: orderIds }),
       headers: {
         "Content-Type": "application/json",
       },
