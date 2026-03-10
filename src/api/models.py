@@ -1,8 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, ForeignKey, Text, Date, Integer
+from sqlalchemy import String, Boolean, ForeignKey, Text, DateTime, Integer, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from flask_bcrypt import generate_password_hash, check_password_hash
-from datetime import date
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -65,6 +65,8 @@ class Income(db.Model):
     diagnosis: Mapped[str] = mapped_column(Text, nullable=True, unique=False)
     state: Mapped[str] = mapped_column(
         String(120), nullable=False, unique=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now())
 
     def serialize(self):
         return {
@@ -72,6 +74,9 @@ class Income(db.Model):
             "valoration_tiage": self.valoration_triage,
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
+            "state": self.state,
+            "position": self.position,
+            "created_at": self.created_at,
             "doctor": self.doctor.firstname if self.doctor else None,
             "nurse": self.nurse.firstname if self.nurse else None
         }
@@ -89,7 +94,8 @@ class Income(db.Model):
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
             "state": self.state,
-            "position": self.position
+            "position": self.position,
+            "created_at": self.created_at
         }
 
 # region:Patient
