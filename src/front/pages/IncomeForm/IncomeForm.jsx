@@ -8,12 +8,13 @@ import "./IncomeForm.css";
 export const IncomeForm = () => {
 
     const { store, dispatch } = useGlobalReducer()
-    const { id } = useParams()
+    const { dni, id } = useParams()
+    const prioBtn = document.querySelectorAll(".selected_button")
     
     const [incomeForm, setIncomeForm] = useState({
-        id_patient: id,
+        id_patient: dni,
         patient_name: "",
-        id_doctor: "",
+        patient_lastname: "",
         id_nurse: "",
         valoration_triage: "",
         triage_priority: "",
@@ -33,20 +34,10 @@ export const IncomeForm = () => {
         })
     }
 
-    // const handlePrio = (e) => {
-    //     e.preventDefault()
-    //     const currentPrio = e.target.name
-    //     prioBtn.forEach(btn => { btn.classList.remove("selected_button") })
-    //     e.target.classList.add("selected_button")
-    //     setAdmission({
-    //         ...incomeForm,
-    //         priority: Number(currentPrio.slice(4))
-    //     });
-
-    // }
-
     const handlePrio = (e) =>{
         e.preventDefault()
+        prioBtn.forEach(btn => { btn.classList.remove("selected_button") })
+        e.target.classList.add("selected_button")
         setIncomeForm({
             ...incomeForm,
             priority : Number(e.target.name)
@@ -55,14 +46,15 @@ export const IncomeForm = () => {
 
 
     console.log(incomeForm)
+    console.log(store.patient.income.visitreason);
     
 
 
 
 
     useEffect(() => {
-        // getUser(dispatch)
-        // getPatient(dispatch, id)
+        getUser(dispatch)
+        getPatient(dispatch, id)
     }, [])
 
     useEffect(() => {
@@ -70,7 +62,8 @@ export const IncomeForm = () => {
             setIncomeForm({
                 ...incomeForm,
                 patient_name: store.patient.firstname,
-                reason_consultation: store.patient.reason
+                patient_lastname: store.patient.lastname,
+                reason_consultation: store.patient.visitreason
             })
         }
     }, [store.patient])
@@ -84,23 +77,14 @@ export const IncomeForm = () => {
                             <label htmlFor="patient" className="form-label">Paciente</label>
                             <input
                                 type="text"
-                                placeholder={incomeForm.patient_name}
+                                placeholder={`${incomeForm.patient_name} ${incomeForm.patient_lastname}`}
                                 className="form-control rounded-pill"
                                 id="patient"
-                                disabled
+                                
                             />
                         </div>
 
-                        <div className="flex-fill">
-                            <label htmlFor="doctor" className="form-label">Doctor</label>
-                            <input
-                                type="text"
-                                placeholder={incomeForm.id_doctor}
-                                className="form-control rounded-pill"
-                                id="doctor"
-                                disabled
-                            />
-                        </div>
+                        
 
                         <div className="flex-fill">
                             <label htmlFor="nurse" className="form-label">Enfermero</label>
@@ -114,6 +98,19 @@ export const IncomeForm = () => {
                         </div>
                     </div>
 
+                    <div className="mb-4 mt-4">
+                        <label htmlFor="Consult" className="form-label">
+                            Motivo de consulta
+                        </label>
+                        <textarea
+                            className="form-control rounded-4 p-3"
+                            value={IncomeForm.valoration_triage}
+                            name="consult"
+                            id="Consult"
+                            rows="4"
+                        >{IncomeForm.reason_consultation}</textarea>
+                    </div>
+
 
                     <div className="mb-4">
                         <label htmlFor="valorationTriage" className="form-label">
@@ -125,10 +122,10 @@ export const IncomeForm = () => {
                             name="valoration_triage"
                             onChange={handleChange}
                             id="valorationTriage"
-                            rows="4"
+                            rows="5"
                         ></textarea>
                     </div>
-                    <div className="piorityContainer text-dark">
+                    <div className="piorityContainer text-dark mb-3">
                         <div>
                             <button onClick={handlePrio} className="rounded-start-pill text-dark prio-5" name="5">Baja</button>
                         </div>
