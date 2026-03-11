@@ -6,7 +6,7 @@ import { getIncomes } from "../../APIServices/BACKENDservices"
 
 export const DashboardConsulta = () => {
     const { store, dispatch } = useGlobalReducer()
-
+    console.log(store.incomes)
     useEffect(() => {
         getIncomes(dispatch)
     }, [])
@@ -22,7 +22,6 @@ export const DashboardConsulta = () => {
                         <th scope="col">Valoración del triaje</th>
                         <th scope="col" className="w-auto text-nowrap">Consulta</th>
                         <th scope="col" className="w-auto text-nowrap">Tiempo en espera</th>
-                        <th scope="col" className="w-auto text-nowrap"></th>
                     </tr>
                 </thead>
 
@@ -33,6 +32,7 @@ export const DashboardConsulta = () => {
                             .map((income) =>
                                 <RowConsult key={income.id} income={income} />
                             )
+
                     }
                 </tbody>
 

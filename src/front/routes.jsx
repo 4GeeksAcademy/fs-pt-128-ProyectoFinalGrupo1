@@ -37,6 +37,7 @@ export const router = createBrowserRouter(
       <Route path="/register-user" element={<RegisterUser />} />
       <Route path="/activate" element={<ActivateAccount />} />
       <Route path="/triage" element={<DashboardTriaje />} />
+      <Route path="/triage/:id" element={<IncomeForm />} />
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
       <Route path="/income/:id" element={<IncomeForm />} />

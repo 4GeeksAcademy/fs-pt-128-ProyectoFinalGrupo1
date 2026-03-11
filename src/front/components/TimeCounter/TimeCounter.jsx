@@ -32,11 +32,18 @@ export const TimeCounter = ({ startTime, priority }) => {
     }
 
     return (
-        <span className="d-flex justify-content-around align-items-center">
-            <div className="circle pulse bg-white d-flex justify-content-center align-items-center">
-                <i className={priority && count > getTime(priority) ? 'fa-solid fa-triangle-exclamation text-danger' : null}></i>
+        <span className="d-flex justify-content-center align-items-center">
+            <div className="d-flex justify-content-center w-50">
+                <div className={`${priority && count > getTime(priority) ? 'opacity-100'
+                    : 'opacopacity-0'} circle pulse bg-white d-flex justify-content-center align-items-center me-3`}>
+                    <i className="fa-solid fa-triangle-exclamation text-danger"></i>
+                </div>
+                <div className="d-flex justify-content-center align-items-center w-50">
+                    {formatTime(count)}
+                </div>a
+
             </div>
-            {formatTime(count)}
-        </span>
+
+        </span >
     )
 }
