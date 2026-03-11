@@ -18,7 +18,7 @@ export const login = async (user, navigate) => {
     return data;
   }
   localStorage.setItem("token", data.token);
-  navigate("/");
+  navigate("/admission");
   console.log(data);
   return data;
 };
@@ -72,17 +72,18 @@ export const getIncomes = async (dispatch) => {
     return data;
   }
 };
-export const getIncomesConsult = async (dispatch,id) => {
+
+export const getIncome = async (dispatch, id) => {
   const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}/api/incomes/${id}`,
+    `${import.meta.env.VITE_BACKEND_URL}/api/income/${id}`,
   );
   const data = await response.json();
 
   if (response.ok) {
-    dispatch({ type: "get_incomes_consult", payload: data });
+    dispatch({ type: "get_income", payload: data });
     return;
   } else {
-    dispatch({ type: "get_incomes_consult", payload: [] });
+    dispatch({ type: "get_income", payload: [] });
     return data;
   }
 };

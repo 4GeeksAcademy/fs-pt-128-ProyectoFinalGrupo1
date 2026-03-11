@@ -17,6 +17,7 @@ export const initialStore = () => {
     patients: [],
     patient: {},
     incomes: [],
+    income: {}
   };
 };
 
@@ -51,6 +52,12 @@ export default function storeReducer(store, action = {}) {
         ...store,
         incomes: data.filter((i) => i.state !== "Alta"),
       };
+
+    case "get_income":
+      return {
+        ...store,
+        income : action.payload
+      }
 
     case "update_incomes_order":
       return {

@@ -283,6 +283,14 @@ def get_incomes():
     response = [income.serialize_patient_data() for income in incomes]
     return jsonify(response), 200
 
+@api.route('/income/<int:id>')
+def get_income(id):
+    income = Income.query.get(id)
+    if not income:
+        return jsonify({"error": "Income not found"}), 404
+    response = income.serialize_patient_data()
+    return jsonify(response), 200
+
 # region: /incomes - POST
 
 
