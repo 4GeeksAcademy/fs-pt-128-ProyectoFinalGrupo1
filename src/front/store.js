@@ -17,7 +17,7 @@ export const initialStore = () => {
     patients: [],
     patient: {},
     incomes: [],
-    income: {}
+    income: {},
   };
 };
 
@@ -56,13 +56,18 @@ export default function storeReducer(store, action = {}) {
     case "get_income":
       return {
         ...store,
-        income : action.payload
-      }
+        income: action.payload,
+      };
 
     case "update_incomes_order":
       return {
         ...store,
         incomes: action.payload,
+      };
+    case "clear_income":
+      return {
+        ...store,
+        income: {},
       };
     case "add_task":
       const { id, color } = action.payload;
