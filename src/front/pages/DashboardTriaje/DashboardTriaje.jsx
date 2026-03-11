@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import useGlobalReducer from "../../hooks/useGlobalReducer"
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
@@ -34,16 +34,15 @@ export const DashboardTriaje = () => {
     useEffect(() => {
         getIncomes(dispatch)
     }, [])
-    console.log(store.incomes)
 
     return (
-        <div className="container mt-5 .container-table" style={{ maxHeight: "80vh", overflowX: "hidden", overflowY: "auto", maxWidht: '100%' }} >
+        <div className="container-fluid mt-5 container-table" style={{ maxHeight: "80vh", overflowX: "hidden", overflowY: "auto", maxWidht: '100%' }} >
             <h1 className="text-center text-uppercase fs-2 mb-3">Dashboard Triaje</h1>
             <DndContext
                 collisionDetection={closestCenter}
                 modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
                 onDragEnd={handleDnD}>
-                <table className="table table-md align-middle text-center" >
+                <table className="table table-md align-middle text-center fs-5" >
                     <thead style={{ position: "sticky", top: "0", zIndex: "2" }}>
                         <tr >
                             <th scope="col" className="w-auto text-nowrap">Paciente</th>

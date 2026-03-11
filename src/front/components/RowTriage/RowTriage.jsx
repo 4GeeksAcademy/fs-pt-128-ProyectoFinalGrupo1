@@ -23,19 +23,15 @@ export const SortableRow = ({ id, income }) => {
         <tr className="color-primary" ref={setNodeRef}
             style={{ ...style, backgroundColor: getPriorityColor(income.triage_priority) }}
             {...attributes}>
-            <td className="w-auto text-nowrap"
-                style={{ backgroundColor: getPriorityColor(income.triage_priority) }}>
+            <td className="w-auto text-nowrap bg-transparent">
                 {income.patient_firstname} {income.patient_lastname}
             </td>
-            <td className="w-auto text-nowrap"
-                style={{ backgroundColor: getPriorityColor(income.triage_priority) }}>
+            <td className="w-auto text-nowrap bg-transparent">
                 {income.patient_allergies}
             </td>
-            <td className="text-break"
-                style={{ backgroundColor: getPriorityColor(income.triage_priority) }}>
+            <td className="text-break bg-transparent">
                 {income.visitreason}</td>
-            <td className="w-auto text-nowrap"
-                style={{ backgroundColor: getPriorityColor(income.triage_priority) }}>
+            <td className="w-auto text-nowrap bg-transparent">
                 <Link to={`/income/${income.patient_dni}`}>
                     <button className="btn btn-outline-dark">
                         Pasar triaje
@@ -43,14 +39,12 @@ export const SortableRow = ({ id, income }) => {
                 </Link>
 
             </td>
-            <td className="w-auto text-nowrap"
-                style={{ backgroundColor: getPriorityColor(income.triage_priority) }}>
+            <td className="w-auto text-nowrap bg-transparent">
                 <TimeCounter startTime={income.created_at} priority={income.triage_priority} />
             </td>
-            <td className="w-auto text-nowrap"
-                {...listeners}
-                style={{ cursor: "grab", backgroundColor: getPriorityColor(income.triage_priority) }}>
-                ⠿
+            <td className="w-auto text-nowrap bg-transparent "
+                {...listeners}>
+                <i class="fa-solid fa-grip-vertical fs-5"></i>
             </td>
         </tr>
     )
