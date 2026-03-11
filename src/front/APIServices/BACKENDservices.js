@@ -72,6 +72,20 @@ export const getIncomes = async (dispatch) => {
     return data;
   }
 };
+export const getIncomesConsult = async (dispatch,id) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/incomes/${id}`,
+  );
+  const data = await response.json();
+
+  if (response.ok) {
+    dispatch({ type: "get_incomes_consult", payload: data });
+    return;
+  } else {
+    dispatch({ type: "get_incomes_consult", payload: [] });
+    return data;
+  }
+};
 // region:getPatients
 export const getPatients = async (dispatch) => {
   const response = await fetch(
