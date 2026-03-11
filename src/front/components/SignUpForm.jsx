@@ -44,7 +44,7 @@ export const SignUpForm = () => {
             "password": "",
             "confirmPassword": ""
         })
-        navigate("/login")
+        navigate("/")
 
     }
 

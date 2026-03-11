@@ -45,7 +45,7 @@ export const ActivateAccount = () => {
             setError(response.error)
             return
         }
-        navigate("/login")
+        navigate("/")
 
     }
 
