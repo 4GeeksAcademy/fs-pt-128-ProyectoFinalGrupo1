@@ -1,13 +1,14 @@
 import { useEffect } from "react"
 import { RowConsult } from "../../components/RowConsult/RowConsult"
 import useGlobalReducer from "../../hooks/useGlobalReducer"
-import { getIncomesConsult } from "../../APIServices/BACKENDservices"
+import { getIncomes } from "../../APIServices/BACKENDservices"
+
 
 export const DashboardConsulta = () => {
     const { store, dispatch } = useGlobalReducer()
 
     useEffect(() => {
-        getIncomesConsult(dispatch)
+        getIncomes(dispatch)
     }, [])
 
     return (
@@ -28,7 +29,7 @@ export const DashboardConsulta = () => {
                 <tbody className="list">
                     {
                         store.incomes
-                            .filter(income => income.state === 'Esperando consulta')
+                            // .filter(income => income.state === 'Esperando consulta')
                             .map((income) =>
                                 <RowConsult key={income.id} income={income} />
                             )

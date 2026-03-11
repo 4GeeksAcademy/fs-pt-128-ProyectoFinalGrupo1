@@ -10,11 +10,11 @@ export const SortableRow = ({ id, income }) => {
     };
     const getPriorityColor = (priority) => {
         switch (priority) {
-            case 1: return "rgb(243, 142, 152)"; // Rojo (Pastel fuerte)
-            case 2: return "rgb(250, 195, 140)"; // Naranja (Tono melocotón)
-            case 3: return "rgb(253, 232, 157)"; // Amarillo (Crema cálido)
-            case 4: return "rgb(181, 235, 181)"; // Verde (Menta suave)
-            case 5: return "rgb(167, 226, 255)"; // Azul (Cielo claro)
+            case 1: return "rgb(243, 142, 152)"; 
+            case 2: return "rgb(250, 195, 140)"; 
+            case 3: return "rgb(253, 232, 157)"; 
+            case 4: return "rgb(181, 235, 181)"; 
+            case 5: return "rgb(167, 226, 255)"; 
             default: return "rgba(255, 255, 255, 1)";
         }
     }
