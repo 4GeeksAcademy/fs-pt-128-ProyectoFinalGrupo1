@@ -90,7 +90,7 @@ class Income(db.Model):
             "patient_birthdate": self.patient.birthdate,
             "patient_allergies": self.patient.allergies,
             "visitreason": self.visitreason,
-            "valoration_tiage": self.valoration_triage,
+            "valoration_triage": self.valoration_triage,
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
             "state": self.state,

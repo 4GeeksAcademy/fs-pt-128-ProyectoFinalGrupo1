@@ -1,6 +1,26 @@
+import { useEffect } from "react"
+import { Link, useParams } from "react-router-dom"
+import { getIncome } from "../../APIServices/BACKENDservices"
+import useGlobalReducer from "../../hooks/useGlobalReducer"
+
+
 export const Consultation = () => {
+    const { store, dispatch } = useGlobalReducer()
+
+    const { id } = useParams()
+
+    useEffect(() => {
+        getIncome(dispatch, id)
+    }, [])
+
     return (
-        <div> 
+        <div>
+            <div>
+                <Link to={'/consultation'}>
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Volver atrás
+                </Link>
+            </div>
             <h1 className="fs-2 text-center mt-3">Consulta</h1>
             <div className="container mt-4">
                 <form>
@@ -13,11 +33,13 @@ export const Consultation = () => {
                         <div className="col-12 col-md-2 mb-3">
                             <label htmlFor="dni"
                                 className="form-label">
-                                Dni
+                                DNI
                             </label>
                             <input type="text"
-                                className="form-control rounded-pill"
-                                id="dni" />
+                                value={store.income.patient_dni}
+                                className="form-control rounded-pill bg-light"
+                                id="dni"
+                                disabled />
                         </div>
                         <div className="col-12 col-md-4 mb-3" >
                             <label htmlFor="nombre"
@@ -25,8 +47,10 @@ export const Consultation = () => {
                                 Nombre
                             </label>
                             <input type="text"
-                                className="form-control rounded-pill"
-                                id="nombre" />
+                                value={store.income.patient_firstname}
+                                className="form-control rounded-pill bg-light"
+                                id="nombre"
+                                disabled />
                         </div>
                         <div className="col-12 col-md-4 mb-3" >
                             <label htmlFor="apellidos"
@@ -34,8 +58,10 @@ export const Consultation = () => {
                                 Apellidos
                             </label>
                             <input type="text"
-                                className="form-control rounded-pill"
-                                id="apellidos" />
+                                value={store.income.patient_lastname}
+                                className="form-control rounded-pill bg-light"
+                                id="apellidos"
+                                disabled />
                         </div>
                         <div className="col-12 col-md-2 mb-3" >
                             <label htmlFor="edad"
@@ -62,7 +88,7 @@ export const Consultation = () => {
                         </legend>
                     </fieldset>
                     <div className="bg-light rounded-pill">
-                        <p className="m-0 p-2 ">Motivo de la consulta</p>
+                        <p className="m-0 p-2 ">{store.income.visitreason}</p>
                     </div>
                     <fieldset className="mb-2 mt-2">
                         <legend>
@@ -70,7 +96,7 @@ export const Consultation = () => {
                         </legend>
                     </fieldset>
                     <div className="bg-light rounded-pill">
-                        <p className="m-0 p-2 ">Valoracion de triaje</p>
+                        <p className="m-0 p-2 ">{store.income.valoration_triage}</p>
                     </div>
                     <fieldset className="mb-2 mt-2">
                         <legend>
