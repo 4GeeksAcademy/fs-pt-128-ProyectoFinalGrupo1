@@ -57,7 +57,7 @@ export const DashboardTriaje = () => {
                         <tbody className="list">
                             {
                                 store.incomes
-                                    .filter(income => income.state !== 'Esperando Consulta')
+                                    .filter(income => income.state === 'En espera de triaje')
                                     .map((income) =>
 
                                         < SortableRow key={income.id} id={income.id} income={income} />
