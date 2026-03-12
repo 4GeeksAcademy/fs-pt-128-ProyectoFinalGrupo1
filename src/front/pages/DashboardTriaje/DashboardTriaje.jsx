@@ -6,6 +6,7 @@ import { SortableRow } from "../../components/RowTriage/RowTriage"
 import { getIncomes, loadNewOrder } from "../../APIServices/BACKENDservices"
 import { restrictToVerticalAxis, restrictToWindowEdges } from '@dnd-kit/modifiers';
 import '../RegisterUser/RegisterUser.css'
+import './DashboardTriaje.css'
 
 export const DashboardTriaje = () => {
 
@@ -42,15 +43,15 @@ export const DashboardTriaje = () => {
                 collisionDetection={closestCenter}
                 modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
                 onDragEnd={handleDnD}>
-                <table className="table table-md align-middle text-center fs-6" >
+                <table className="table table-md align-middle text-center font-size" >
                     <thead style={{ position: "sticky", top: "0", zIndex: "2" }}>
-                        <tr >
-                            <th scope="col" className="w-auto text-nowrap">Paciente</th>
-                            <th scope="col" className="w-auto text-nowrap">Alergias</th>
-                            <th scope="col">Motivo de la visita</th>
-                            <th scope="col" className="w-auto text-nowrap">Triaje</th>
-                            <th scope="col" className="w-auto text-nowrap">Tiempo en espera</th>
-                            <th scope="col" className="w-auto text-nowrap"></th>
+                        <tr>
+                            <th scope="col" className="text-nowrap" style={{ width: "17%" }}>Paciente</th>
+                            <th scope="col" colSpan={1} className="text-nowrap" style={{ width: "8%" }}>Alergias</th>
+                            <th scope="col" style={{ width: "49%" }}>Motivo de la visita</th>
+                            <th scope="col" className="w-auto text-nowrap" style={{ width: "8%" }}>Triaje</th>
+                            <th scope="col" className="w-auto text-nowrap" style={{ width: "10%" }}>Tiempo en espera</th>
+                            <th scope="col" className="w-auto text-nowrap" style={{ width: "8%" }}></th>
                         </tr>
                     </thead>
                     <SortableContext items={store.incomes.map(income => income.id)} strategy={verticalListSortingStrategy}>
@@ -67,7 +68,7 @@ export const DashboardTriaje = () => {
                     </SortableContext>
                 </table>
             </DndContext>
-        </div>
+        </div >
 
     )
 }
