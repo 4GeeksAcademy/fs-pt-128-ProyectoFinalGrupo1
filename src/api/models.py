@@ -98,6 +98,8 @@ class Income(db.Model):
             "state": self.state,
             "position": self.position,
             "created_at": self.created_at,
+            "doctor": self.doctor.firstname if self.doctor else None,
+            "nurse": self.nurse.firstname if self.nurse else None
             "orders": [order.serialize() for order in self.orders]
         }
 

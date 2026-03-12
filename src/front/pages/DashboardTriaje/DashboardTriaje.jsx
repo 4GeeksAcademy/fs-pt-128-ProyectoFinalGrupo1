@@ -42,7 +42,7 @@ export const DashboardTriaje = () => {
                 collisionDetection={closestCenter}
                 modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
                 onDragEnd={handleDnD}>
-                <table className="table table-md align-middle text-center fs-5" >
+                <table className="table table-md align-middle text-center fs-6" >
                     <thead style={{ position: "sticky", top: "0", zIndex: "2" }}>
                         <tr >
                             <th scope="col" className="w-auto text-nowrap">Paciente</th>

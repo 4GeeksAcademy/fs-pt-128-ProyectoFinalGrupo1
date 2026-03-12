@@ -207,3 +207,21 @@ export const loadNewOrder = async (orderIds) => {
   }
   return { ok: true };
 };
+
+export const addDiagnosis = async (consult) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/add-diagnosis`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(consult),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    return data;
+  }
+  return { ok: true };
+};

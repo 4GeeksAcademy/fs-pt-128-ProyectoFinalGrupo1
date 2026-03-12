@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
-import { getIncome } from "../../APIServices/BACKENDservices"
+import { addDiagnosis, getIncome } from "../../APIServices/BACKENDservices"
 import useGlobalReducer from "../../hooks/useGlobalReducer"
-
+import { calculateAge } from "../../utils/calculateAge"
+import { Spinner } from "../../components/Spinner/Spinner"
 
 export const Consultation = () => {
     const { store, dispatch } = useGlobalReducer()
@@ -11,38 +12,15 @@ export const Consultation = () => {
         "diagnosis": ""
     })
     const [isLoading, setIsLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
 
-    const calculateAge = () => {
-        const birthdate = store.income?.patient_birthdate;
-        if (!birthdate) return "Cargando...";
-
-        const [birthYear, birthMonth, birthDay] = birthdate.split("-").map(Number);
-        const today = new Date();
-
-        const actualYear = today.getFullYear();
-        const actualMonth = today.getMonth() + 1;
-        const actualDay = today.getDate();
-
-        let age = actualYear - birthYear;
-        if (actualMonth < birthMonth || (actualMonth === birthMonth && actualDay < birthDay)) {
-            age--;
-        }
-        if (age === 0) {
-            let months = actualMonth - birthMonth;
-            if (actualDay < birthDay) months--;
-
-            if (months < 0) months += 12;
-
-            return `${months} meses`;
-        }
-        return `${age} años`;
-    };
-    const mountData = async () => {
+    const loadData = async () => {
         setIsLoading(true)
         const response = await getIncome(dispatch, id)
 
         if (response) {
-            return response
+            return
         }
         setIsLoading(false)
     }
@@ -52,30 +30,50 @@ export const Consultation = () => {
 
         setConsultation({
             ...consultation,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.defaultValue
         })
     }
 
+    const handlerSubmit = async (e) => {
+        e.preventDefault()
+        if (!consultation.diagnosis) {
+            setError("Es necesaria el diagnostico y su tratamiento")
+            setLoading(false)
+            return
+        }
+        setLoading(true)
+        const response = await addDiagnosis(consultation)
+        if (response.error) {
+            setError(response.error)
+            return
+        }
+        setError("")
+        setLoading(false)
+        return
+    }
+
     useEffect(() => {
-        mountData()
+        loadData()
     }, [])
 
     return (
         <div>
             {isLoading ?
-                (<div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                (<div className="d-flex justify-content-center align-items-center flex-column" style={{ minHeight: "100vh" }}>
+                    <h2>Cagando datos del paciente...</h2>
+                    <Spinner />
+
                 </div>)
                 : (<div>
                     <div>
                         <Link to={'/consultation'}>
-                            <i class="fa-solid fa-arrow-left"></i>
+                            <i className="fa-solid fa-arrow-left"></i>
                             Volver atrás
                         </Link>
                     </div>
                     <h1 className="fs-2 text-center mt-3">Consulta</h1>
                     <div className="container mt-4">
-                        <form>
+                        <form onSubmit={handlerSubmit}>
                             <fieldset className="mb-2 mt-2">
                                 <legend> Datos del paciente</legend>
                             </fieldset>
@@ -83,7 +81,7 @@ export const Consultation = () => {
                                 <div className="col-12 col-md-2 mb-3">
                                     <label htmlFor="dni" className="form-label">DNI</label>
                                     <input type="text"
-                                        value={store.income.patient_dni}
+                                        defaultValue={store.income.patient_dni}
                                         className="form-control rounded-pill bg-light"
                                         id="dni"
                                         disabled />
@@ -91,7 +89,7 @@ export const Consultation = () => {
                                 <div className="col-12 col-md-4 mb-3" >
                                     <label htmlFor="nombre" className="form-label"> Nombre</label>
                                     <input type="text"
-                                        value={store.income.patient_firstname}
+                                        defaultValue={store.income.patient_firstname}
                                         className="form-control rounded-pill bg-light"
                                         id="nombre"
                                         disabled />
@@ -99,18 +97,18 @@ export const Consultation = () => {
                                 <div className="col-12 col-md-4 mb-3" >
                                     <label htmlFor="apellidos" className="form-label">Apellidos</label>
                                     <input type="text"
-                                        value={store.income.patient_lastname}
+                                        defaultValue={store.income.patient_lastname}
                                         className="form-control rounded-pill bg-light"
                                         id="apellidos"
                                         disabled />
                                 </div>
                                 <div className="col-12 col-md-2 mb-3" >
                                     <label htmlFor="edad" className="form-label">Edad</label>
-                                    <input type="text" className="form-control rounded-pill bg-light" id="edad" value={store.income.patient_birthdate ? calculateAge() : 'Calculando..'} />
+                                    <input type="text" className="form-control rounded-pill bg-light" id="edad" defaultValue={store.income.patient_birthdate ? calculateAge(store.income?.patient_birthdate) : 'Calculando..'} />
                                 </div>
                                 <div className="col-12 mb-3" >
                                     <label htmlFor="edad" className="form-label">Alergias</label>
-                                    <input type="text" className="form-control rounded-pill" id="edad" />
+                                    <input type="text" className="form-control rounded-pill" id="alergias" defaultValue={store.income?.patient_allergies?.replace("{", "").replace("}", "")} />
                                 </div>
                             </div>
                             <fieldset className="mb-2 mt-2">
@@ -120,26 +118,30 @@ export const Consultation = () => {
                                 <p className="m-0 p-2 ">{store.income.visitreason}</p>
                             </div>
                             <fieldset className="mb-2 mt-2">
-                                <legend>
-                                    Valoracion de triaje realizada por: Enfermero
+                                <legend className="fs-4">
+                                    Valoracion de triaje realizada por: {store.income.nurse}
                                 </legend>
                             </fieldset>
                             <div className="bg-light rounded-pill">
                                 <p className="m-0 p-2 ">{store.income.valoration_triage == null ? 'No paso aun por triaje' : store.income.valoration_triage}</p>
                             </div>
                             <fieldset className="mb-2 mt-2">
-                                <legend>Diagnostico</legend>
+                                <legend className="fs-4">Diagnostico y tratamiento</legend>
                             </fieldset>
                             <div className="mb-4">
-                                <label htmlFor="razonDeConsulta" className="form-label">Diagnostico y tratamiento </label>
                                 <textarea
                                     className="form-control rounded-4 p-3"
                                     name="diagnosis"
-                                    value={consultation.diagnosis}
+                                    defaultValue={consultation.diagnosis}
                                     onChange={handlerChange}
                                     id="razonDeConsulta"
                                     rows="4"
                                 ></textarea>
+                            </div>
+                            <div className="d-flex">
+                                <button type="submit" className="btn btn-primary">
+                                    {loading ? <Spinner /> : "Dar alta"}
+                                </button>
                             </div>
                         </form>
                     </div>
