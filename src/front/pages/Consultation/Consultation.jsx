@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import { addDiagnosis, getIncome } from "../../APIServices/BACKENDservices"
 import useGlobalReducer from "../../hooks/useGlobalReducer"
 import { calculateAge } from "../../utils/calculateAge"
-import { Spinner } from "../../components/Spinner/Spinner"
+import { SpinnerLoad } from "../../components/Spinner/SpinnerLoad"
+import { SpinnerButton } from "../../components/Spinner/SpinnerButton"
 
 export const Consultation = () => {
     const { store, dispatch } = useGlobalReducer()
     const { id } = useParams()
+    const navigate = useNavigate()
     const [consultation, setConsultation] = useState({
         "diagnosis": ""
     })
@@ -20,17 +22,17 @@ export const Consultation = () => {
         const response = await getIncome(dispatch, id)
 
         if (response) {
+            setIsLoading(false)
             return
         }
         setIsLoading(false)
     }
 
     const handlerChange = (e) => {
-        e.preventDefault()
 
         setConsultation({
             ...consultation,
-            [e.target.name]: e.target.defaultValue
+            [e.target.name]: e.target.value
         })
     }
 
@@ -42,13 +44,14 @@ export const Consultation = () => {
             return
         }
         setLoading(true)
-        const response = await addDiagnosis(consultation)
+        const response = await addDiagnosis(consultation, store.income.id)
         if (response.error) {
             setError(response.error)
             return
         }
         setError("")
         setLoading(false)
+        navigate('/consultation')
         return
     }
 
@@ -61,8 +64,7 @@ export const Consultation = () => {
             {isLoading ?
                 (<div className="d-flex justify-content-center align-items-center flex-column" style={{ minHeight: "100vh" }}>
                     <h2>Cagando datos del paciente...</h2>
-                    <Spinner />
-
+                    <SpinnerLoad />
                 </div>)
                 : (<div>
                     <div>
@@ -73,6 +75,9 @@ export const Consultation = () => {
                     </div>
                     <h1 className="fs-2 text-center mt-3">Consulta</h1>
                     <div className="container mt-4">
+                        {error && <div className="alert alert-danger" role="alert">
+                            {error}
+                        </div>}
                         <form onSubmit={handlerSubmit}>
                             <fieldset className="mb-2 mt-2">
                                 <legend> Datos del paciente</legend>
@@ -132,15 +137,22 @@ export const Consultation = () => {
                                 <textarea
                                     className="form-control rounded-4 p-3"
                                     name="diagnosis"
-                                    defaultValue={consultation.diagnosis}
+                                    value={consultation.diagnosis}
                                     onChange={handlerChange}
                                     id="razonDeConsulta"
                                     rows="4"
                                 ></textarea>
                             </div>
                             <div className="d-flex">
-                                <button type="submit" className="btn btn-primary">
-                                    {loading ? <Spinner /> : "Dar alta"}
+                                <button type="submit" className="btn btn-primary" disabled={loading}>
+                                    {loading ? (
+                                        <>
+                                            Guardando cambios...
+                                            <SpinnerButton />
+                                        </>
+
+                                    )
+                                        : "Dar alta"}
                                 </button>
                             </div>
                         </form>

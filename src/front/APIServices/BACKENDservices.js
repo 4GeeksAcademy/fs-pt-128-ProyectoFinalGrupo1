@@ -208,11 +208,13 @@ export const loadNewOrder = async (orderIds) => {
   return { ok: true };
 };
 
-export const addDiagnosis = async (consult) => {
+// region: Diagnosis
+
+export const addDiagnosis = async (consult, income_id) => {
   const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}/api/add-diagnosis`,
+    `${import.meta.env.VITE_BACKEND_URL}/api/incomes-consult/${income_id}`,
     {
-      method: "PATCH",
+      method: "PUT",
       body: JSON.stringify(consult),
       headers: {
         "Content-Type": "application/json",

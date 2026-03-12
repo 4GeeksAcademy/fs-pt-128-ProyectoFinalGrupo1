@@ -1,4 +1,4 @@
-export const Spinner = () => {
+export const SpinnerLoad = () => {
     return (
         <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Loading...</span>

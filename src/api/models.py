@@ -67,8 +67,10 @@ class Income(db.Model):
         String(120), nullable=False, unique=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now())
-    orders: Mapped[list["Order"]] = relationship(back_populates = "income")
-
+    id_order: Mapped[int] = mapped_column(
+        Integer, ForeignKey("order.id"), nullable=True)
+    orders: Mapped["Order"] = relationship(
+        back_populates="income_order", foreign_keys=[id_order])
 
     def serialize(self):
         return {
@@ -99,8 +101,8 @@ class Income(db.Model):
             "position": self.position,
             "created_at": self.created_at,
             "doctor": self.doctor.firstname if self.doctor else None,
-            "nurse": self.nurse.firstname if self.nurse else None
-            "orders": [order.serialize() for order in self.orders]
+            "nurse": self.nurse.firstname if self.nurse else None,
+            "orders": [order.serialize() for order in self.orders] if self.orders else []
         }
 
 # region:Patient
@@ -131,12 +133,16 @@ class Patient(db.Model):
 
 # region: Orders
 class Order(db.Model):
-    id: Mapped[str] = mapped_column(primary_key = True, autoincrement = True)
-    order_type: Mapped[str] = mapped_column(String(60), nullable = False, unique = False)
-    status: Mapped[str] = mapped_column(String(60), nullable = False, unique = False, default = "Solicitado")
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-    results: Mapped[str] = mapped_column(String(600), nullable = False)
-    income: Mapped[Income] = relationship(back_populates = "orders")
+    id: Mapped[int] = mapped_column(primary_key=True)
+    order_type: Mapped[str] = mapped_column(
+        String(60), nullable=False, unique=False)
+    status: Mapped[str] = mapped_column(
+        String(60), nullable=False, unique=False, default="Solicitado")
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now())
+    results: Mapped[str] = mapped_column(String(600), nullable=False)
+    income_order: Mapped[list["Income"]] = relationship(
+        back_populates="orders")
 
     def serialize(self):
         return {

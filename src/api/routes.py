@@ -351,7 +351,6 @@ def put_incomes_triage(income_id):
 
 # region: /incomes-consult - PUT
 
-
 @api.route('/incomes-consult/<int:income_id>', methods=['PUT'])
 def put_incomes_consult(income_id):
     data = request.get_json()
@@ -393,3 +392,9 @@ def reorder_income():
 
     db.session.commit()
     return jsonify({'msg': 'Order updated successfully'}), 201
+
+
+
+    
+    
+    
