@@ -95,7 +95,9 @@ class Income(db.Model):
             "diagnosis": self.diagnosis,
             "state": self.state,
             "position": self.position,
-            "created_at": self.created_at
+            "created_at": self.created_at,
+            "doctor": self.doctor.firstname if self.doctor else None,
+            "nurse": self.nurse.firstname if self.nurse else None
         }
 
 # region:Patient

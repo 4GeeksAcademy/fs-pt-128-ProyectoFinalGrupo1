@@ -35,12 +35,12 @@ export const TimeCounter = ({ startTime, priority }) => {
         <span className="d-flex justify-content-center align-items-center">
             <div className="d-flex justify-content-center w-50">
                 <div className={`${priority && count > getTime(priority) ? 'opacity-100'
-                    : 'opacopacity-0'} circle pulse bg-white d-flex justify-content-center align-items-center me-3`}>
+                    : 'opacity-0'} circle pulse bg-white d-flex justify-content-center align-items-center me-3 flex-shrink-0`}>
                     <i className="fa-solid fa-triangle-exclamation text-danger"></i>
                 </div>
                 <div className="d-flex justify-content-center align-items-center w-50">
                     {formatTime(count)}
-                </div>a
+                </div>
 
             </div>
 
