@@ -67,6 +67,8 @@ class Income(db.Model):
         String(120), nullable=False, unique=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now())
+    orders: Mapped[list["Order"]] = relationship(back_populates = "income")
+
 
     def serialize(self):
         return {
@@ -98,6 +100,7 @@ class Income(db.Model):
             "created_at": self.created_at,
             "doctor": self.doctor.firstname if self.doctor else None,
             "nurse": self.nurse.firstname if self.nurse else None
+            "orders": [order.serialize() for order in self.orders]
         }
 
 # region:Patient
@@ -123,4 +126,23 @@ class Patient(db.Model):
             "birthdate": self.birthdate,
             "allergies": self.allergies,
             "income": [i.serialize() for i in self.income]
+        }
+
+
+# region: Orders
+class Order(db.Model):
+    id: Mapped[str] = mapped_column(primary_key = True, autoincrement = True)
+    order_type: Mapped[str] = mapped_column(String(60), nullable = False, unique = False)
+    status: Mapped[str] = mapped_column(String(60), nullable = False, unique = False, default = "Solicitado")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+    results: Mapped[str] = mapped_column(String(600), nullable = False)
+    income: Mapped[Income] = relationship(back_populates = "orders")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "order_type": self.order_type,
+            "status": self.status,
+            "created_at": self.created_at,
+            "results": self.results
         }
