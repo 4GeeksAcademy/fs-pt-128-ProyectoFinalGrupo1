@@ -31,7 +31,7 @@ export const SortableRow = ({ id, income }) => {
             <td className="text-break bg-transparent p-0">
                 {income.visitreason}</td>
             <td className="w-auto text-nowrap bg-transparent p-0">
-                <Link to={`/income/${income.patient_dni}`}>
+                <Link to={`/income/${income.id}`}>
                     <button className="btn btn-sm btn-outline-dark border border-0 text-decoration-none p-0">
                         Pasar triaje
                     </button>
