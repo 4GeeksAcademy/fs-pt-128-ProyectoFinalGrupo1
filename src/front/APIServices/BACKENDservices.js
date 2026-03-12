@@ -81,12 +81,31 @@ export const getIncome = async (dispatch, id) => {
 
   if (response.ok) {
     dispatch({ type: "get_income", payload: data });
-    return;
+    return data;
   } else {
     dispatch({ type: "get_income", payload: [] });
     return data;
   }
 };
+
+export const updateIncome = async (id, incomeForm, navigate) =>{
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/incomes-triage/${id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(incomeForm),
+      headers: {
+        "Content-type": "application/json",
+      } 
+    }
+  )
+  const data = await response.json();
+  if (!response.ok) {
+    return data;
+  } else{
+    navigate("/triage")
+    return data;
+  }
+}
 // region:getPatients
 export const getPatients = async (dispatch) => {
   const response = await fetch(
