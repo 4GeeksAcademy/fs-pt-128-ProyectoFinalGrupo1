@@ -14,12 +14,12 @@ export const Dropup = () => {
                 id="dropdown-button-drop-up"
                 drop="up"
                 variant="outline-dark"
-                title={<i class="fa-solid fa-angle-up"></i>}
+                title={<i className="fa-solid fa-angle-up"></i>}
                 className="custom-dropdown"
             >
                 {/* <Dropdown.Divider /> */}
                 <Dropdown.Item eventKey="1" className='text-danger d-flex align-items-center '>
-                    <i class="fa-solid fa-arrow-right-from-bracket me-1"></i>
+                    <i className="fa-solid fa-arrow-right-from-bracket me-1"></i>
                     Cerrar sesión
                 </Dropdown.Item>
             </DropdownButton>
