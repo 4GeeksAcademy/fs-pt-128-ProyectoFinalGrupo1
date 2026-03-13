@@ -11,10 +11,11 @@ export const Navbar = () => {
 	const { store, dispatch } = useGlobalReducer()
 
 	return (
-		<nav className="navbar custom-navbar  navbar-expand-lg d-flex flex-column justify-content-between text-dark mw-100">
-			<div className="container-fluid d-flex flex-column ">
-				<div className="border-bottom border-secondary mt-1">
-					<div className="d-flex align-items-center mb-2">
+		
+		<nav className="navbar custom-navbar  navbar-expand-lg d-flex flex-column justify-content-between text-darkmw-100">
+			<div className="container-fluid d-flex flex-column align-items-start ">
+				<div className="border-bottom border-secondary w-100 mt-1">
+					<div className="d-flex align-items-center  mb-2">
 						<div className="continer-logo_custom bg-dark rounded d-flex justify-content-center align-items-center me-1">
 							<a className="" href="#">
 								<i className="fa-solid fa-staff-snake align-middle text-white fs-3"></i>
@@ -61,7 +62,7 @@ export const Navbar = () => {
 			</div>
 			<div className="border-top border-secondary d-flex align-items-center">
 				<div className="d-flex align-items-center mb-2 mt-2">
-					<div className="continer-logo_custom bg-dark rounded d-flex justify-content-center align-items-center me-1">
+					<div className="continer-logo_custom bg-dark rounded d-flex justify-content-center align-items-center  me-1">
 						<a className="" href="#">
 							<i className="fa-solid fa-stethoscope align-middle text-white fs-4"></i>
 						</a>
