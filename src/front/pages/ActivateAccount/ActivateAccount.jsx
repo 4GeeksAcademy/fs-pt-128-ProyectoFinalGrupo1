@@ -71,7 +71,7 @@ export const ActivateAccount = () => {
                         <h5>Por favor introduzca su contraseña</h5>
                     </div>
                 </div>
-                {error && <div class="alert fade-alert alert-danger " role="alert">
+                {error && <div className="alert fade-alert alert-danger " role="alert">
                     {error}
                 </div>}
                 <form onSubmit={handleSubmit} >

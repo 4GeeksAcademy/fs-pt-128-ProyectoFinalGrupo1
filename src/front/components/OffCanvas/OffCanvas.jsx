@@ -12,7 +12,7 @@ export const OffCanvas = () => {
     return (
         <>
             <Button variant="" className="border-0 p-0 btn-hover" onClick={handleShow}>
-                <i class="fa-solid fa-circle-plus me-2"></i>
+                <i className="fa-solid fa-circle-plus me-2"></i>
                 Otras pruebas
             </Button>
 

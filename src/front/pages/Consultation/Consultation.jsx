@@ -146,19 +146,19 @@ export const Consultation = () => {
                                                 <label htmlFor="hemoglobina" className="mx-1">Analítica básica</label>
                                             </div>
                                             <div className="d-flex align-items-center mx-2">
-                                                <input type="checkbox" name="ecg" id="ecg" />
+                                                <input type="checkbox" name="ecg" id="ecg" onChange={handlerChangeOrders} />
                                                 <label htmlFor="ecg" className="mx-1">Electrocardiograma</label>
                                             </div>
                                             <div className="d-flex align-items-center mx-2">
-                                                <input type="checkbox" name="rx" id="radiografia" />
+                                                <input type="checkbox" name="rx" id="radiografia" onChange={handlerChangeOrders} />
                                                 <label htmlFor="radigrafía" className="mx-1">Radiografía</label>
                                             </div>
                                             <div className="d-flex align-items-center mx-2">
-                                                <input type="checkbox" name="orina" id="orina" />
+                                                <input type="checkbox" name="orina" id="orina" onChange={handlerChangeOrders} />
                                                 <label htmlFor="orina" className="mx-1">Analisís de orina</label>
                                             </div>
                                             <div className="d-flex align-items-center mx-2">
-                                                <input type="checkbox" name="constantes" id="constantes" />
+                                                <input type="checkbox" name="constantes" id="constantes" onChange={handlerChangeOrders} />
                                                 <label htmlFor="constantes" className="mx-1">Re-evaluación de constantes</label>
                                             </div>
                                             <div className="d-flex align-items-center text-end mx-2">
