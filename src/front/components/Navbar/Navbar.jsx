@@ -2,49 +2,80 @@ import { Link } from "react-router-dom";
 import LogoUrl from "../../assets/img/Logo.svg";
 import "./Navbar.css"
 import { useState } from "react";
+import useGlobalReducer from "../../hooks/useGlobalReducer";
+import { Dropup } from "../DropUp/Dropup";
+
 export const Navbar = () => {
 
 	const [offCanvas, setOffCanvas] = useState(false)
+	const { store, dispatch } = useGlobalReducer()
 
 	return (
-		<>
-			<nav className={`${offCanvas && `expended`} custom_navbar d-flex align-items-start justify-content-between flex-column`}
-				onMouseEnter={() => setOffCanvas(true)}
-				onMouseLeave={() => setOffCanvas(false)}>
-				<div className="img_contianer d-flex align-items-center justify-content-center">
-					<img src={LogoUrl} alt="" />
-				</div>
-				<div className="d-flex justify-content-center flex-column h-100">
-					<Link to={'/admission'} className="mt-4 mb-4 navbar_icons d-flex align-items-center link-custom">
-						<div className="width-icon ms-2 ms-md-3 me-2">
-							<i className="fa-solid fa-hospital-user text-center"></i>
+		<nav className="navbar custom-navbar  navbar-expand-lg d-flex flex-column justify-content-between text-dark mw-100">
+			<div className="container-fluid d-flex flex-column ">
+				<div className="border-bottom border-secondary mt-1">
+					<div className="d-flex align-items-center mb-2">
+						<div className="continer-logo_custom bg-dark rounded d-flex justify-content-center align-items-center me-1">
+							<a className="" href="#">
+								<i className="fa-solid fa-staff-snake align-middle text-white fs-3"></i>
+							</a>
 						</div>
-						<h3 className={`${offCanvas ? `text-expended` : `navbar_icons-text`} fs-5 me-2`}>
-							Paciente
-						</h3>
-					</Link>
-					<Link to={'/triage'} className="mt-4 mb-4 navbar_icons d-flex align-items-center link-custom" >
-						<div className="width-icon ms-2 ms-md-3 me-2">
-							<i className="fa-solid fa-heart-pulse text-center"></i>
+						<div>
+							<h4 className="p-0 m-0 fs-5">Sistema médico</h4>
+							<p className="p-0 m-0 fs-6">Panel del </p>
 						</div>
-						<h3 className={`${offCanvas ? `text-expended` : `navbar_icons-text`} fs-5 me-2`}>Triaje</h3>
-					</Link>
-					<Link to={'/consultation'}>
-						<div className="mt-4 mb-4 navbar_icons d-flex align-items-center">
-							<div className="width-icon ms-2 ms-md-3 me-2">
-								<i className="fa-solid fa-user-doctor text-center"></i>
-							</div>
-							<h3 className={`${offCanvas ? `text-expended` : `navbar_icons-text`} fs-5 me-2`}>Consulta</h3>
-						</div>
-					</Link>
+					</div>
 				</div>
-				<link rel="stylesheet" href="" />
-				<div className="d-flex align-items-center flex-column mx-auto">
-					<h3><i className="fa-solid fa-arrow-right-from-bracket"></i></h3>
-				</div>
-			</nav >
-		</>
 
+
+				<div className="container-fluid mt-3 custom-navbar__list " id="navbarNav">
+					<p className="text-start">Principal</p>
+					<div className="d-flex align-items-center mb-2">
+						<i className="fa-solid fa-layer-group custom-navbar__linktext me-2"></i>
+						<p className="m-0 custom-navbar__linktext">Panel de control</p>
+					</div>
+					<div className="d-flex align-items-center mb-2">
+						<i className="fa-solid fa-users custom-navbar__linktext me-2"></i>
+						<p className="m-0 custom-navbar__linktext">Pacientes</p>
+					</div>
+					<div className="d-flex align-items-center mb-2">
+						<i className="fa-solid fa-flask-vial custom-navbar__linktext me-2"></i>
+						<p className="m-0 custom-navbar__linktext">Pruebas</p>
+					</div>
+					<div className="d-flex align-items-center mb-2">
+						<i className="fa-solid fa-clipboard-check custom-navbar__linktext me-2"></i>
+						<p className="m-0 custom-navbar__linktext">Historial pacientes</p>
+					</div>
+				</div>
+				<div className="container-fluid mt-3 custom-navbar__list " id="navbarNav">
+					<p className="text-start">Configuración</p>
+					<div className="d-flex align-items-center mb-2">
+						<i className="fa-solid fa-user custom-navbar__linktext me-2"></i>
+						<p className="m-0 custom-navbar__linktext">Mi perfil</p>
+					</div>
+					<div className="d-flex align-items-center mb-2">
+						<i className="fa-solid fa-gear custom-navbar__linktext me-2"></i>
+						<p className="m-0 custom-navbar__linktext">Tipos de informe</p>
+					</div>
+				</div>
+			</div>
+			<div className="border-top border-secondary d-flex align-items-center">
+				<div className="d-flex align-items-center mb-2 mt-2">
+					<div className="continer-logo_custom bg-dark rounded d-flex justify-content-center align-items-center me-1">
+						<a className="" href="#">
+							<i className="fa-solid fa-stethoscope align-middle text-white fs-4"></i>
+						</a>
+					</div>
+					<div className="">
+						<h4 className="p-0 m-0 fs-5 truncate-text">Nombre del doctor/enfermero</h4>
+						<p className="p-0 m-0 fs-6">Medico urgencias</p>
+					</div>
+				</div>
+				<div className="ms-2">
+					<Dropup />
+				</div>
+			</div>
+		</nav>
 
 	);
 };
