@@ -1,0 +1,15 @@
+
+
+.consultation-container {
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+  background-color: #f1f3f5;
+}
+
+.title {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.label-custom p {
+  font-size: 0.85rem;
+}

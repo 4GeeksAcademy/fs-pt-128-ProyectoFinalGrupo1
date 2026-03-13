@@ -1,5 +1,5 @@
 :root {
-  --primaryBackground: #f7fafc;
+  --primaryBackground: #ffffff;
   --primaryText: #1a202c;
   --cardBackground: #ffffff;
   --navBar: #2b6cb0;
@@ -7,7 +7,14 @@
   --spacer: #e2e8f0;
   --bs-body-font-family: "Inter", sans-serif;
 }
-
+body {
+  font-family: var(--bs-body-font-family);
+}
+.body-color {
+  background-color: var(--primaryBackground) !important ;
+  margin-left: 285px;
+  padding: 0em 1em;
+}
 .text,
 h2,
 h5 {
@@ -33,14 +40,19 @@ input {
 } */
 
 :root {
-  --bs-body-font-family: 'Inter', sans-serif;
+  --bs-body-font-family: "Inter", sans-serif;
 }
 
-.text, h2, h5, .form-control::placeholder{
-  color:var(--primaryText)
+.text,
+h2,
+h5,
+.form-control::placeholder {
+  color: var(--primaryText);
 }
 
-.form-control, .form-control:focus, input{
+.form-control,
+.form-control:focus,
+input {
   background-color: transparent;
   border: 0px;
   box-shadow: none;
@@ -60,4 +72,3 @@ input {
     transform: translateY(0);
   }
 }
-
