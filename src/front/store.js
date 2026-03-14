@@ -80,6 +80,11 @@ export default function storeReducer(store, action = {}) {
         ...store,
         orders: store.orders.filter((order) => order !== action.payload),
       };
+    case "clear_orders":
+      return {
+        ...store,
+        orders: [],
+      };
     case "add_task":
       const { id, color } = action.payload;
 
