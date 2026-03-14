@@ -18,6 +18,8 @@ export const Consultation = () => {
         "diagnosis": "",
         "tratamiento": ""
     })
+    const [updateOrders, setUpdateOrders] = useState(false)
+    const reloadData = () => setUpdateOrders(!updateOrders);
     const [isLoading, setIsLoading] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -94,7 +96,7 @@ export const Consultation = () => {
                                     width={'w-50'} />
                             </div>
                             <TriageCard valoration_triage={store.income.valoration_triage} />
-                            <AnaliticOrder orders={store.income.orders} />
+                            <AnaliticOrder id={store.income.id} orders={store.income.orders} />
                             <form className="container">
                                 <div className="border border-secondary rounded mt-2 container w-100 consultation-container">
                                     <h2 className="mt-1 mt-1 fs-5 fw-semibold">Diagnostico</h2>

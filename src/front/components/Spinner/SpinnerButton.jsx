@@ -1,5 +1,9 @@
-export const SpinnerButton = () => {
+export const SpinnerButton = ({ text }) => {
     return (
-        <span className="spinner-border spinner-border-sm ms-3" aria-hidden="true"></span>
+        <>
+            {text}
+            <span className="spinner-border spinner-border-sm ms-3" aria-hidden="true"></span>
+        </>
+
     )
 }
