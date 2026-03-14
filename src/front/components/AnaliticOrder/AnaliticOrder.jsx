@@ -14,7 +14,7 @@ export const AnaliticOrder = (orders) => {
             dispatch({ type: "remove_order", payload: e.target.name })
         }
     }
-
+    console.log(store.income)
     return (
         <div className="container">
             <div className="border border-secondary rounded mt-2 container w-100 consultation-container">

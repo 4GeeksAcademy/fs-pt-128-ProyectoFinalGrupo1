@@ -67,10 +67,8 @@ class Income(db.Model):
         String(120), nullable=False, unique=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now())
-    id_order: Mapped[int] = mapped_column(
-        Integer, ForeignKey("order.id"), nullable=True)
-    orders: Mapped["Order"] = relationship(
-        back_populates="income_order", foreign_keys=[id_order])
+    orders: Mapped[list["Order"]] = relationship(
+        back_populates="income_order")
 
     def serialize(self):
         return {
@@ -135,18 +133,21 @@ class Patient(db.Model):
 class Order(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     order_type: Mapped[str] = mapped_column(
-        String(60), nullable=False, unique=False)
+        String(60), nullable=True, unique=False)
     status: Mapped[str] = mapped_column(
-        String(60), nullable=False, unique=False, default="Solicitado")
+        String(60), nullable=True, unique=False, default="Solicitado")
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now())
-    results: Mapped[str] = mapped_column(String(600), nullable=False)
-    income_order: Mapped[list["Income"]] = relationship(
-        back_populates="orders")
+    results: Mapped[str] = mapped_column(String(600), nullable=True)
+    id_income: Mapped[int] = mapped_column(
+        Integer, ForeignKey("income.id"), nullable=True)
+    income_order: Mapped["Income"] = relationship(
+        back_populates="orders", foreign_keys=[id_income])
 
     def serialize(self):
         return {
             "id": self.id,
+            "id_income": self.id_income,
             "order_type": self.order_type,
             "status": self.status,
             "created_at": self.created_at,

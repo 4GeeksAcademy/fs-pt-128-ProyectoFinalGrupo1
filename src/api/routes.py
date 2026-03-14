@@ -3,11 +3,12 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from sqlalchemy import select, func
-from api.models import db, User, Income, Patient
+from api.models import db, User, Income, Patient, Order
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token
 import os
+import json
 from flask_mail import Message
 
 api = Blueprint('api', __name__)
@@ -380,3 +381,23 @@ def reorder_income():
 
     db.session.commit()
     return jsonify({'msg': 'Order updated successfully'}), 201
+
+# region: Order-POST
+
+@api.route('/orders', methods=['POST'])
+def post_order():
+    data = request.get_json()
+    id_income = db.session.execute(
+        select(Income).where(Income.id == data.get('id'))).scalar_one_or_none()
+    if not id_income:
+        return jsonify({'error': 'Income not found'}), 404
+    for order in data.get('orders'):
+        new_order = Order(
+            id_income=data.get('id'),
+            order_type=order,
+            status='Solicitada'
+        )
+
+        db.session.add(new_order)
+    db.session.commit()
+    return jsonify({'msg': 'Register orders succesfully'}), 201
