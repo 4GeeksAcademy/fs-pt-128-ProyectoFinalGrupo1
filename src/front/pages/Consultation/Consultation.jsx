@@ -57,7 +57,7 @@ export const Consultation = () => {
         navigate('/consultation')
         return
     }
-
+    console.log(store.orders)
     useEffect(() => {
         loadData()
     }, [])

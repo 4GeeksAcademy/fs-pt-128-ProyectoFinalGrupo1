@@ -13,10 +13,8 @@ export const AnaliticOrder = () => {
         } else {
             dispatch({ type: "remove_order", payload: e.target.name })
         }
-
-
     }
-    console.log(store.orders)
+
     return (
         <div className="container">
             <div className="border border-secondary rounded mt-2 container w-100 consultation-container">
@@ -44,7 +42,7 @@ export const AnaliticOrder = () => {
                             <label htmlFor="constantes" className="mx-1">Re-evaluación de constantes</label>
                         </div>
                         <div className="d-flex justify-content-center align-items-center mx-2">
-                            <OffCanvas />
+                            <OffCanvas handlerChangeOrders={handlerChangeOrders} />
                         </div>
                     </div>
                     <div className="d-flex justify-content-center mt-2">
