@@ -62,6 +62,8 @@ export const Consultation = () => {
         loadData()
     }, [])
 
+    console.log(store.income)
+
     return (
         <div className="container-max-height">
             {isLoading ?
@@ -92,7 +94,7 @@ export const Consultation = () => {
                                     width={'w-50'} />
                             </div>
                             <TriageCard valoration_triage={store.income.valoration_triage} />
-                            <AnaliticOrder />
+                            <AnaliticOrder orders={store.income.orders} />
                             <form className="container">
                                 <div className="border border-secondary rounded mt-2 container w-100 consultation-container">
                                     <h2 className="mt-1 mt-1 fs-5 fw-semibold">Diagnostico</h2>

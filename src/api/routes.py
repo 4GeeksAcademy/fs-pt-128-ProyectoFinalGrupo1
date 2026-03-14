@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
-from sqlalchemy import select
+from sqlalchemy import select, func
 from api.models import db, User, Income, Patient
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
@@ -260,8 +260,20 @@ def admission():
             allergies=data_admission.get("allergies")
         )
         db.session.add(new_admission)
-    last = db.session.query(db.func.max(Income.position)).scalar()
-    new_position = (last or 0) + 1
+    priority = data_income.get('priority')
+    new_position = db.session.query(func.min(Income.position)).filter(
+        Income.triage_priority > priority).scalar()
+
+    if new_position is not None:
+        db.session.query(Income).filter(Income.position >= new_position).update(
+            {Income.position: Income.position + 1}
+        )
+    else:
+        max_position = db.session.query(func.max(Income.position)).scalar()
+        if max_position is None:
+            new_position = 0
+        else:
+            new_position = max_position + 1
     patient_to_link = user if user else new_admission
     new_income = Income(
         patient=patient_to_link,
@@ -283,6 +295,7 @@ def get_incomes():
     response = [income.serialize_patient_data() for income in incomes]
     return jsonify(response), 200
 
+
 @api.route('/income/<int:id>')
 def get_income(id):
     income = Income.query.get(id)
@@ -290,32 +303,6 @@ def get_income(id):
         return jsonify({"error": "Income not found"}), 404
     response = income.serialize_patient_data()
     return jsonify(response), 200
-
-# region: /incomes - POST
-
-
-@api.route('/incomes', methods=['POST'])
-def post_incomes():
-    data = request.get_json()
-    dni = data.get('dni')
-    first_name = data.get('first_name')
-    last_name = data.get('last_name')
-    birth_date = data.get('birth_date')
-    reason_consultation = data.get('reason_consultation')
-    triage_priority = data.get('triage_priority')
-    allergies = data.get('allergies')
-    state = data.get('state')
-
-    required_fields = [
-        'dni',
-        'first_name',
-        'last_name',
-        'birth_date',
-        'reason_consultation',
-        'triage_priority',
-        'allergies',
-        'state'
-    ]
 
 # region: /incomes-triage/income_id - PUT
 
@@ -350,6 +337,7 @@ def put_incomes_triage(income_id):
                     "Ingreso": f"{actual_income.serialize()}"})
 
 # region: /incomes-consult - PUT
+
 
 @api.route('/incomes-consult/<int:income_id>', methods=['PUT'])
 def put_incomes_consult(income_id):
@@ -392,9 +380,3 @@ def reorder_income():
 
     db.session.commit()
     return jsonify({'msg': 'Order updated successfully'}), 201
-
-
-
-    
-    
-    

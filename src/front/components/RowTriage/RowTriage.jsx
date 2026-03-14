@@ -14,7 +14,9 @@ export const SortableRow = ({ id, income }) => {
     const priorityColor = getPriorityColor(income.triage_priority);
     const shadowStyle = {
         borderLeft: `6px solid ${priorityColor}`,
+        borderRight: `6px solid ${priorityColor}`,
         borderLeftColor: priorityColor,
+        borderRightColor: priorityColor,
         boxShadow: `inset 15px 0 70px -15px ${priorityColor}, inset 0 0 5px rgba(0,0,0,0.05)`,
     };
 

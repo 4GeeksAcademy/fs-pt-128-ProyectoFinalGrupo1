@@ -5,17 +5,13 @@ import './OffCanvas.css'
 import { testsCatalog } from '../../utils/testsCatalog';
 import useGlobalReducer from '../../hooks/useGlobalReducer';
 
-export const OffCanvas = ({ handlerChangeOrders }) => {
+export const OffCanvas = ({ handlerChangeOrders, orders }) => {
     const [show, setShow] = useState(false);
     const { store, dispatch } = useGlobalReducer()
-    const [openSectionId, setOpenSectionId] = useState({
-        id: "",
-        open: false
-    })
+    const [openSectionId, setOpenSectionId] = useState('')
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
 
     return (
         <>
@@ -35,17 +31,19 @@ export const OffCanvas = ({ handlerChangeOrders }) => {
                                 <h3 className='title title-offcanvas mb-2 mt-2'
                                     onClick={() => openSectionId === tests.id ? setOpenSectionId("") : setOpenSectionId(tests.id)}>
                                     {tests.category}
-                                    <i className="fa-solid fa-angle-right aligment-center"></i>
+                                    <i className={`${openSectionId === tests.id ? 'fa-angle-down' : 'fa-angle-right'} fa-solid aligment-center`}></i>
                                 </h3>
                                 <div className={`${openSectionId === tests.id ? "d-block" : "d-none"} mt-2`}>
                                     {
                                         tests.items.map((item, index) =>
+    
                                             <div key={index} className="div-check m-1">
                                                 <input className="div-check-input mx-1" type="checkbox"
                                                     value=""
                                                     name={item} id={item}
                                                     onChange={handlerChangeOrders}
-                                                    checked={store.orders.includes(item)} />
+                                                    checked={Array.isArray(orders) && orders.some(o => o.order_type === item) || store.orders.includes(item)}
+                                                    disabled={Array.isArray(orders) && orders.some(o => o.order_type === item)} />
                                                 <label className="div-check-label" for={item}>
                                                     {item}
                                                 </label>

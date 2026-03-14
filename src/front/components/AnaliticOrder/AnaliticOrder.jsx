@@ -3,7 +3,7 @@ import { OffCanvas } from '../OffCanvas/OffCanvas'
 import useGlobalReducer from '../../hooks/useGlobalReducer'
 
 
-export const AnaliticOrder = () => {
+export const AnaliticOrder = (orders) => {
 
     const { store, dispatch } = useGlobalReducer()
 
@@ -42,7 +42,7 @@ export const AnaliticOrder = () => {
                             <label htmlFor="constantes" className="mx-1">Re-evaluación de constantes</label>
                         </div>
                         <div className="d-flex justify-content-center align-items-center mx-2">
-                            <OffCanvas handlerChangeOrders={handlerChangeOrders} />
+                            <OffCanvas orders={orders} handlerChangeOrders={handlerChangeOrders} />
                         </div>
                     </div>
                     <div className="d-flex justify-content-center mt-2">
