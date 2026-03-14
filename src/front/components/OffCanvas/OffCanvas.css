@@ -1,3 +1,6 @@
 .btn-hover:hover {
   text-decoration: underline;
 }
+.title-offcanvas{
+  font-size: 15px;
+}

@@ -18,6 +18,7 @@ export const initialStore = () => {
     patient: {},
     incomes: [],
     income: {},
+    orders: [],
   };
 };
 
@@ -68,6 +69,16 @@ export default function storeReducer(store, action = {}) {
       return {
         ...store,
         income: {},
+      };
+    case "add_order":
+      return {
+        ...store,
+        orders: [...store.orders, action.payload],
+      };
+    case "remove_order":
+      return {
+        ...store,
+        orders: store.orders.filter((order) => order !== action.payload),
       };
     case "add_task":
       const { id, color } = action.payload;
