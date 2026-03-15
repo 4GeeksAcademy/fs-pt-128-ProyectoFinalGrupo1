@@ -268,3 +268,18 @@ export const postOrders = async (id, orders) => {
   }
   return { ok: true };
 };
+
+export const getIncomeTest = async (dispatch) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/order-panel`,
+  );
+  const data = await response.json();
+
+  if (response.ok) {
+    dispatch({ type: "get_incomes_test", payload: data });
+    return;
+  } else {
+    dispatch({ type: "get_incomes_test", payload: [] });
+    return data;
+  }
+};

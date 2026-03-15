@@ -384,6 +384,7 @@ def reorder_income():
 
 # region: Order-POST
 
+
 @api.route('/orders', methods=['POST'])
 def post_order():
     data = request.get_json()
@@ -401,3 +402,23 @@ def post_order():
         db.session.add(new_order)
     db.session.commit()
     return jsonify({'msg': 'Register orders succesfully'}), 201
+
+
+@api.route('/order-panel', methods=['GET'])
+def get_order_panel():
+    incomes = Income.query.order_by(Income.position.asc()).all()
+    response = []
+    for income in incomes:
+        for order in income.orders:
+            response.append({
+                "id": order.id,
+                "income_id": income.id,
+                "patient_dni": income.patient.dni,
+                "patient_name": income.patient.firstname,
+                "urgency": income.triage_priority,
+                "order_type": order.order_type,
+                "status": order.status,
+                "created_at": order.created_at,
+                "results": order.results
+            })
+    return jsonify(response), 200
