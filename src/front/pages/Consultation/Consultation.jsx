@@ -80,9 +80,7 @@ export const Consultation = () => {
                             Volver atrás
                         </Link>
                         <div className="d-flex flex-column container mt-2 ">
-                            <div className="container ">
-                                <h1 className="title w-100 text-center">Consulta</h1>
-                            </div>
+                            <h1 className="title w-100 text-center">Consulta</h1>
                             <div className="container d-flex">
                                 <PatientCard width={'w-50'}
                                     patient_dni={store.income.patient_dni}
