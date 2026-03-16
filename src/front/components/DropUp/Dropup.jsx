@@ -8,6 +8,22 @@ import { useNavigate } from 'react-router-dom';
 export const Dropup = () => {
     return (
         <>
+            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+
+                        <div className="modal-body text-center">
+
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">¿Cerrar sesión?</h1>
+                        </div>
+                        <div className="modal-footer d-flex justify-content-center">
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Volver</button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={logOut}>Cerrar sesión</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <DropdownButton
                 as={ButtonGroup}
                 key="up"
