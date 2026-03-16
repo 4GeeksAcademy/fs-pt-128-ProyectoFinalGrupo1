@@ -32,31 +32,55 @@ export const Navbar = () => {
 				<div className="container-fluid mt-3 custom-navbar__list " id="navbarNav">
 					<p className="text-start">Principal</p>
 					<div className="d-flex align-items-center mb-2">
-						<i className="fa-solid fa-layer-group custom-navbar__linktext me-2"></i>
+						<div className="col-2 text-center">
+						<i className="fa-solid fa-layer-group custom-navbar__linktext"></i>
+						</div>
+						<div>
 						<p className="m-0 custom-navbar__linktext">Panel de control</p>
+						</div>
 					</div>
 					<div className="d-flex align-items-center mb-2">
-						<i className="fa-solid fa-users custom-navbar__linktext me-2"></i>
+						<div className="col-2 text-center">
+						<i className="fa-solid fa-users custom-navbar__linktext"></i>
+						</div>
+						<div>
 						<p className="m-0 custom-navbar__linktext">Pacientes</p>
+						</div>
 					</div>
 					<div className="d-flex align-items-center mb-2">
-						<i className="fa-solid fa-flask-vial custom-navbar__linktext me-2"></i>
+						<div className="col-2 text-center">
+						<i className="fa-solid fa-flask-vial custom-navbar__linktext"></i>
+						</div>
+						<div>
 						<p className="m-0 custom-navbar__linktext">Pruebas</p>
+						</div>
 					</div>
 					<div className="d-flex align-items-center mb-2">
-						<i className="fa-solid fa-clipboard-check custom-navbar__linktext me-2"></i>
+						<div className="col-2 text-center">
+						<i className="fa-solid fa-clipboard-check custom-navbar__linktext"></i>
+						</div>
+						<div>
 						<p className="m-0 custom-navbar__linktext">Historial pacientes</p>
+						</div>
 					</div>
 				</div>
 				<div className="container-fluid mt-3 custom-navbar__list " id="navbarNav">
 					<p className="text-start">Configuración</p>
 					<div className="d-flex align-items-center mb-2">
-						<i className="fa-solid fa-user custom-navbar__linktext me-2"></i>
+						<div className="col-2 text-center">
+						<i className="fa-solid fa-user custom-navbar__linktext"></i>
+						</div>
+						<div>
 						<p className="m-0 custom-navbar__linktext">Mi perfil</p>
+						</div>
 					</div>
 					<div className="d-flex align-items-center mb-2">
-						<i className="fa-solid fa-gear custom-navbar__linktext me-2"></i>
+						<div className="col-2 text-center">
+						<i className="fa-solid fa-gear custom-navbar__linktext"></i>
+						</div>
+						<div>
 						<p className="m-0 custom-navbar__linktext">Tipos de informe</p>
+						</div>
 					</div>
 				</div>
 			</div>
