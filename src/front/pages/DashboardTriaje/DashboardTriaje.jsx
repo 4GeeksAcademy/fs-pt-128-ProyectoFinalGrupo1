@@ -91,7 +91,7 @@ export const DashboardTriaje = () => {
                     (<div className="container-fluid mt-3 border rounded container-table" style={{ maxHeight: "80vh", overflowX: "hidden", overflowY: "auto", maxWidht: '100%' }} >
                         <h1 className="title w-100 text-start fs-3 mt-2">Control de triaje</h1>
                         <p>Gestión de triaje con reordenado híbrido</p>
-                        <div className="d-flex justify-content-center align-items-center">
+                        <div className="d-flex justify-content-center mb-2 align-items-center">
                             <small className="mx-1">Filtar:</small>
                             <select class="form-select form-select-custom w-25 shadow-sm" aria-label="Default select type" onChange={handleTypeSelect} value={typeSelect}>
                                 <option value='select' selected>Selecciona una opción</option>
@@ -107,9 +107,9 @@ export const DashboardTriaje = () => {
                                 (typeSelect === 'patient') &&
                                 <div class="input-group w-25 mx-1">
                                     <input type="text"
-                                        className="form-control shadow-sm border"
+                                        className="form-control form-select-custom shadow-sm border"
                                         placeholder="Nombre o DNI"
-                                        aria-label="Username"
+                                        aria-label="nombre"
                                         aria-describedby="visible-addon"
                                         onChange={(e) => handlerSearch(e.target.value)} />
                                 </div>
@@ -117,7 +117,7 @@ export const DashboardTriaje = () => {
                             }
                             {
                                 typeSelect === 'urgency' &&
-                                <select class="form-select w-25 mx-1" aria-label="Default select example" onChange={handleValueSelect} value={valueSelect}>
+                                <select class="form-select  form-select-custom shadow-sm border w-25 mx-1" aria-label="Default select example" onChange={handleValueSelect} value={valueSelect}>
                                     <option value='select' selected>Selecciona una prioridad</option>
                                     <option value="control">Criticos</option>
                                     <option value="1">Inminente</option>
@@ -132,7 +132,7 @@ export const DashboardTriaje = () => {
                             collisionDetection={closestCenter}
                             modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
                             onDragEnd={handleDnD}>
-                            <table className="table table-md align-middle text-center font-size mt-2" >
+                            <table className="table table-md align-middle text-center font-size mt-3" >
                                 <thead style={{ position: "sticky", top: "0", zIndex: "2" }}>
                                     <tr>
                                         <th scope="col" className="text-nowrap" style={{ width: "17%" }}>Paciente</th>

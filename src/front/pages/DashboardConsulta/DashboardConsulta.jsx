@@ -6,11 +6,40 @@ import { RowConsult } from "../../components/RowConsult/RowConsult"
 import { getIncomes, loadNewOrder } from "../../APIServices/BACKENDservices"
 import { restrictToVerticalAxis, restrictToWindowEdges } from "@dnd-kit/modifiers"
 import { SpinnerLoad } from "../../components/Spinner/SpinnerLoad"
+import { useParams } from "react-router-dom"
+import './DashboardConsulta.css'
 
 
 export const DashboardConsulta = () => {
     const { store, dispatch } = useGlobalReducer()
+
+    const { type, value } = useParams()
+    const [typeSelect, setTypeSelect] = useState('')
+    const [valueSelect, setValueSelect] = useState('')
+
     const [isLoading, setIsLoading] = useState(false)
+
+    let patientLoad = [...store.incomes]
+    const handlerSearch = (value) => {
+        dispatch({ type: 'search', payload: value })
+    }
+    const filtered = patientLoad.filter(income => {
+        const searchPatient = store.search.toLowerCase();
+        return (
+            income.patient_firstname?.toLowerCase().includes(searchPatient) ||
+            income.patient_lastname?.toLowerCase().includes(searchPatient) ||
+            income.patient_dni?.toLowerCase().includes(searchPatient)
+        )
+    })
+
+    const handleTypeSelect = (e) => {
+        setTypeSelect(e.target.value)
+        setValueSelect("select")
+    }
+
+    const handleValueSelect = (e) => {
+        setValueSelect(e.target.value)
+    }
 
     const loadPatients = async () => {
         setIsLoading(true)
@@ -59,6 +88,45 @@ export const DashboardConsulta = () => {
                     <div className="container-fluid mt-3 container-table" style={{ maxHeight: "80vh", overflowX: "hidden", overflowY: "auto", maxWidht: '100%' }} >
                         <h1 className="title w-100 text-start fs-3 mt-2">Control de Consulta</h1>
                         <p>Gestión de consulta con reordenado híbrido</p>
+                        <div className="d-flex justify-content-center align-items-center">
+                            <small className="mx-1">Filtar:</small>
+                            <select class="form-select form-select-custom w-25 shadow-sm" aria-label="Default select type" onChange={handleTypeSelect} value={typeSelect}>
+                                <option value='select' selected>Selecciona una opción</option>
+                                <option value="patient">Paciente</option>
+                                <option value="urgency">Prioridad</option>
+                            </select>
+                            {(typeSelect === 'select' || typeSelect === 'task' || typeSelect === '') &&
+                                <select class="form-select w-25 mx-1" aria-label="Default select example" disabled>
+                                    <option selected>Selecciona una opcion</option>
+                                </select>
+                            }
+                            {
+                                (typeSelect === 'patient') &&
+                                <div class="input-group w-25 mx-1">
+                                    <input type="text"
+                                        className="form-control shadow-sm border"
+                                        placeholder="Nombre o DNI"
+                                        aria-label="nombre"
+                                        aria-describedby="visible-addon"
+                                        onChange={(e) => handlerSearch(e.target.value)} />
+                                </div>
+
+                            }
+                            {
+                                typeSelect === 'urgency' &&
+                                <select class="form-select  form-select-custom shadow-sm border w-25 mx-1"
+                                    aria-label="Default select example"
+                                    onChange={handleValueSelect}
+                                    value={valueSelect}>
+                                    <option value='select' selected>Selecciona una prioridad</option>
+                                    <option value="1">Inminente</option>
+                                    <option value="2">Emergencia</option>
+                                    <option value="3">Urgente</option>
+                                    <option value="4">No urgente</option>
+                                    <option value="5">Control</option>
+                                </select>
+                            }
+                        </div>
                         <DndContext
                             collisionDetection={closestCenter}
                             modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
@@ -77,12 +145,18 @@ export const DashboardConsulta = () => {
                                 <SortableContext items={store.incomes.map(income => income.id)} strategy={verticalListSortingStrategy}>
                                     <tbody className="list">
                                         {
-                                            store.incomes
-                                                .filter(income => income.state === 'Esperando consulta')
+                                            filtered
+                                                .filter(income => {
+                                                    if (income.state === 'Esperando consulta' && (valueSelect == 'select' || valueSelect == '')) return true
+                                                    if (typeSelect == 'urgency' && income.state === 'Esperando consulta') return income.triage_priority == valueSelect
+                                                })
+                                                .sort((a, b) => {
+                                                    if (type === 'task' && value === 'next') { return (a.id - b.id) }
+                                                    return 0;
+                                                })
                                                 .map((income) =>
-                                                    <RowConsult key={income.id} id={income.id} income={income} />
+                                                    < RowConsult key={income.id} id={income.id} income={income} />
                                                 )
-
                                         }
                                     </tbody>
                                 </SortableContext>
