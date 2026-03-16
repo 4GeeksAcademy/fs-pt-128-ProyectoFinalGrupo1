@@ -1,0 +1,9 @@
+.urgency-scroll {
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+.bg-icon-urgency {
+  background-color: #545455;
+  color: #fff;
+}

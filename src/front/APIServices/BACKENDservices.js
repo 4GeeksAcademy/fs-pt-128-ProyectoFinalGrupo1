@@ -88,24 +88,25 @@ export const getIncome = async (dispatch, id) => {
   }
 };
 
-export const updateIncome = async (id, incomeForm, navigate) =>{
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/incomes-triage/${id}`,
+export const updateIncome = async (id, incomeForm, navigate) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/incomes-triage/${id}`,
     {
       method: "PUT",
       body: JSON.stringify(incomeForm),
       headers: {
         "Content-type": "application/json",
-      } 
-    }
-  )
+      },
+    },
+  );
   const data = await response.json();
   if (!response.ok) {
     return data;
-  } else{
-    navigate("/triage")
+  } else {
+    navigate("/triage");
     return data;
   }
-}
+};
 // region:getPatients
 export const getPatients = async (dispatch) => {
   const response = await fetch(
@@ -245,4 +246,40 @@ export const addDiagnosis = async (consult, income_id) => {
     return data;
   }
   return { ok: true };
+};
+
+export const postOrders = async (id, orders) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/orders`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        id: id,
+        orders: orders,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    return data;
+  }
+  return { ok: true };
+};
+
+export const getIncomeTest = async (dispatch) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/order-panel`,
+  );
+  const data = await response.json();
+
+  if (response.ok) {
+    dispatch({ type: "get_incomes_test", payload: data });
+    return;
+  } else {
+    dispatch({ type: "get_incomes_test", payload: [] });
+    return data;
+  }
 };
