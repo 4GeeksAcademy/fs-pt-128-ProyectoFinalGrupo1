@@ -155,60 +155,59 @@ export const Admission = () => {
             <div>
 
                 <form onSubmit={handleSubmit}>
-                    {showSuccess && <div className="alert alert-success" role="alert">
-                        Se ha guardado el {userExist ? "ingreso" : "paciente"} correctamente
-                    </div>}
-                    {error && <div className="alert alert-danger" role="alert">
-                        {error}
-                    </div>}
-                    <div className="row">
-                        <div className="mb-3 d-flex align-items-center col-5">
-                            <label htmlFor="InputDNI" className="form-label mb-0">DNI</label>
-                            <input name="dni" value={admission.dni} onChange={handleChange} maxLength={9} onBlur={searchPatient} type="text" className="form-control rounded-pill ms-2" dni="InputDNI" />
-                        </div>
-                        <div className="mb-3 d-flex align-items-center col-7">
-                            <label htmlFor="InputBirthday" className="form-label mb-0 text-nowrap">Fecha Nacimiento</label>
-                            <input name="birthdate" disabled={userExist} value={admission.birthdate} onChange={handleChange} type="date" className="form-control rounded-pill ms-2" dni="InputBirthday" />
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="mb-3 d-flex align-items-center col-4">
-                            <label htmlFor="InputName" className="form-label mb-0">Nombre</label>
-                            <input name="firstname" disabled={userExist} value={admission.firstname} onChange={handleChange} type="text" className="form-control rounded-pill ms-2" dni="InputName" />
-                        </div>
-                        <div className="mb-3 d-flex align-items-center col-8">
-                            <label htmlFor="InputLastName" className="form-label mb-0">Apellidos</label>
-                            <input name="lastname" disabled={userExist} value={admission.lastname} onChange={handleChange} type="text" className="form-control rounded-pill ms-2" dni="InputLastName" />
 
+                    <div className="border border-secondary rounded mt-2 container w-100 consultation-container p-2">
+                        {showSuccess && <div className="alert alert-success" role="alert">
+                            Se ha guardado el {userExist ? "ingreso" : "paciente"} correctamente
+                        </div>}
+                        {error && <div className="alert alert-danger" role="alert">
+                            {error}
+                        </div>}
+                        <div className="row">
+                            <div className="mb-3 align-items-center col-2">
+                                <label htmlFor="InputDNI" className="form-label mb-0">DNI</label>
+                                <input name="dni" value={admission.dni} onChange={handleChange} maxLength={9} onBlur={searchPatient} type="text" className="form-control rounded-3 mt-2 shadow bg-body-tertiary border border-1" id="InputDNI" />
+                            </div>
+                            <div className="mb-3 align-items-center col-2">
+                                <label htmlFor="InputBirthday" className="form-label mb-0 text-nowrap">Fecha Nacimiento</label>
+                                <input name="birthdate" disabled={userExist} value={admission.birthdate} onChange={handleChange} type="date" className="form-control rounded-3 mt-2 shadow bg-body-tertiary border border-1" id="InputBirthday" />
+                            </div>
+                            <div className="mb-3 align-items-center col-3">
+                                <label htmlFor="InputName" className="form-label mb-0">Nombre</label>
+                                <input name="firstname" disabled={userExist} value={admission.firstname} onChange={handleChange} type="text" className="form-control rounded-3 mt-2 shadow bg-body-tertiary border border-1" id="InputName" />
+                            </div>
+                            <div className="mb-3 align-items-center col-5">
+                                <label htmlFor="InputLastName" className="form-label mb-0">Apellidos</label>
+                                <input name="lastname" disabled={userExist} value={admission.lastname} onChange={handleChange} type="text" className="form-control rounded-3 mt-2 shadow bg-body-tertiary border border-1" id="InputLastName" />
+                            </div>
+                        </div>
+                        <div className="mb-3 align-items-center col-12">
+                            <label htmlFor="InputAlergies" className="form-label mb-0">Alergias <span className="fst-italic">(Escribe la alergia de una en una y pulsa enter para registrarla)</span></label>
+                            <input name="allergies" disabled={userExist} value={newAlergie} onChange={handleChange} type="text" onKeyDown={handleKeyDown} className="form-control rounded-3 mt-2 shadow bg-body-tertiary border border-1" id="InputAlergies" />
+                        </div>
+                        <div className="d-flex flex-wrap gap-2 my-3">
+                            {admission.allergies.map((alergie, index) => (
+                                <span
+                                    key={index}
+                                    className="badge bg-white border border-1 border-primary text-dark d-flex align-items-center"
+                                >
+                                    {alergie}
+                                    <button type="button" disabled={userExist} className="btn-close btn-close-dark" onClick={() => {
+                                        const updatedAlergies = admission.allergies.filter(
+                                            (_, i) => i !== index
+                                        );
+                                        setAdmission({
+                                            ...admission,
+                                            allergies: updatedAlergies,
+                                        });
+                                    }} />
+                                </span>
+                            ))}
                         </div>
                     </div>
-                    <div className="mb-3 d-flex align-items-center col-12">
-                        <label htmlFor="InputAlergies" className="form-label mb-0">Alergias</label>
-                        <input name="allergies" disabled={userExist} value={newAlergie} onChange={handleChange} type="text" onKeyDown={handleKeyDown} className="form-control rounded-pill ms-2" dni="InputAlergies" />
-
-                    </div>
-                    <div className="d-flex flex-wrap gap-2 my-3">
-                        {admission.allergies.map((alergie, index) => (
-                            <span
-                                key={index}
-                                className="badge bg-white border border-1 border-primary text-dark d-flex align-items-center"
-                            >
-                                {alergie}
-                                <button type="button" disabled={userExist} className="btn-close btn-close-dark ms-2" onClick={() => {
-                                    const updatedAlergies = admission.allergies.filter(
-                                        (_, i) => i !== index
-                                    );
-                                    setAdmission({
-                                        ...admission,
-                                        allergies: updatedAlergies,
-                                    });
-                                }} />
-                            </span>
-                        ))}
-                    </div>
-                    <div className="mb-3 d-flex flex-column align-items-start gap-2 col-12 ">
+                    <div className="border border-secondary rounded mt-2 container w-100 consultation-container p-2">
                         <label htmlFor="InputLastName" className="form-label mb-1">Motivo de la consulta</label>
-                        <textarea name="visitreason" value={income.visitreason} onChange={handleChange} type="text" rows={5} className="form-control rounded-4" dni="InputVisitReason" />
+                        <textarea name="visitreason" value={income.visitreason} onChange={handleChange} type="text" rows={5} className="form-control rounded-1 mb-2 p-3 shadow bg-body-tertiary rounded border border-1" id="InputVisitReason" />
                     </div>
                     <div className="text-center mt-4">
                         <button name="prio5" onClick={handlePrio} className="col-2 crit5 rounded-start-pill">No urgente</button>

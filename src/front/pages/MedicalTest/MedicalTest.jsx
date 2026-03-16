@@ -6,8 +6,8 @@ import './MedicalTest.css'
 import { countRequested } from "../../utils/countRequest"
 import { StateBtn } from "../../components/StateBtn/StateBtn"
 import { UrgencyBtn } from "../../components/UrgencyBtn/UrgencyBtn"
-import { renderToStaticNodeStream } from "react-dom/server"
 import { SpecialtyBtn } from "../../components/SpecialtyBtn/SpecialtyBtn"
+import { QuickActions } from "../../components/QuickActions/QuickActions"
 
 
 
@@ -16,7 +16,12 @@ export const MedicalTest = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [btn, setBtn] = useState('StateBtn')
 
-    console.log(store)
+    const criticalPacient1 = store.test.filter(t => (Number(t.urgency) === 1)).length
+    const criticalPacient2 = store.test.filter(t => (Number(t.urgency) === 2)).length
+    const criticalPacient = criticalPacient1 + criticalPacient2
+    const oldestPatient = store.test.filter(t => t.status == 'Solicitada').sort((a, b) => a.id - b.id).slice(0, 6).length
+    const sendPending = store.test.filter(t => t.status === 'Pendiente').length
+
     useEffect(() => {
         getIncomeTest(dispatch)
     }, [])
@@ -34,32 +39,32 @@ export const MedicalTest = () => {
                         <SpinnerLoad />
                     </div>
                 ) : (
-                    <div className="d-flex flex-column container-fluid mt-2  ">
+                    <div className="d-flex flex-column container-fluid mt-2 ">
                         <h2 className="title w-100 text-start fs-3">Control de pruebas</h2>
                         <p>Gestión de pruebas según su estado</p>
                         <div className="container d-flex">
-                            <div className="border border-secondary rounded me-1 mb-2 container consultation-container ">
+                            <div className="border border-secondary rounded me-1 mb-2 w-25 container consultation-container ">
                                 <h4 className="title title-ordercard mt-1 text-muted">Pruebas solicitadas</h4>
                                 <p className="text-dark fs-4 fw-bolder">
                                     <i className="fa-solid fa-file-medical text-primary fs-4 me-2"></i>
                                     {countRequested(store.test, "Solicitada")}
                                 </p>
                             </div>
-                            <div className="border border-secondary rounded me-1 mb-2 container consultation-container">
+                            <div className="border border-secondary rounded me-1 mb-2  w-25 container consultation-container">
                                 <h4 className="title title-ordercard mt-1 text-muted">Pruebas en proceso</h4>
                                 <p className="text-dark fs-4 fw-bolder">
                                     <i className="fa-solid fa-microscope text-success me-2"></i>
                                     {countRequested(store.test, "Precesada")}
                                 </p>
                             </div>
-                            <div className="border border-secondary rounded mb-2 me-1 container consultation-container">
+                            <div className="border border-secondary rounded mb-2 me-1  w-25 container consultation-container">
                                 <h4 className="title title-ordercard mt-1 text-muted">pendiente de envío</h4>
                                 <p className="text-dark fs-4 fw-bolder">
                                     <i className="fa-solid fa-box-archive text-warning fs-4 me-2"></i>
                                     {countRequested(store.test, "Pendiente")}
                                 </p>
                             </div>
-                            <div className="border border-secondary rounded mb-2 container consultation-container">
+                            <div className="border border-secondary rounded mb-2  w-25 container consultation-container">
                                 <h4 className="title title-ordercard mt-1 text-muted">Pruebas finalizadas</h4>
                                 <p className="text-dark fs-4 fw-bolder">
                                     <i className="fa-solid fa-check-double text-success fs-4 me-2"></i>
@@ -94,9 +99,9 @@ export const MedicalTest = () => {
 
                             </div>
                             <div className="border border-secondary rounded mt-1 container consultation-container" style={{ minHeight: '610px' }}>
-                                comenzar
-                                Notificar Incidencia
-                                Adjuntar Resultado
+                                <h6 className="mt-3 mx-2 fw-bolder fs-5">Acciones rapidas</h6>
+                                <p className="mx-2 " >Funciones principales</p>
+                                <QuickActions criticalPacient={criticalPacient} oldestPatient={oldestPatient} sendPending={sendPending} />
                             </div>
 
                         </div>

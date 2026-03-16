@@ -19,6 +19,7 @@ import { DashboardTriaje } from "./pages/DashboardTriaje/DashboardTriaje";
 import { Consultation } from "./pages/Consultation/Consultation";
 import { DashboardConsulta } from "./pages/DashboardConsulta/DashboardConsulta";
 import { MedicalTest } from "./pages/MedicalTest/MedicalTest";
+import { DashboardTest } from "./pages/DashboardTest/DashboardTest";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -45,6 +46,8 @@ export const router = createBrowserRouter(
       <Route path="/consultation" element={<DashboardConsulta />} />
       <Route path="/consultation/:id" element={<Consultation />} />
       <Route path="/medical-test" element={<MedicalTest />} />
+      <Route path="/tests" element={<DashboardTest />} />
+      <Route path="/tests/:type/:value" element={<DashboardTest />} />
     </Route>
   )
 );
