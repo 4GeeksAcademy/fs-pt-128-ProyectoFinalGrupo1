@@ -6,7 +6,6 @@ import './MedicalTest.css'
 import { countRequested } from "../../utils/countRequest"
 import { StateBtn } from "../../components/StateBtn/StateBtn"
 import { UrgencyBtn } from "../../components/UrgencyBtn/UrgencyBtn"
-import { renderToStaticNodeStream } from "react-dom/server"
 import { SpecialtyBtn } from "../../components/SpecialtyBtn/SpecialtyBtn"
 import { QuickActions } from "../../components/QuickActions/QuickActions"
 
@@ -17,7 +16,12 @@ export const MedicalTest = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [btn, setBtn] = useState('StateBtn')
 
-    console.log(store)
+    const criticalPacient1 = store.test.filter(t => (Number(t.urgency) === 1)).length
+    const criticalPacient2 = store.test.filter(t => (Number(t.urgency) === 2)).length
+    const criticalPacient = criticalPacient1 + criticalPacient2
+    const oldestPatient = store.test.filter(t => t.status == 'Solicitada').sort((a, b) => a.id - b.id).slice(0, 6).length
+    const sendPending = store.test.filter(t => t.status === 'Pendiente').length
+
     useEffect(() => {
         getIncomeTest(dispatch)
     }, [])
@@ -97,7 +101,7 @@ export const MedicalTest = () => {
                             <div className="border border-secondary rounded mt-1 container consultation-container" style={{ minHeight: '610px' }}>
                                 <h6 className="mt-3 mx-2 fw-bolder fs-5">Acciones rapidas</h6>
                                 <p className="mx-2 " >Funciones principales</p>
-                                <QuickActions />
+                                <QuickActions criticalPacient={criticalPacient} oldestPatient={oldestPatient} sendPending={sendPending} />
                             </div>
 
                         </div>

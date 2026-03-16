@@ -3,11 +3,15 @@ import { getIncomeTest } from "../../APIServices/BACKENDservices"
 import useGlobalReducer from "../../hooks/useGlobalReducer"
 import { RowTest } from "../../components/RowTest/RowTest"
 import { testsCatalog } from "../../utils/testsCatalog"
+import { useParams } from "react-router-dom"
 
 export const DashboardTest = () => {
     const { store, dispatch } = useGlobalReducer()
+    const { type, value } = useParams()
     const [typeSelect, setTypeSelect] = useState('')
     const [valueSelect, setValueSelect] = useState('')
+
+    let dataLoad = [...store.test]
 
     const handleTypeSelect = (e) => {
         setTypeSelect(e.target.value)
@@ -19,7 +23,12 @@ export const DashboardTest = () => {
 
     useEffect(() => {
         getIncomeTest(dispatch)
-    }, [])
+        if (type && value) {
+            setTypeSelect(type)
+
+            setValueSelect(value)
+        }
+    }, [type, value, dispatch])
 
     return (
         <div>
@@ -32,24 +41,35 @@ export const DashboardTest = () => {
 
                 <div className="d-flex justify-content-center align-items-center">
                     <small className="mx-1">Filtar:</small>
-                    <select class="form-select w-50" aria-label="Default select type" onChange={handleTypeSelect} value={typeSelect}>
+                    <select class="form-select w-25" aria-label="Default select type" onChange={handleTypeSelect} value={typeSelect}>
                         <option value='select' selected>Selecciona una opción</option>
                         <option value="urgency">Prioridad</option>
+                        <option value="patient">Paciente</option>
                         <option value="order_type">Tipo de prueba</option>
                         <option value="status">Estado</option>
                     </select>
-                    {(typeSelect === 'select' || typeSelect === '') && <select class="form-select w-25 mx-1" aria-label="Default select example" disabled>
-                        <option selected>Selecciona una opcion</option>
-                    </select>}
+                    {(typeSelect === 'select' || typeSelect === 'task' || typeSelect === '') &&
+                        <select class="form-select w-25 mx-1" aria-label="Default select example" disabled>
+                            <option selected>Selecciona una opcion</option>
+                        </select>}
+                    {
+                        (typeSelect === 'patient') &&
+                        <div class="input-group w-25 mx-1">
+                            <input type="text" className="form-control " placeholder="Username" aria-label="Username" aria-describedby="visible-addon" />
+
+                        </div>
+
+                    }
                     {
                         typeSelect === 'urgency' &&
                         <select class="form-select w-25 mx-1" aria-label="Default select example" onChange={handleValueSelect} value={valueSelect}>
                             <option value='select' selected>Selecciona una prioridad</option>
-                            <option value="1">Critico</option>
+                            <option value="control">Criticos</option>
+                            <option value="1">Inminente</option>
                             <option value="2">Emergencia</option>
                             <option value="3">Urgente</option>
                             <option value="4">No urgente</option>
-                            <option value="5">Control</option>
+                            <option value="4">No urgente</option>
                         </select>
                     }
                     {
@@ -63,7 +83,6 @@ export const DashboardTest = () => {
                                             <option value={item}>{item}</option>
                                         </>
                                     )
-
                                 ))
                             }
                         </select>
@@ -94,13 +113,20 @@ export const DashboardTest = () => {
 
                     <tbody className="list">
                         {
-                            store.test
+                            dataLoad
                                 .filter(test => {
                                     if ((typeSelect == 'urgency' || typeSelect == 'order_type' || typeSelect == 'status') && valueSelect == 'select' || valueSelect == '') return true
+                                    if (typeSelect === 'urgency' && valueSelect === 'control') {
+
+                                        return test.urgency == 1 || test.urgency == 2;
+                                    }
                                     if (typeSelect == 'urgency') return test.urgency == valueSelect
                                     if (typeSelect == 'order_type') return test.order_type == valueSelect
                                     if (typeSelect == 'status') return test.status == valueSelect
                                     else return true
+                                })
+                                .sort((a, b) => {
+                                    if (type === 'task' && value === 'next') { return (a.id - b.id) } return 0;
                                 })
                                 .map((test) =>
                                     <RowTest key={test.id} test={test} />

@@ -47,6 +47,7 @@ export const router = createBrowserRouter(
       <Route path="/consultation/:id" element={<Consultation />} />
       <Route path="/medical-test" element={<MedicalTest />} />
       <Route path="/tests" element={<DashboardTest />} />
+      <Route path="/tests/:type/:value" element={<DashboardTest />} />
     </Route>
   )
 );
