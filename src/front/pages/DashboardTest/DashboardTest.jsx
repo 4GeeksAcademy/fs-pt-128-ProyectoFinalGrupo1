@@ -4,6 +4,7 @@ import useGlobalReducer from "../../hooks/useGlobalReducer"
 import { RowTest } from "../../components/RowTest/RowTest"
 import { testsCatalog } from "../../utils/testsCatalog"
 import { useParams } from "react-router-dom"
+import './DashboardTest.css'
 
 export const DashboardTest = () => {
     const { store, dispatch } = useGlobalReducer()
@@ -12,7 +13,17 @@ export const DashboardTest = () => {
     const [valueSelect, setValueSelect] = useState('')
 
     let dataLoad = [...store.test]
-
+    const handlerSearch = (value) => {
+        dispatch({ type: 'search', payload: value })
+    }
+    const filtered = dataLoad.filter(test => {
+        const searchTerm = store.search.toLowerCase();
+        return (
+            test.patient_name?.toLowerCase().includes(searchTerm) ||
+            test.patient_last?.toLowerCase().includes(searchTerm) ||
+            test.patient_dni?.toLowerCase().includes(searchTerm)
+        );
+    });
     const handleTypeSelect = (e) => {
         setTypeSelect(e.target.value)
         setValueSelect("select")
@@ -41,7 +52,7 @@ export const DashboardTest = () => {
 
                 <div className="d-flex justify-content-center align-items-center">
                     <small className="mx-1">Filtar:</small>
-                    <select class="form-select w-25" aria-label="Default select type" onChange={handleTypeSelect} value={typeSelect}>
+                    <select class="form-select form-select-custom w-25 shadow-sm" aria-label="Default select type" onChange={handleTypeSelect} value={typeSelect}>
                         <option value='select' selected>Selecciona una opción</option>
                         <option value="urgency">Prioridad</option>
                         <option value="patient">Paciente</option>
@@ -55,8 +66,12 @@ export const DashboardTest = () => {
                     {
                         (typeSelect === 'patient') &&
                         <div class="input-group w-25 mx-1">
-                            <input type="text" className="form-control " placeholder="Username" aria-label="Username" aria-describedby="visible-addon" />
-
+                            <input type="text"
+                                className="form-control shadow-sm border"
+                                placeholder="Nombre o DNI"
+                                aria-label="Username"
+                                aria-describedby="visible-addon"
+                                onChange={(e) => handlerSearch(e.target.value)} />
                         </div>
 
                     }
@@ -77,7 +92,7 @@ export const DashboardTest = () => {
                         <select class="form-select w-25 mx-1" aria-label="Default select example" onChange={handleValueSelect} value={valueSelect}>
                             <option value='select' selected>Selecciona una prueba</option>
                             {
-                                testsCatalog.map(t => (
+                                testsCfilteredatalog.map(t => (
                                     t.items.map(item =>
                                         <>
                                             <option value={item}>{item}</option>
@@ -113,11 +128,10 @@ export const DashboardTest = () => {
 
                     <tbody className="list">
                         {
-                            dataLoad
+                            filtered
                                 .filter(test => {
                                     if ((typeSelect == 'urgency' || typeSelect == 'order_type' || typeSelect == 'status') && valueSelect == 'select' || valueSelect == '') return true
                                     if (typeSelect === 'urgency' && valueSelect === 'control') {
-
                                         return test.urgency == 1 || test.urgency == 2;
                                     }
                                     if (typeSelect == 'urgency') return test.urgency == valueSelect
@@ -126,12 +140,12 @@ export const DashboardTest = () => {
                                     else return true
                                 })
                                 .sort((a, b) => {
-                                    if (type === 'task' && value === 'next') { return (a.id - b.id) } return 0;
+                                    if (type === 'task' && value === 'next') { return (a.id - b.id) }
+                                    return 0;
                                 })
                                 .map((test) =>
                                     <RowTest key={test.id} test={test} />
                                 )
-
                         }
                     </tbody>
 

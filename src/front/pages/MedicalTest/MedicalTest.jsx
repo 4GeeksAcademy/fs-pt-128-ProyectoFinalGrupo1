@@ -75,7 +75,7 @@ export const MedicalTest = () => {
                         <div className="container d-flex mt-2">
                             <div className="border border-secondary rounded  me-2 container consultation-container " style={{ maxHeight: '625px', overflowY: 'auto' }}>
                                 <h6 className="mt-3 mx-2 fw-bolder fs-5">Actividad reciente</h6>
-                                <p className="mx-2 " >Ultimas acciones realizadas en el sistema</p>
+                                <p className="mx-2">Ultimas acciones realizadas en el sistema</p>
                                 <div className="d-flex justify-content-center bg-btn rounded m-2">
                                     <button
                                         className={`btn btn-custom mx-1 mt-1 mb-1 fw-bolder ${btn === 'StateBtn' ? 'active' : ''}`}
@@ -98,7 +98,7 @@ export const MedicalTest = () => {
                                 </div>
 
                             </div>
-                            <div className="border border-secondary rounded mt-1 container consultation-container" style={{ minHeight: '610px' }}>
+                            <div className="border border-secondary rounded  container consultation-container" style={{ maxHeight: '625px' }}>
                                 <h6 className="mt-3 mx-2 fw-bolder fs-5">Acciones rapidas</h6>
                                 <p className="mx-2 " >Funciones principales</p>
                                 <QuickActions criticalPacient={criticalPacient} oldestPatient={oldestPatient} sendPending={sendPending} />
