@@ -9,9 +9,11 @@
 
 .triageButton{
     width: 200px;
-    
-    
+}
 
+.consultation-container {
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+  background-color: #f1f3f5;
 }
 
 
