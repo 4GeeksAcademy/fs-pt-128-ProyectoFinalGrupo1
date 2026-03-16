@@ -415,6 +415,7 @@ def get_order_panel():
                 "income_id": income.id,
                 "patient_dni": income.patient.dni,
                 "patient_name": income.patient.firstname,
+                "patient_last": income.patient.lastname,
                 "urgency": income.triage_priority,
                 "order_type": order.order_type,
                 "status": order.status,

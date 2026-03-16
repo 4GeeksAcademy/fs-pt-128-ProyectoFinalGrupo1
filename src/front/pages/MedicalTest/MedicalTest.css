@@ -1,3 +1,28 @@
-.title-ordercard{
-    font-size: 14px;
+.title-ordercard {
+  font-size: 14px;
+}
+.btn-custom {
+  width: 33%;
+  border: none;
+}
+.btn-custom:hover {
+  color: black;
+  background-color: #fff;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.btn-custom.active {
+  color: black;
+  background-color: #fff;
+  border: none;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+.bg-btn {
+  background-color: #d8d9da;
+}
+.urgency-scroll {
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
 }
