@@ -12,8 +12,15 @@
 }
 
 .consultation-container {
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
-  background-color: #f1f3f5;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+    background-color: #f1f3f5;    
+  
+}
+
+.valoration-container {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+    background-color: #f1f3f5;
+    
 }
 
 

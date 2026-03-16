@@ -3,6 +3,8 @@ import useGlobalReducer from "../../hooks/useGlobalReducer"
 import { getIncome, getUser, updateIncome } from "../../APIServices/BACKENDservices"
 import { useNavigate, useParams } from "react-router-dom"
 import "./IncomeForm.css";
+import { PatientCard } from "../../components/PacientCard/PacientCard";
+import { VisitReasonCard } from "../../components/VisitReasonCard/VisitReassonCard";
 
 
 export const IncomeForm = () => {
@@ -19,7 +21,10 @@ export const IncomeForm = () => {
         id_nurse: "",
         valoration_triage: "",
         triage_priority: "",
-        reason_consultation: ""
+        reason_consultation: "",
+        birth_date: "",
+        nurse: ""
+
 
     })
 
@@ -82,9 +87,13 @@ export const IncomeForm = () => {
         if (store.income) {
             setIncomeForm({
                 ...incomeForm,
+                dni: store.income.patient_dni,
                 patient_name: store.income.patient_firstname,
                 patient_lastname: store.income.patient_lastname,
-                reason_consultation: store.income.visitreason
+                reason_consultation: store.income.visitreason,
+                birth_date: store.income.patient_birthdate,
+                allergies: store.income.patient_allergies,
+                nurse: store.income.nurse
             })
         }
     }, [store.income])
@@ -92,6 +101,7 @@ export const IncomeForm = () => {
     return (
         <>
             <div className="container mt-5">
+
                 <div className="container ">
                     <h1 className="title w-100 text-center mb-4">Triaje</h1>
                 </div>
@@ -102,56 +112,21 @@ export const IncomeForm = () => {
                         </div>
                     )
                 }
-                <form onSubmit={handleSubmit}>
-                    <div className="d-flex flex-column flex-md-row gap-3 mb-3 container border border-secondary rounded me-1 mt-2 consultation-container">
-                        <div className="flex-fill">
-                            <label htmlFor="patient" className="form-label">Nombre</label>
-                            <input
-                                type="text"
-                                placeholder={incomeForm.patient_name}
-                                className="form-control rounded mb-2 shadow bg-body-tertiary rounded"
-                                id="patient"
-
-                            />
-                        </div>
-                        <div className="flex-fill">
-                            <label htmlFor="patient" className="form-label">Apellidos</label>
-                            <input
-                                type="text"
-                                placeholder={incomeForm.patient_lastname}
-                                className="form-control rounded mb-2 shadow bg-body-tertiary rounded"
-                                id="patient"
-
-                            />
-                        </div>
-
-
-
-                        <div className="flex-fill">
-                            <label htmlFor="nurse" className="form-label">Enfermero</label>
-                            <input
-                                type="text"
-                                placeholder={incomeForm.id_nurse}
-                                className="form-control rounded mb-2 shadow bg-body-tertiary rounded"
-                                id="nurse"
-                                disabled
-                            />
-                        </div>
+                <form onSubmit={handleSubmit} className="container">
+                    <div className=" d-flex">
+                        <PatientCard width={'w-50'}
+                            patient_dni={incomeForm.dni}
+                            patient_firstname={incomeForm.patient_name}
+                            patient_lastname={incomeForm.patient_lastname}
+                            patient_birthdate={incomeForm.birth_date}
+                            patient_allergies={incomeForm.allergies} />
+                        <VisitReasonCard
+                            visitreason={incomeForm.reason_consultation}
+                            nurse={incomeForm.nurse}
+                            width={'w-50'} />
                     </div>
 
-                    <div className="container border border-secondary rounded me-1 mt-2 consultation-container">
-                        <label htmlFor="Consult" className="form-label">
-                            <h2 className="mt-1 fs-5 fw-semibold">Motivo de consulta</h2>
-                        </label>
-                        <textarea
-                            className="form-control mb-2 p-3 shadow bg-body-tertiary rounded"
-                            name="consult"
-                            id="Consult"
-                            value={incomeForm.reason_consultation}
-                            readOnly
-                            rows="4"
-                        ></textarea>
-                    </div>
+
 
                     <div className="priorityResponsive mb-3">
                         <select className="form-select" onChange={handleSelect} aria-label="Default select example">
@@ -165,17 +140,17 @@ export const IncomeForm = () => {
 
                     </div>
 
-                    <div className="container border border-secondary rounded me-1 mb-3 mt-2 consultation-container">
-                        <label htmlFor="valorationTriage" className="form-label">
-                           <h2 className="mt-1 fs-5 fw-semibold">Valoración</h2>
-                        </label>
+                    
+                    <div className="border border-secondary rounded mt-2 mb-5 container consultation-container">
+                        <h2 className="mt-1 mt-1 fs-5 fw-semibold">Valoración</h2>
+                       
                         <textarea
-                            className="form-control mb-2 p-3 shadow bg-body-tertiary rounded"
-                            value={incomeForm.valoration_triage}
+                            className="form-control rounded-1 mb-2 p-3 shadow bg-body-tertiary rounded"
                             name="valoration_triage"
+                            value={incomeForm.valoration_triage}
                             onChange={handleChange}
-                            id="valorationTriage"
-                            rows="5"
+                            id="razonDeConsulta"
+                            rows="4"
                         ></textarea>
                     </div>
                     <div className="piorityContainer text-dark mb-3">
