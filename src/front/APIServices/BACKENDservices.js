@@ -301,3 +301,18 @@ export const changeStatus = async (id, status) => {
   }
   return { ok: true };
 };
+
+export const uploadFile = async (id, formData) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/order/${id}/result`,
+    {
+      method: "POST",
+      body: formData,
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    return data;
+  }
+  return { ok: true };
+};

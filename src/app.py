@@ -12,6 +12,9 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
 from flask_mail import Mail, Message
+import cloudinary
+
+import cloudinary.api
 
 # from models import Person
 
@@ -25,14 +28,19 @@ jwt = JWTManager(app)
 app.config.update(
     MAIL_SERVER='sandbox.smtp.mailtrap.io',
     MAIL_PORT=587,
-    MAIL_USERNAME='2c6dccfc3c7e46',  
+    MAIL_USERNAME='2c6dccfc3c7e46',
     MAIL_PASSWORD='570362d19bc647',
     MAIL_USE_TLS=True,
     MAIL_USE_SSL=False
 )
 mail = Mail(app)
 app.url_map.strict_slashes = False
-
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRTET"),
+    secure=True
+)
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:

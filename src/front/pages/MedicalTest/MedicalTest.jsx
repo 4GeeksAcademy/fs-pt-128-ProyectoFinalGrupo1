@@ -54,7 +54,7 @@ export const MedicalTest = () => {
                                 <h4 className="title title-ordercard mt-1 text-muted">Pruebas en proceso</h4>
                                 <p className="text-dark fs-4 fw-bolder">
                                     <i className="fa-solid fa-microscope text-success me-2"></i>
-                                    {countRequested(store.test, "Precesada")}
+                                    {countRequested(store.test, "En proceso")}
                                 </p>
                             </div>
                             <div className="border border-secondary rounded mb-2 me-1  w-25 container consultation-container">
@@ -83,7 +83,7 @@ export const MedicalTest = () => {
                                     <button className={`btn btn-custom mx-auto mt-1 mb-1 fw-bolder ${btn === 'UrgencyBtn' ? 'active' : ''}`}
                                         onClick={() => setBtn('UrgencyBtn')}>Urgentes</button>
                                     <button className={`btn btn-custom mx-1 mt-1 mb-1 fw-bolder ${btn === 'SpecialtyBtn' ? 'active' : ''}`}
-                                        onClick={() => setBtn('SpecialtyBtn')}>Pacientes</button>
+                                        onClick={() => setBtn('SpecialtyBtn')}>Especialidades</button>
                                 </div>
                                 <div className="">
                                     {
