@@ -8,7 +8,6 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token
 import os
-import json
 from flask_mail import Message
 import cloudinary.uploader
 
@@ -343,6 +342,21 @@ def put_incomes_triage(income_id):
 
     actual_income.valoration_triage = valoration_triage
     actual_income.triage_priority = new_triage_priority if new_triage_priority else actual_income.triage_priority
+    priority = actual_income.triage_priority
+    new_position = db.session.query(func.min(Income.position)).filter(
+        Income.triage_priority > priority).scalar()
+
+    if new_position is not None:
+        db.session.query(Income).filter(Income.position >= new_position).update(
+            {Income.position: Income.position + 1}
+        )
+    else:
+        max_position = db.session.query(func.max(Income.position)).scalar()
+        if max_position is None:
+            new_position = 0
+        else:
+            new_position = max_position + 1
+    actual_income.position = new_position
     actual_income.state = "Esperando consulta"
     db.session.add(actual_income)
     db.session.commit()

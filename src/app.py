@@ -14,7 +14,6 @@ from flask_jwt_extended import JWTManager
 from flask_mail import Mail, Message
 import cloudinary
 
-import cloudinary.api
 
 # from models import Person
 

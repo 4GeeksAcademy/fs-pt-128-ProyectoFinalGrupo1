@@ -20,7 +20,8 @@ export const ExecutationAndDocu = ({ income, test, onNext }) => {
         if (response.ok) {
             setLoading(false)
             onNext()
-        } if (!response.ok) {
+        } 
+        if (!response.ok) {
             setLoading(false)
             setError(response.error)
         }
