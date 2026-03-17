@@ -10,7 +10,6 @@ from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_tok
 import os
 import json
 from flask_mail import Message
-import cloudinary.uploader
 
 api = Blueprint('api', __name__)
 
@@ -404,8 +403,6 @@ def post_order():
     db.session.commit()
     return jsonify({'msg': 'Register orders succesfully'}), 201
 
-# region: Order-PATCH
-
 
 @api.route('/orders/<int:order_id>', methods=['PATCH'])
 def patch_order(order_id):
@@ -417,8 +414,6 @@ def patch_order(order_id):
     id_order.status = data.get('status')
     db.session.commit()
     return jsonify({'msg': 'Register orders succesfully'}), 201
-
-# region:  Panel-test -GET
 
 
 @api.route('/order-panel', methods=['GET'])
@@ -440,20 +435,3 @@ def get_order_panel():
                 "results": order.results
             })
     return jsonify(response), 200
-
-# region:Cloudinary
-
-
-@api.route('/order/<int:order_id>/result', methods=['POST'])
-def upload_result(order_id):
-    data = request.files['file']
-    if not data:
-        return jsonify({'error': 'The file are required'}), 400
-    upload = cloudinary.uploader.upload(data, resource_type='auto')
-    source_url = upload.get('secure_url')
-    order = Order.query.get(order_id)
-    if order:
-        order.results = source_url
-        db.session.commit()
-        return jsonify({'msg': 'File upload successfully'}), 201
-    return ({'error': 'Test not found'}), 404
