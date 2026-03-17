@@ -54,7 +54,7 @@ export const MedicalTest = () => {
                                 <h4 className="title title-ordercard mt-1 text-muted">Pruebas en proceso</h4>
                                 <p className="text-dark fs-4 fw-bolder">
                                     <i className="fa-solid fa-microscope text-success me-2"></i>
-                                    {countRequested(store.test, "Precesada")}
+                                    {countRequested(store.test, "En proceso")}
                                 </p>
                             </div>
                             <div className="border border-secondary rounded mb-2 me-1  w-25 container consultation-container">
@@ -75,7 +75,7 @@ export const MedicalTest = () => {
                         <div className="container d-flex mt-2">
                             <div className="border border-secondary rounded  me-2 container consultation-container " style={{ maxHeight: '625px', overflowY: 'auto' }}>
                                 <h6 className="mt-3 mx-2 fw-bolder fs-5">Actividad reciente</h6>
-                                <p className="mx-2 " >Ultimas acciones realizadas en el sistema</p>
+                                <p className="mx-2">Ultimas acciones realizadas en el sistema</p>
                                 <div className="d-flex justify-content-center bg-btn rounded m-2">
                                     <button
                                         className={`btn btn-custom mx-1 mt-1 mb-1 fw-bolder ${btn === 'StateBtn' ? 'active' : ''}`}
@@ -83,7 +83,7 @@ export const MedicalTest = () => {
                                     <button className={`btn btn-custom mx-auto mt-1 mb-1 fw-bolder ${btn === 'UrgencyBtn' ? 'active' : ''}`}
                                         onClick={() => setBtn('UrgencyBtn')}>Urgentes</button>
                                     <button className={`btn btn-custom mx-1 mt-1 mb-1 fw-bolder ${btn === 'SpecialtyBtn' ? 'active' : ''}`}
-                                        onClick={() => setBtn('SpecialtyBtn')}>Pacientes</button>
+                                        onClick={() => setBtn('SpecialtyBtn')}>Especialidades</button>
                                 </div>
                                 <div className="">
                                     {
@@ -98,7 +98,7 @@ export const MedicalTest = () => {
                                 </div>
 
                             </div>
-                            <div className="border border-secondary rounded mt-1 container consultation-container" style={{ minHeight: '610px' }}>
+                            <div className="border border-secondary rounded  container consultation-container" style={{ maxHeight: '625px' }}>
                                 <h6 className="mt-3 mx-2 fw-bolder fs-5">Acciones rapidas</h6>
                                 <p className="mx-2 " >Funciones principales</p>
                                 <QuickActions criticalPacient={criticalPacient} oldestPatient={oldestPatient} sendPending={sendPending} />

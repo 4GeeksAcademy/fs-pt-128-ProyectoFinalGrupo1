@@ -283,3 +283,21 @@ export const getIncomeTest = async (dispatch) => {
     return data;
   }
 };
+
+export const changeStatus = async (id, status) => {
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/orders/${id}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ status: status }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    return data;
+  }
+  return { ok: true };
+};
