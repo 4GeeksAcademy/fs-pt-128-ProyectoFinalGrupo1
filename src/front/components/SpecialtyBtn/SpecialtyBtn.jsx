@@ -35,7 +35,7 @@ export const SpecialtyBtn = ({ test }) => {
 
                         <div className="text-end">
                             {t.urgency > 0 && (
-                                <div className="badge text-uppercase bg-danger rounded-pill mb-1 d-block">
+                                <div className="badge text-uppercase bg-danger text-nowrap rounded-pill mb-1 d-block">
                                     <p className="m-0">{t.urgency} Urgentes</p>
                                 </div>
                             )}
