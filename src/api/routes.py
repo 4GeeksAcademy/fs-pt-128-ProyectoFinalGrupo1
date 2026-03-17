@@ -404,6 +404,18 @@ def post_order():
     return jsonify({'msg': 'Register orders succesfully'}), 201
 
 
+@api.route('/orders/<int:order_id>', methods=['PATCH'])
+def patch_order(order_id):
+    data = request.get_json()
+    id_order = db.session.execute(
+        select(Order).where(Order.id == order_id)).scalar_one_or_none()
+    if not id_order:
+        return jsonify({'error': 'Income not found'}), 404
+    id_order.status = data.get('status')
+    db.session.commit()
+    return jsonify({'msg': 'Register orders succesfully'}), 201
+
+
 @api.route('/order-panel', methods=['GET'])
 def get_order_panel():
     incomes = Income.query.order_by(Income.position.asc()).all()
