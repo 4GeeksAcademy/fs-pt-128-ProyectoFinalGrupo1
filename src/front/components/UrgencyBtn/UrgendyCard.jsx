@@ -19,7 +19,7 @@ export const UrgencyCard = ({ t, calculateTime }) => {
                 <p className="m-0 fs-6 text-muted">{t.patient_name} {t.patient_lastname}</p>
             </div>
             <div className="d-flex flex-column justify-content-center align-items-center">
-                <p className="m-0 rounded-pill text-white text-orderstatus text-uppercase px-2">{t.status}</p>
+                <p className="m-0 rounded-pill text-white text-orderstatus text-nowrap text-uppercase px-2">{t.status}</p>
                 <p className="m-0 text-muted text-hour">{calculateTime(t.created_at)}</p>
             </div>
         </div>
