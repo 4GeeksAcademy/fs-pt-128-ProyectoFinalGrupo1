@@ -302,6 +302,20 @@ def get_income(id):
     response = income.serialize_patient_data()
     return jsonify(response), 200
 
+
+@api.route('/income-alta/<patient_id>', methods=['GET'])
+def get_income_alta(patient_id):
+    incomes = db.session.execute(
+        select(Income).where(
+            Income.id_patient == patient_id,
+            Income.state == 'Alta'
+        )
+    ).scalars().all()
+    if not incomes:
+        return jsonify({"error": "There are no incomes yet"}), 404
+    response = [income.serialize() for income in incomes]
+    return jsonify(response), 200
+
 # region: /incomes-triage/income_id - PUT
 
 
