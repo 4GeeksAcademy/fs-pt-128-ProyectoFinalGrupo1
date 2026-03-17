@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { SpinnerButton } from "../Spinner/SpinnerButton"
-import { getIncomeTest, uploadFile } from "../../APIServices/BACKENDservices"
+import { uploadFile } from "../../APIServices/APIServices.js"
 
 export const ExecutationAndDocu = ({ income, test, onNext }) => {
     const [selectFile, setSelectedFile] = useState(null)

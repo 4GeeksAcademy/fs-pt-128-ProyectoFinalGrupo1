@@ -457,3 +457,18 @@ def upload_result(order_id):
         db.session.commit()
         return jsonify({'msg': 'File upload successfully'}), 201
     return ({'error': 'Test not found'}), 404
+
+
+@api.route('/order/<int:order_id>/result', methods=['PATCH'])
+def reload_result(order_id):
+    data = request.files['file']
+    if not data:
+        return jsonify({'error': 'The file are required'}), 400
+    upload = cloudinary.uploader.upload(data, resource_type='auto')
+    source_url = upload.get('secure_url')
+    order = Order.query.get(order_id)
+    if order:
+        order.results = source_url
+        db.session.commit()
+        return jsonify({'msg': 'File upload successfully'}), 201
+    return ({'error': 'Test not found'}), 404
