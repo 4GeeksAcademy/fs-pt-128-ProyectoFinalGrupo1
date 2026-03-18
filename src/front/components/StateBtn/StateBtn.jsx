@@ -8,7 +8,7 @@ export const StateBtn = ({ test }) => {
     return (
         <div>
             {
-                test.slice().reverse().slice(0, 6).map(t =>
+                test.filter(t => t.status !== 'Finalizado').slice().reverse().slice(0, 6).map(t =>
                     <div key={t.id} className="bg-white border d-flex justify-content-between rounded m-2 p-2">
                         <div className="rounded-circle  bg-light d-flex align-items-center justify-content-center" style={{ width: '70px', height: '50px' }}>
                             <i className="fa-regular fa-file-lines fs-4 mx-3"></i>

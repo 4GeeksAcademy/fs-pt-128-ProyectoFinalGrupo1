@@ -136,8 +136,9 @@ export const DashboardConsulta = () => {
                                     <tr >
                                         <th scope="col" className="w-auto text-nowrap" style={{ width: "17%" }}>Paciente</th>
                                         <th scope="col" className="w-auto text-nowrap" style={{ width: "8%" }}>Alergias</th>
-                                        <th scope="col" style={{ width: "49%" }}>Valoración del triaje</th>
+                                        <th scope="col" style={{ width: "41%" }}>Valoración del triaje</th>
                                         <th scope="col" className="w-auto text-nowrap" style={{ width: "8%" }}>Consulta</th>
+                                        <th scope="col" style={{ width: "8%" }}>Pruebas</th>
                                         <th scope="col" className="w-auto text-nowrap">Tiempo en espera</th>
                                         <th scope="col" className="w-auto text-nowrap" style={{ width: "8%" }}></th>
                                     </tr>

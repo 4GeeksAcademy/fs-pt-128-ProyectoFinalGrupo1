@@ -20,6 +20,7 @@ export const Consultation = () => {
     })
     const [updateOrders, setUpdateOrders] = useState(false)
     const reloadData = () => setUpdateOrders(!updateOrders);
+
     const [isLoading, setIsLoading] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -46,6 +47,9 @@ export const Consultation = () => {
         if (!consultation.diagnosis || !consultation.treament) {
             setError("Es necesaria el diagnostico y su tratamiento")
             setLoading(false)
+            setInterval(() => {
+                setError('')
+            }, 2500)
             return
         }
         setLoading(true)
@@ -63,8 +67,6 @@ export const Consultation = () => {
     useEffect(() => {
         loadData()
     }, [])
-
-    console.log(store.income)
 
     return (
         <div className="container-max-height">
@@ -95,10 +97,10 @@ export const Consultation = () => {
                             </div>
                             <TriageCard valoration_triage={store.income.valoration_triage} />
                             <AnaliticOrder id={store.income.id} orders={store.income.orders} />
-                            <form className="container" onSubmit={handlerSubmit}>
-                                <div className="border border-secondary rounded mt-2 container w-100 consultation-container">
+                            <form className="container " onSubmit={handlerSubmit}>
+                                <div className="border border-secondary rounded mt-2 position-relative container w-100 consultation-container">
                                     <h2 className="mt-1 mt-1 fs-5 fw-semibold">Diagnostico</h2>
-                                    {error && <div className="alert alert-danger" role="alert">
+                                    {error && <div className="alert alert-danger mx-2 mt-1 position-absolute top-0 start-0 end-0 " role="alert">
                                         {error}
                                     </div>}
                                     <textarea
@@ -112,9 +114,6 @@ export const Consultation = () => {
                                 </div>
                                 <div className="border border-secondary rounded mt-2 container w-100 consultation-container">
                                     <h2 className="mt-1 mt-1 fs-5 fw-semibold">Tratamiento</h2>
-                                    {error && <div className="alert alert-danger" role="alert">
-                                        {error}
-                                    </div>}
                                     <textarea
                                         className="form-control rounded-1 mb-2 p-3 shadow bg-body-tertiary rounded"
                                         name="treament"
