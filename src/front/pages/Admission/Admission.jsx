@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Profiler, useState } from "react";
 import "./Admission.css"
 import { createAdmission, getPatient } from "../../APIServices/BACKENDservices";
 import { useNavigate } from "react-router-dom";
@@ -148,7 +148,7 @@ export const Admission = () => {
             <div className="d-flex justify-content-between align-items-start m-3 mb-4">
                 <h1>Admisión</h1>
                 <div className="align-items-center d-flex">
-                    <h4>Nombre usuario</h4>
+                    <h4>{localStorage.getItem("firstname")+" "+ localStorage.getItem("lastname")}</h4>
                     <i className=" ms-3 fs-4 fa-solid fa-user-nurse bg-info rounded-circle p-3" />
                 </div>
             </div>
