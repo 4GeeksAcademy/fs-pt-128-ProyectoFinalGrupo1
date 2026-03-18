@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { OffCanvas } from '../OffCanvas/OffCanvas'
 import useGlobalReducer from '../../hooks/useGlobalReducer'
 import { getIncome, postOrders } from '../../APIServices/BACKENDservices'
-import { useRouteLoaderData } from 'react-router-dom'
 import { SpinnerButton } from '../Spinner/SpinnerButton'
 
 
@@ -12,6 +11,7 @@ export const AnaliticOrder = ({ orders, id }) => {
     const { store, dispatch } = useGlobalReducer()
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [confirm, setConfirm] = useState('')
 
     const handlerChangeOrders = (e) => {
         if (!store.orders.includes(e.target.name)) {
@@ -23,6 +23,14 @@ export const AnaliticOrder = ({ orders, id }) => {
     const handlerSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
+        if (!store.orders || store.orders?.length === 0) {
+            setLoading(false)
+            setError('Seleccione la/s pruebas/s a realizar')
+            setInterval(() => {
+                setError('')
+            }, 1500)
+            return
+        }
         const response = await postOrders(store.income.id, store.orders)
         if (response.error) {
             setLoading(false)
@@ -30,21 +38,29 @@ export const AnaliticOrder = ({ orders, id }) => {
             return
         }
         await getIncome(dispatch, id)
+        setConfirm('Pruebas solicitadas correctamente')
         setLoading(false)
+        setInterval(() => {
+            setConfirm('')
+        }, 2000)
+        return
     }
-    console.log(store.income)
     return (
         <div className="container">
-            <div className="border border-secondary rounded mt-2 container w-100 consultation-container">
+            <div className="border border-secondary rounded mt-2 container w-100 consultation-container position-relative">
                 <h2 className="mt-1 mt-1 fs-5 fw-semibold">Petición de pruebas</h2>
+                {confirm && <div className="alert alert-success mx-2 mt-1 position-absolute top-0 start-0 end-0" role="alert">
+                    {confirm}
+                </div>}
                 {
                     error && (
-                        <div className="alert alert-danger d-flex align-items-center justify-content-around fade-alert" role="alert">
+                        <div className="alert alert-danger justify-content-around fade-alert mx-2 mt-1 position-absolute top-0 start-0 end-0" role="alert">
                             {error} <i className="fa-solid fa-triangle-exclamation"></i>
                         </div>
                     )
                 }
-                <form onSubmit={handlerSubmit}>
+                <form onSubmit={handlerSubmit} className=''>
+
                     <div className="d-flex align-items-center justify-content-center mb-1">
                         <div className="d-flex justify-content-center align-items-center mx-2">
                             <input type="checkbox"

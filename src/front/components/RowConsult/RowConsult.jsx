@@ -3,6 +3,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { Link } from "react-router-dom";
 import { TimeCounter } from "../TimeCounter/TimeCounter";
 import { PopOver } from "../PopOver/PopOver";
+import { PopOverTest } from "../PopOver/PopOverTest";
 import { getPriorityColor } from "../../utils/setColorPriority";
 import './RowConsult.css'
 
@@ -40,6 +41,9 @@ export const RowConsult = ({ id, income }) => {
                     </button>
                 </Link>
 
+            </td>
+            <td className="w-auto text-nowrap bg-transparent ">
+                <PopOverTest patient={income.patient_firstname} orders={income.orders} />
             </td>
             <td className="w-auto text-nowrap bg-transparent">
                 <TimeCounter startTime={income.created_at} priority={income.triage_priority} />

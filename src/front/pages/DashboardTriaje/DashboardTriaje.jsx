@@ -137,7 +137,7 @@ export const DashboardTriaje = () => {
                                     <tr>
                                         <th scope="col" className="text-nowrap" style={{ width: "17%" }}>Paciente</th>
                                         <th scope="col" colSpan={1} className="text-nowrap" style={{ width: "8%" }}>Alergias</th>
-                                        <th scope="col" style={{ width: "49%" }}>Motivo de la visita</th>
+                                        <th scope="col" style={{ width: "41%" }}>Motivo de la visita</th>
                                         <th scope="col" className="w-auto text-nowrap" style={{ width: "8%" }}>Triaje</th>
                                         <th scope="col" className="w-auto text-nowrap" style={{ width: "10%" }}>Tiempo en espera</th>
                                         <th scope="col" className="w-auto text-nowrap" style={{ width: "8%" }}></th>

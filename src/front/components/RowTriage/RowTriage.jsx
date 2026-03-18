@@ -24,7 +24,7 @@ export const SortableRow = ({ id, income }) => {
         <tr className="color-primary medical-row" ref={setNodeRef}
             style={{ ...style, ...shadowStyle }}
             {...attributes}>
-            <td className="w-auto text-nowrap bg-transparent p-0">
+            <td className="w-auto text-nowrap bg-transparent">
                 {income.patient_firstname} {income.patient_lastname}
             </td>
             <td colSpan={1} className="text-nowrap bg-transparent p-0">
