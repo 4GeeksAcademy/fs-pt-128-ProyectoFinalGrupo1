@@ -16,10 +16,11 @@ export const Consultation = () => {
     const navigate = useNavigate()
     const [consultation, setConsultation] = useState({
         "diagnosis": "",
-        "tratamiento": ""
+        "treament": ""
     })
     const [updateOrders, setUpdateOrders] = useState(false)
     const reloadData = () => setUpdateOrders(!updateOrders);
+
     const [isLoading, setIsLoading] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -43,9 +44,12 @@ export const Consultation = () => {
     }
     const handlerSubmit = async (e) => {
         e.preventDefault()
-        if (!consultation.diagnosis) {
+        if (!consultation.diagnosis || !consultation.treament) {
             setError("Es necesaria el diagnostico y su tratamiento")
             setLoading(false)
+            setInterval(() => {
+                setError('')
+            }, 2500)
             return
         }
         setLoading(true)
@@ -59,18 +63,16 @@ export const Consultation = () => {
         navigate('/consultation')
         return
     }
-    console.log(store.orders)
+
     useEffect(() => {
         loadData()
     }, [])
-
-    console.log(store.income)
 
     return (
         <div className="container-max-height">
             {isLoading ?
                 (<div className="d-flex justify-content-center align-items-center flex-column" style={{ minHeight: "100vh" }}>
-                    <h2>Cagando datos del paciente...</h2>
+                    <h2>Cagando datos de los paciente...</h2>
                     <SpinnerLoad />
                 </div>)
                 : (<div>
@@ -95,10 +97,10 @@ export const Consultation = () => {
                             </div>
                             <TriageCard valoration_triage={store.income.valoration_triage} />
                             <AnaliticOrder id={store.income.id} orders={store.income.orders} />
-                            <form className="container">
-                                <div className="border border-secondary rounded mt-2 container w-100 consultation-container">
+                            <form className="container " onSubmit={handlerSubmit}>
+                                <div className="border border-secondary rounded mt-2 position-relative container w-100 consultation-container">
                                     <h2 className="mt-1 mt-1 fs-5 fw-semibold">Diagnostico</h2>
-                                    {error && <div className="alert alert-danger" role="alert">
+                                    {error && <div className="alert alert-danger mx-2 mt-1 position-absolute top-0 start-0 end-0 " role="alert">
                                         {error}
                                     </div>}
                                     <textarea
@@ -112,13 +114,10 @@ export const Consultation = () => {
                                 </div>
                                 <div className="border border-secondary rounded mt-2 container w-100 consultation-container">
                                     <h2 className="mt-1 mt-1 fs-5 fw-semibold">Tratamiento</h2>
-                                    {error && <div className="alert alert-danger" role="alert">
-                                        {error}
-                                    </div>}
                                     <textarea
                                         className="form-control rounded-1 mb-2 p-3 shadow bg-body-tertiary rounded"
-                                        name="tratamiento"
-                                        value={consultation.tratamiento}
+                                        name="treament"
+                                        value={consultation.treament}
                                         onChange={handlerChange}
                                         id="razonDeConsulta"
                                         rows="4"

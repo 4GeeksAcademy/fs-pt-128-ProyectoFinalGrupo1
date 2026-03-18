@@ -4,8 +4,7 @@ export const QuickActions = ({ criticalPacient, oldestPatient, sendPending }) =>
     return (
         <div className="border-0 p-3 rounded-4">
             <div className="d-flex flex-column gap-3">
-
-                <Link className="text-decoration-none">
+                <Link className="text-decoration-none" to={'/tests/patient/all'}>
                     <div className="d-flex bg-white align-items-center bg-white p-3 rounded-3 bg-light action-btn-hover" style={{ cursor: 'pointer' }}>
                         <div className="bg-light p-2 rounded-3 shadow me-3">
                             <i className="fa-solid fa-magnifying-glass text-primary fs-5"></i>
@@ -32,7 +31,7 @@ export const QuickActions = ({ criticalPacient, oldestPatient, sendPending }) =>
                     </div>
                 </Link>
 
-                <Link className="text-decoration-none" to={'/tests/urgency/1'}>
+                <Link className="text-decoration-none" to={'/tests/urgency/control'}>
                     <div className="d-flex bg-white align-items-center p-3 rounded-3 bg-light action-btn-hover position-relative" style={{ cursor: 'pointer' }}>
                         <div className="bg-light p-2 rounded-3 shadow me-3">
                             <i className="fa-solid fa-forward-step text-danger fs-5"></i>
@@ -46,7 +45,7 @@ export const QuickActions = ({ criticalPacient, oldestPatient, sendPending }) =>
                         </span>
                     </div>
                 </Link>
-                <Link className="text-decoration-none">
+                <Link className="text-decoration-none" to={'/tests/status/Pendiente'}>
                     <div className="d-flex bg-white align-items-center p-3 rounded-3 bg-light action-btn-hover position-relative" style={{ cursor: 'pointer' }}>
                         <div className="bg-light p-2 rounded-3 shadow me-3">
                             <i className="fa-solid fa-paper-plane text-warning fs-5"></i>
@@ -60,7 +59,6 @@ export const QuickActions = ({ criticalPacient, oldestPatient, sendPending }) =>
                         </span>
                     </div>
                 </Link>
-
             </div>
         </div>
     )

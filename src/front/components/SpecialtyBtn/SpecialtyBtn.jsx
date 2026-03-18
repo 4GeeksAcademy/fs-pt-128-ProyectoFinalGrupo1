@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 export const SpecialtyBtn = ({ test }) => {
 
     const tests = [];
     const testsList = new Set();
-
+    
     test.forEach(t => {
         if (!testsList.has(t.order_type)) {
             testsList.add(t.order_type);
@@ -14,7 +16,7 @@ export const SpecialtyBtn = ({ test }) => {
         } else {
             const s = tests.find(s => s.name === t.order_type);
             s.total++;
-            if (t.urgency < 3) s.urgencys++;
+            if (t.urgency < 3) s.urgency++;
         }
     });
     return (
@@ -35,13 +37,15 @@ export const SpecialtyBtn = ({ test }) => {
 
                         <div className="text-end">
                             {t.urgency > 0 && (
-                                <div className="badge text-uppercase bg-danger rounded-pill mb-1 d-block">
+                                <div className="badge text-uppercase bg-danger text-nowrap rounded-pill mb-1 d-block">
                                     <p className="m-0">{t.urgency} Urgentes</p>
                                 </div>
                             )}
-                            <button className="btn btn-sm btn-outline-dark mt-2">
-                                Ver lista →
-                            </button>
+                            <Link to={`/tests/order_type/${t.name}`}>
+                                <button className="btn btn-sm btn-outline-dark mt-2">
+                                    Ver lista →
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 ))
