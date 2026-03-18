@@ -1,5 +1,4 @@
 import { NavigationType, useNavigate } from "react-router-dom"
-import { Link } from "react-router-dom"
 import { PatientCardW } from "../PatientCardW/PatientCardW"
 
 export const DocuSend = ({ income, test }) => {
@@ -28,7 +27,7 @@ export const DocuSend = ({ income, test }) => {
                 </div>
             </div>
             <div className="d-flex container justify-content-center mt-4">
-                <a href={test.results} target="_blank" className="btn btn-dark me-2">Ver resultados</a>
+                <a href={test.results} target="_blank" rel="noopener noreferrer" className="btn btn-dark me-2">Ver resultados</a>
                 <button className="btn btn-secondary ms-2" onClick={() => navigate('/tests/task/next')}>Terminar</button>
             </div>
         </div >

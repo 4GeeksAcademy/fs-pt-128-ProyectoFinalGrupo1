@@ -5,6 +5,7 @@ import { RowTest } from "../../components/RowTest/RowTest"
 import { testsCatalog } from "../../utils/testsCatalog"
 import { useParams } from "react-router-dom"
 import './DashboardTest.css'
+import { isRecentEnough } from "../../utils/isRecentEnough"
 
 export const DashboardTest = () => {
     const { store, dispatch } = useGlobalReducer()
@@ -92,11 +93,9 @@ export const DashboardTest = () => {
                         <select className="form-select w-25 mx-1" aria-label="Default select example" onChange={handleValueSelect} value={valueSelect}>
                             <option value='select' selected>Selecciona una prueba</option>
                             {
-                                testsCfilteredatalog.map(t => (
+                                testsCatalog.map(t => (
                                     t.items.map(item =>
-                                        <>
-                                            <option value={item}>{item}</option>
-                                        </>
+                                        <option value={item}>{item}</option>
                                     )
                                 ))
                             }
@@ -107,9 +106,9 @@ export const DashboardTest = () => {
                         <select className="form-select w-25 mx-1" aria-label="Default select example" onChange={handleValueSelect}>
                             <option value='select' selected>Selecciona un estado</option>
                             <option value="Solicitada">Solicitada</option>
-                            <option value="2">En proceso</option>
-                            <option value="3">Pendiente de envio</option>
-                            <option value="4">Finalizada</option>
+                            <option value="En proceso">En proceso</option>
+                            <option value="Pendiente">Pendiente de envio</option>
+                            <option value="Finalizado">Finalizada</option>
                         </select>
                     }
 
@@ -130,7 +129,7 @@ export const DashboardTest = () => {
                         {
                             filtered
                                 .filter(test => {
-                                    if (test.status === 'Finalizado') {
+                                    if (test.status === 'Finalizado' ) {
                                         if (
                                             (['urgency', 'order_type', 'status'].includes(typeSelect) && (valueSelect === 'select' || valueSelect === ''))
                                         ) {
@@ -148,6 +147,7 @@ export const DashboardTest = () => {
                                     else return true
                                 })
                                 .sort((a, b) => {
+
                                     if (type === 'task' && value === 'next') { return (a.id - b.id) }
                                     return 0;
                                 })

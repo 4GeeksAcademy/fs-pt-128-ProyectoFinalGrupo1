@@ -6,13 +6,13 @@ import { SpinnerButton } from "../Spinner/SpinnerButton";
 import { SpinnerLoad } from "../Spinner/SpinnerLoad";
 
 export const DocuTestCheck = ({ test, onNext }) => {
-    const imageUrl = test.results.replace(".pdf", ".jpg");
+
     const { store, dispatch } = useGlobalReducer()
     const [selectFile, setSelectedFile] = useState(null)
     const [loading, setLoading] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
-
+    const isPdf = test.results?.endsWith('.pdf');
     const handleChange = (e) => {
         setSelectedFile(e.target.files[0])
     }
@@ -33,12 +33,12 @@ export const DocuTestCheck = ({ test, onNext }) => {
         if (!response.ok) {
             setLoading(false)
             setError(response.error)
+            setInterval(() => {
+                setError('')
+            }, 4000)
             return
         }
     }
-    console.log(test);
-
-    console.log(test.results)
     return (
         <>
             <div className="container d-flex justify-content-between align-items-center p-0 mt-2">
@@ -50,17 +50,26 @@ export const DocuTestCheck = ({ test, onNext }) => {
                     </button>
                 </div>
             </div>
+            {error && <div className="alert alert-danger container mt-2" role="alert">
+                {error}
+            </div>}
             <div className="border border-secondary rounded mt-2 container w-100 consultation-container" >
                 {
                     isLoading ?
                         (<SpinnerLoad className="w-100 mt-2 me-0" style={{ height: '63vh ' }} />) :
                         (<div className="w-100 mt-2 me-0" style={{ height: '63vh ', overflowY: 'auto', overflowX: 'hidden' }}>
-                            <img src={imageUrl} alt="Documentación" className="w-100" />
+                            {
+                                isPdf
+                                    ? <iframe src={test.results} className="w-100" style={{ height: '60vh', border: 'none' }} />
+                                    : <img src={test.results} className="w-100" />
+                            }
+
                         </div>)
                 }
             </div>
             <div className="d-flex justify-content-center mt-1">
-                <button className="btn btn-sm btn-dark" onClick={onNext}>Continuar</button>
+                <button className="btn btn-sm btn-dark" onClick={onNext}>
+                    {loading ? <SpinnerButton text={'Guardando cambios...'} /> : 'Continuar'}</button>
             </div>
         </>
 
