@@ -425,3 +425,11 @@ def get_order_panel():
                 "results": order.results
             })
     return jsonify(response), 200
+
+@api.route('/profile', methods = ['GET'])
+def getProfile():
+    user_id = get_jwt_identity()
+    user = db.session.get(User, id)
+    if not user:
+        return jsonify({"error": "User not found"})
+    return (user.serialize()),200
