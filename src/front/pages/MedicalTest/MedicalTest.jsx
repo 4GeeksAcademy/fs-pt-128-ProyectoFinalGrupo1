@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getIncomeTest } from "../../APIServices/BACKENDservices"
+import { getIncomeTest, postOrders } from "../../APIServices/BACKENDservices"
 import useGlobalReducer from "../../hooks/useGlobalReducer"
 import { SpinnerLoad } from "../../components/Spinner/SpinnerLoad"
 import './MedicalTest.css'
@@ -8,6 +8,7 @@ import { StateBtn } from "../../components/StateBtn/StateBtn"
 import { UrgencyBtn } from "../../components/UrgencyBtn/UrgencyBtn"
 import { SpecialtyBtn } from "../../components/SpecialtyBtn/SpecialtyBtn"
 import { QuickActions } from "../../components/QuickActions/QuickActions"
+import { isRecentEnough } from "../../utils/isRecentEnough"
 
 
 
@@ -21,6 +22,14 @@ export const MedicalTest = () => {
     const criticalPacient = criticalPacient1 + criticalPacient2
     const oldestPatient = store.test.filter(t => t.status == 'Solicitada').sort((a, b) => a.id - b.id).slice(0, 6).length
     const sendPending = store.test.filter(t => t.status === 'Pendiente').length
+    const pendingCount = store.test.filter(t => {
+        const isFinalized = t.status === 'Finalizado'
+        const isRecent = isRecentEnough(t.created_at);
+
+        if (isFinalized) return true
+        if (isFinalized && isRecent) return true
+        return false
+    }).length;
 
     useEffect(() => {
         getIncomeTest(dispatch)
@@ -68,7 +77,7 @@ export const MedicalTest = () => {
                                 <h4 className="title title-ordercard mt-1 text-muted">Pruebas finalizadas</h4>
                                 <p className="text-dark fs-4 fw-bolder">
                                     <i className="fa-solid fa-check-double text-success fs-4 me-2"></i>
-                                    {countRequested(store.test, "Finalizadas")}
+                                    {pendingCount}
                                 </p>
                             </div>
                         </div>

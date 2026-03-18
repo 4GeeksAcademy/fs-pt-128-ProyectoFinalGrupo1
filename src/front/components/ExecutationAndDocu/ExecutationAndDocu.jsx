@@ -43,6 +43,9 @@ export const ExecutationAndDocu = ({ income, test, onNext }) => {
         <form className="container" onSubmit={handlerSubmit}>
             <div className="border border-secondary rounded mt-2 container w-100 consultation-container">
                 <h2 className="mt-1 mt-1 fs-5 fw-semibold">Observaciones Clinicas</h2>
+                {error && <div className="alert alert-danger" role="alert">
+                    {error}
+                </div>}
                 <textarea
                     className="form-control rounded-1 mb-2 p-3 shadow bg-body-tertiary rounded"
                     name="diagnosis"
@@ -70,7 +73,7 @@ export const ExecutationAndDocu = ({ income, test, onNext }) => {
             <div className="d-flex justify-content-center mt-2">
                 <button className="btn btn-dark text-center">{loading ?
                     (<SpinnerButton text={'Enviando datos'} />)
-                    : 'Dar alta al paciente'}</button>
+                    : 'Continuar'}</button>
             </div>
         </form>
     )
