@@ -377,11 +377,13 @@ def put_incomes_consult(income_id):
         return jsonify({'error': 'Income not found'}), 404
 
     diagnosis = data.get('diagnosis')
+    treament = data.get('treament')
 
-    if not diagnosis:
+    if not diagnosis or not treament:
         return jsonify({'error': 'Diagnosis are required'}), 409
 
     actual_income.diagnosis = diagnosis
+    actual_income.treament = treament
     actual_income.state = "Alta"
 
     db.session.add(actual_income)
@@ -467,6 +469,8 @@ def get_order_panel():
                 "order_type": order.order_type,
                 "status": order.status,
                 "created_at": order.created_at,
+                "observations": order.observations,
+                "incidents": order.incidents,
                 "results": order.results
             })
     return jsonify(response), 200

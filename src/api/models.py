@@ -63,6 +63,7 @@ class Income(db.Model):
         String(600), nullable=True, unique=False)
     triage_priority: Mapped[int] = mapped_column(nullable=True)
     diagnosis: Mapped[str] = mapped_column(Text, nullable=True, unique=False)
+    treament: Mapped[str] = mapped_column(Text, nullable=True, unique=False)
     state: Mapped[str] = mapped_column(
         String(120), nullable=False, unique=False)
     created_at: Mapped[datetime] = mapped_column(
@@ -76,6 +77,7 @@ class Income(db.Model):
             "valoration_tiage": self.valoration_triage,
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
+            "treament": self.treament,
             "state": self.state,
             "position": self.position,
             "created_at": self.created_at,
@@ -95,6 +97,7 @@ class Income(db.Model):
             "valoration_triage": self.valoration_triage,
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
+            "treament": self.treament,
             "state": self.state,
             "position": self.position,
             "created_at": self.created_at,
@@ -138,6 +141,10 @@ class Order(db.Model):
         String(60), nullable=True, unique=False, default="Solicitado")
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now())
+    observations: Mapped[str] = mapped_column(
+        Text, nullable=True, unique=False)
+    incidents: Mapped[str] = mapped_column(
+        Text, nullable=True, unique=False)
     results: Mapped[str] = mapped_column(String(600), nullable=True)
     id_income: Mapped[int] = mapped_column(
         Integer, ForeignKey("income.id"), nullable=True)
@@ -151,5 +158,7 @@ class Order(db.Model):
             "order_type": self.order_type,
             "status": self.status,
             "created_at": self.created_at,
+            "observations": self.observations,
+            "incidents": self.incidents,
             "results": self.results
         }
