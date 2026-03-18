@@ -21,6 +21,7 @@ export const initialStore = () => {
     orders: [],
     test: [],
     search: "",
+    incomesAlta: [],
   };
 };
 
@@ -61,6 +62,12 @@ export default function storeReducer(store, action = {}) {
         ...store,
         income: action.payload,
       };
+
+    case "get_incomes_alta":
+      return {
+        ...store,
+        incomesAlta: action.payload
+      }
 
     case "update_incomes_order":
       return {
