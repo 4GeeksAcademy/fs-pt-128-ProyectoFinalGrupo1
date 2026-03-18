@@ -471,8 +471,16 @@ def upload_result(order_id):
     incidents = request.form.get('incidents')
     if not data:
         return jsonify({'error': 'The file are required'}), 400
-    upload = cloudinary.uploader.upload(data, resource_type='auto')
+
+    is_pdf = data.content_type == 'application/pdf'
+
+    upload = cloudinary.uploader.upload(
+        data,
+        resource_type='image',
+        **(({'format': 'pdf'}) if is_pdf else {})
+    )
     source_url = upload.get('secure_url')
+
     order = Order.query.get(order_id)
     if order:
         order.results = source_url
@@ -480,19 +488,27 @@ def upload_result(order_id):
         order.incidents = incidents
         db.session.commit()
         return jsonify({'msg': 'File upload successfully'}), 201
-    return ({'error': 'Test not found'}), 404
+    return jsonify({'error': 'Test not found'}), 404
 
 
 @api.route('/order/<int:order_id>/result', methods=['PATCH'])
 def reload_result(order_id):
-    data = request.files['file']
+    data = request.files.get('file')
     if not data:
         return jsonify({'error': 'The file are required'}), 400
-    upload = cloudinary.uploader.upload(data, resource_type='auto')
+
+    is_pdf = data.content_type == 'application/pdf'
+
+    upload = cloudinary.uploader.upload(
+        data,
+        resource_type='image',
+        **(({'format': 'pdf'}) if is_pdf else {})
+    )
     source_url = upload.get('secure_url')
+
     order = Order.query.get(order_id)
     if order:
         order.results = source_url
         db.session.commit()
         return jsonify({'msg': 'File upload successfully'}), 201
-    return ({'error': 'Test not found'}), 404
+    return jsonify({'error': 'Test not found'}), 404

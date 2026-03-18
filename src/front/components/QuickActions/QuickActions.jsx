@@ -45,7 +45,7 @@ export const QuickActions = ({ criticalPacient, oldestPatient, sendPending }) =>
                         </span>
                     </div>
                 </Link>
-                <Link className="text-decoration-none">
+                <Link className="text-decoration-none" to={'/tests/status/Pendiente'}>
                     <div className="d-flex bg-white align-items-center p-3 rounded-3 bg-light action-btn-hover position-relative" style={{ cursor: 'pointer' }}>
                         <div className="bg-light p-2 rounded-3 shadow me-3">
                             <i className="fa-solid fa-paper-plane text-warning fs-5"></i>

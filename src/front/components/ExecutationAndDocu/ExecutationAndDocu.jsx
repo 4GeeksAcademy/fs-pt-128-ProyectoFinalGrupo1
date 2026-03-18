@@ -22,6 +22,14 @@ export const ExecutationAndDocu = ({ income, test, onNext }) => {
     const handlerSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
+        if (!observations || !selectFile) {
+            setLoading(false)
+            setError('Las observaciones y el archivo son necesarios')
+            setInterval(() => {
+                setError('')
+            }, 8000)
+            return
+        }
         const formData = new FormData()
         formData.append('file', selectFile)
         formData.append('observation', observations)
@@ -34,11 +42,11 @@ export const ExecutationAndDocu = ({ income, test, onNext }) => {
         if (!response.ok) {
             setLoading(false)
             setError(response.error)
+            setInterval(() => {
+                setError('')
+            }, 5000)
         }
     }
-    console.log(incidents);
-    console.log(observations);
-
     return (
         <form className="container" onSubmit={handlerSubmit}>
             <div className="border border-secondary rounded mt-2 container w-100 consultation-container">
