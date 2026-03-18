@@ -1,6 +1,9 @@
+import { NavigationType, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { PatientCardW } from "../PatientCardW/PatientCardW"
 
 export const DocuSend = ({ income, test }) => {
+    const navigate = useNavigate()
     return (
         <div className="container">
             <PatientCardW width={'w-100'}
@@ -16,20 +19,18 @@ export const DocuSend = ({ income, test }) => {
             <div className='border border-secondary rounded me-1 mt-2 container consultation-container w-100'>
                 <h2 className="title fs-4 mt-3">Observaciones anotadas durante la prueba:</h2>
                 <div className="bg-white rounded shadow px-2">
-                    <p className="title fs-5">dasdadsaasda</p>
+                    <p className="title fs-5">{test.observations}</p>
                 </div>
 
                 <h2 className="title fs-4 mt-3">Incidencias transcurridas en la prueba</h2>
                 <div className="bg-white rounded shadow px-2">
-                    <p className="title fs-5">dasdadsaasda</p>
+                    <p className="title fs-5">{test.incidents}</p>
                 </div>
             </div>
             <div className="d-flex container justify-content-center mt-4">
-                <button className="btn btn-dark me-2">Ver resultados</button>
-                <button className="btn btn-secondary ms-2">Cerrar</button>
+                <a href={test.results} target="_blank" className="btn btn-dark me-2">Ver resultados</a>
+                <button className="btn btn-secondary ms-2" onClick={() => navigate('/tests/task/next')}>Terminar</button>
             </div>
-        </div>
-
-
+        </div >
     )
 }

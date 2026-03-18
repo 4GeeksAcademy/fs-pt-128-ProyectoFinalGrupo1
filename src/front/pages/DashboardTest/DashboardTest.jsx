@@ -130,7 +130,15 @@ export const DashboardTest = () => {
                         {
                             filtered
                                 .filter(test => {
-                                    if ((typeSelect == 'urgency' || typeSelect == 'order_type' || typeSelect == 'status') && valueSelect == 'select' || valueSelect == '') return true
+                                    if (test.status === 'Finalizado') {
+                                        if (
+                                            (['urgency', 'order_type', 'status'].includes(typeSelect) && (valueSelect === 'select' || valueSelect === ''))
+                                        ) {
+                                            return true;
+                                        }
+                                        return false
+                                    }
+
                                     if (typeSelect === 'urgency' && valueSelect === 'control') {
                                         return test.urgency == 1 || test.urgency == 2;
                                     }

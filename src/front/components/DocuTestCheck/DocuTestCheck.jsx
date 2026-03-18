@@ -36,6 +36,7 @@ export const DocuTestCheck = ({ test, onNext }) => {
             return
         }
     }
+    console.log(test);
 
     console.log(test.results)
     return (
