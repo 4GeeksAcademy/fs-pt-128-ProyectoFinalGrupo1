@@ -7,6 +7,7 @@ import { SpinnerButton } from "../../components/Spinner/SpinnerButton"
 import { ValidationTestData } from "../../components/ValidationTestCard/ValidationTestCard"
 import { ExecutationAndDocu } from "../../components/ExecutationAndDocu/ExecutationAndDocu"
 import { DocuTestCheck } from "../../components/DocuTestCheck/DocuTestCheck"
+import { DocuSend } from "../../components/DocuSend/DocuSend"
 
 export const TestView = () => {
     const { store, dispatch } = useGlobalReducer()
@@ -105,8 +106,7 @@ export const TestView = () => {
             {statusIcon === 1 && <ValidationTestData income={store.income} test={test} onNext={() => handlerClick('En proceso')} loading={loading} />}
             {statusIcon === 2 && <ExecutationAndDocu income={store.income} test={test} onNext={() => handlerClick('Pendiente')} />}
             {statusIcon === 3 && <DocuTestCheck test={test} onNext={() => handlerClick('Finalizado')} />}
-            {statusIcon === 4 && <DocuTestCheck test={test} onNext={() => handlerClick('Finalizado')} />}
-
+            {statusIcon === 4 && <DocuSend income={store.income} test={test} />}
         </div>
     )
 }
