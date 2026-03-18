@@ -43,8 +43,8 @@ export const DocuTestCheck = ({ test, onNext }) => {
         <>
             <div className="container d-flex justify-content-between align-items-center p-0 mt-2">
                 <h2 className="title fs-4">Resultados de: {test.order_type}</h2>
-                <div class="d-flex">
-                    <input class="form-control border rounded form-control-sm " id="formFileSm" type="file" onChange={handleChange} />
+                <div className="d-flex">
+                    <input className="form-control border rounded form-control-sm " id="formFileSm" type="file" onChange={handleChange} />
                     <button className="btn btn-sm ms-2 btn-dark" onClick={handlerClick}>
                         {loading ? <SpinnerButton text={'Actualizando...'} /> : 'Actualizar'}
                     </button>

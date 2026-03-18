@@ -26,8 +26,8 @@ export const RowTest = ({ test }) => {
             <td className="text-break bg-transparent ">
                 {test.status}</td>
             <td className="w-auto text-nowrap bg-transparent">
-                <Link to={`/consultation/${test.id}`}>
-                    <button className="btn btn-custom border border-0 p-0">
+                <Link to={`/test-form/${test.id_income}/${test.id}`}>
+                    <button className="btn btn-custom-table bg-transparent border-0 p-0">
                         Ficha paciente
                     </button>
                 </Link>
