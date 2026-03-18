@@ -93,19 +93,19 @@ export const DashboardTriaje = () => {
                         <p>Gestión de triaje con reordenado híbrido</p>
                         <div className="d-flex justify-content-center mb-2 align-items-center">
                             <small className="mx-1">Filtar:</small>
-                            <select class="form-select form-select-custom w-25 shadow-sm" aria-label="Default select type" onChange={handleTypeSelect} value={typeSelect}>
+                            <select className="form-select form-select-custom w-25 shadow-sm" aria-label="Default select type" onChange={handleTypeSelect} value={typeSelect}>
                                 <option value='select' selected>Selecciona una opción</option>
                                 <option value="patient">Paciente</option>
                                 <option value="urgency">Prioridad</option>
                             </select>
                             {(typeSelect === 'select' || typeSelect === 'task' || typeSelect === '') &&
-                                <select class="form-select w-25 mx-1" aria-label="Default select example" disabled>
+                                <select className="form-select w-25 mx-1" aria-label="Default select example" disabled>
                                     <option selected>Selecciona una opcion</option>
                                 </select>
                             }
                             {
                                 (typeSelect === 'patient') &&
-                                <div class="input-group w-25 mx-1">
+                                <div className="input-group w-25 mx-1">
                                     <input type="text"
                                         className="form-control form-select-custom shadow-sm border"
                                         placeholder="Nombre o DNI"
@@ -117,7 +117,7 @@ export const DashboardTriaje = () => {
                             }
                             {
                                 typeSelect === 'urgency' &&
-                                <select class="form-select  form-select-custom shadow-sm border w-25 mx-1" aria-label="Default select example" onChange={handleValueSelect} value={valueSelect}>
+                                <select className="form-select  form-select-custom shadow-sm border w-25 mx-1" aria-label="Default select example" onChange={handleValueSelect} value={valueSelect}>
                                     <option value='select' selected>Selecciona una prioridad</option>
                                     <option value="control">Criticos</option>
                                     <option value="1">Inminente</option>

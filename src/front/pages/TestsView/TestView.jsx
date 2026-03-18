@@ -77,28 +77,28 @@ export const TestView = () => {
             <div className="container d-flex justify-content-center align-items-center rounded">
                 <button className={`btn ${test?.status !== 'Solicitada' ? 'btn-light text-dark' : 'btn-dark text-white '}  d-flex align-items-center text-secondary border-0 mx-2 my-1`} disabled={test?.status !== 'Solicitada'}>
                     <span className="badge rounded-circle bg-secondary me-1 mt-1 d-flex justify-content-center" style={{ width: '20px', height: '20px' }}>
-                        {statusIcon > 1 ? <i class="fa-solid fa-check"></i> : '1'}
+                        {statusIcon > 1 ? <i className="fa-solid fa-check"></i> : '1'}
                     </span>
                     Validación</button>
-                <p className="m-0"><i class="fa-solid fa-chevron-right text-secondary"></i></p>
+                <p className="m-0"><i className="fa-solid fa-chevron-right text-secondary"></i></p>
                 <button className={`btn ${test?.status !== 'En proceso' ? 'btn-light text-dark' : 'btn-dark text-white '}  d-flex align-items-center text-secondary border-0 mx-2 my-1`} disabled={test?.status !== 'En proceso'}>
                     <span className="badge rounded-circle bg-secondary me-1 mt-1 d-flex justify-content-center" style={{ width: '20px', height: '20px' }}>
-                        {statusIcon > 2 ? <i class="fa-solid fa-check"></i> : '2'}
+                        {statusIcon > 2 ? <i className="fa-solid fa-check"></i> : '2'}
                     </span>
                     Ejecucion y documentación</button>
-                <p className="m-0"><i class="fa-solid fa-chevron-right text-secondary"></i></p>
+                <p className="m-0"><i className="fa-solid fa-chevron-right text-secondary"></i></p>
                 <button className={`btn ${test?.status !== 'Pendiente' ? 'btn-light text-dark' : 'btn-dark text-white '}  d-flex align-items-center text-secondary border-0 mx-2 my-1`} disabled={test?.status !== 'Pendiente'}>
                     <span className="badge rounded-circle bg-secondary me-1 mt-1 d-flex justify-content-center" style={{ width: '20px', height: '20px' }}>
-                        {statusIcon > 3 ? <i class="fa-solid fa-check"></i> : '3'}
+                        {statusIcon > 3 ? <i className="fa-solid fa-check"></i> : '3'}
                     </span>
                     Control previo envío
 
                 </button>
-                <p className="m-0"><i class="fa-solid fa-chevron-right text-secondary"></i></p>
+                <p className="m-0"><i className="fa-solid fa-chevron-right text-secondary"></i></p>
                 <button className={`btn ${test?.status !== 'Finalizado' ? 'btn-light text-dark' : 'btn-dark text-white '}  d-flex align-items-center text-secondary border-0 mx-2 my-1`} disabled={test?.status !== 'Finalizado'}>
 
                     <span className="badge rounded-circle bg-secondary me-1 mt-1 d-flex justify-content-center" style={{ width: '20px', height: '20px' }}>
-                        {statusIcon > 4 ? <i class="fa-solid fa-check"></i> : '4'}
+                        {statusIcon > 4 ? <i className="fa-solid fa-check"></i> : '4'}
                     </span>
                     Archivo y consulta
                 </button>
