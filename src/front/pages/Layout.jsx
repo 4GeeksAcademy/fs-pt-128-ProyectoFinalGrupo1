@@ -2,7 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom/dist"
 import ScrollToTop from "../components/ScrollToTop"
 import { Navbar } from "../components/Navbar/Navbar"
 import { useLocation } from "react-router-dom/dist"
-import { checkToken } from "../components/CheckToken"
+// import { checkToken } from "../components/CheckToken"
 import { useEffect, useState } from "react"
 import { SpinnerLoad } from "../components/Spinner/SpinnerLoad"
 // Base component that maintains the navbar and footer throughout the page and the scroll to top functionality.
@@ -19,18 +19,18 @@ export const Layout = () => {
         navigate("/")
     }
 
-    useEffect(() => {
-        if (!publicRoutes.includes(location.pathname)) {
-            if (!localStorage.getItem("token")) {
-                setTimeout(() => {
-                    navigate("/")
-                    setLoading(false)
-                }, 2000)
-            } else {
-                checkToken()
-            }
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (!publicRoutes.includes(location.pathname)) {
+    //         if (!localStorage.getItem("token")) {
+    //             setTimeout(() => {
+    //                 navigate("/")
+    //                 setLoading(false)
+    //             }, 2000)
+    //         } else {
+    //             checkToken()
+    //         }
+    //     }
+    // }, [])
     return loading ?
         (
             <div className="d-flex justify-content-center align-items-center flex-column" style={{ minHeight: "100vh" }}>
