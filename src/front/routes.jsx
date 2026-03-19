@@ -21,6 +21,7 @@ import { DashboardConsulta } from "./pages/DashboardConsulta/DashboardConsulta";
 import { MedicalTest } from "./pages/MedicalTest/MedicalTest";
 import { DashboardTest } from "./pages/DashboardTest/DashboardTest";
 import { TestView } from "./pages/TestsView/TestView";
+import { ControlPanelTriage } from "./pages/ControlPanelTriage/ControlPanelTriage";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,7 +41,8 @@ export const router = createBrowserRouter(
       <Route path="/register-user" element={<RegisterUser />} />
       <Route path="/activate" element={<ActivateAccount />} />
       <Route path="/triage" element={<DashboardTriaje />} />
-      <Route path="/triage/:id" element={<IncomeForm />} />
+      <Route path="/triage/:type/:value" element={<DashboardTriaje />} />
+      
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
       <Route path="/income/:id" element={<IncomeForm />} />
@@ -50,6 +52,7 @@ export const router = createBrowserRouter(
       <Route path="/tests" element={<DashboardTest />} />
       <Route path="/tests/:type/:value" element={<DashboardTest />} />
       <Route path="/test-form/:income_id/:id" element={<TestView />} />
+      <Route path="/control-panel/triage" element={<ControlPanelTriage />} />
     </Route>
   )
 );

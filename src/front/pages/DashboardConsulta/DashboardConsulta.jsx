@@ -16,7 +16,6 @@ export const DashboardConsulta = () => {
     const { type, value } = useParams()
     const [typeSelect, setTypeSelect] = useState('')
     const [valueSelect, setValueSelect] = useState('')
-
     const [isLoading, setIsLoading] = useState(false)
 
     let patientLoad = [...store.incomes]
@@ -70,6 +69,7 @@ export const DashboardConsulta = () => {
             await loadNewOrder(orderedIds)
         }
     }
+    console.log(store.incomes)
 
     useEffect(() => {
         loadPatients()

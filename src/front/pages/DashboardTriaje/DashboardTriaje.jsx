@@ -13,11 +13,9 @@ import './DashboardTriaje.css'
 export const DashboardTriaje = () => {
 
     const { store, dispatch } = useGlobalReducer()
-
     const { type, value } = useParams()
     const [typeSelect, setTypeSelect] = useState('')
     const [valueSelect, setValueSelect] = useState('')
-
     const [isLoading, setIsLoading] = useState(false)
 
     let patientLoad = [...store.incomes]
@@ -71,9 +69,15 @@ export const DashboardTriaje = () => {
         setIsLoading(false)
     }
 
+    console.log(typeSelect)
+    console.log(valueSelect)
     useEffect(() => {
         loadPatients()
-    }, [])
+        if (type && value) {
+            setTypeSelect(type)
+            setValueSelect(value)
+        }
+    }, [type, value, dispatch])
 
     return (
         <div>
@@ -148,8 +152,15 @@ export const DashboardTriaje = () => {
                                         {
                                             filtered
                                                 .filter(income => {
-                                                    if (income.state === 'En espera de triaje' && (valueSelect == 'select' || valueSelect == '')) return true
+                                                    if (typeSelect === 'historial' && valueSelect === 'all')
+                                                        return income.state === 'Esperando consulta' && (new Date() - new Date(income.created_at)) / 60000 < 720
+                                                    if (typeSelect === 'patient' && valueSelect === 'all') return income.state === 'En espera de triaje'
+                                                    if (typeSelect == 'task' && valueSelect == 'next') return income.state === 'En espera de triaje'
+                                                    if (valueSelect === 'select' || valueSelect === '' || !valueSelect)
+                                                        return income.state === 'En espera de triaje'
+                                                    if (income.state === 'En espera de triaje' && (typeSelect == 'urgency' && valueSelect == 'control')) return income.triage_priority == 1 || income.triage_priority == 2
                                                     if (typeSelect == 'urgency' && income.state === 'En espera de triaje') return income.triage_priority == valueSelect
+                                                    return false
                                                 })
                                                 .sort((a, b) => {
                                                     if (type === 'task' && value === 'next') { return (a.id - b.id) }
