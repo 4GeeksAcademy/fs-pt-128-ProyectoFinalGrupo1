@@ -7,9 +7,10 @@ import { SpinnerLoad } from "../components/Spinner/SpinnerLoad"
 // Base component that maintains the navbar and footer throughout the page and the scroll to top functionality.
 export const Layout = () => {
     const location = useLocation();
+    
     const excludedRoutes = ["/", "/activate", "/signup"];
     //Se pueden escribir ↓aqui↓ las rutas a las que se quiere acceder sin token para pruebas
-    const publicRoutes = ["/", "/signup"]
+    const publicRoutes = ["/", "/signup", "/activate" ]
     const showNavbar = !excludedRoutes.includes(location.pathname);
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
