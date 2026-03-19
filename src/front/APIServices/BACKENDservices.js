@@ -18,10 +18,18 @@ export const login = async (user, navigate) => {
     return data;
   }
   localStorage.setItem("token", data.token);
-  console.log(localStorage.getItem("rol"));
-  const profile = await getProfile()
-  navigate("/admission");
-  console.log(data);
+  const profile = await getProfile();
+  const rol = localStorage.getItem("rol");
+
+  navigate(
+    rol === "Administrativo"
+      ? "/admission"
+      : rol === "Enfermero"
+        ? "/triage"
+        : rol === "Médico"
+          ? "/consultation"
+          : "/",
+  );
   return data;
 };
 
@@ -117,7 +125,7 @@ export const updateIncome = async (id, incomeForm, triageTime, navigate) => {
       method: "PUT",
       body: JSON.stringify({ ...incomeForm, checkpoint_triage: triageTime }),
       headers: {
-       "Content-Type": "application/json", 
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     },
@@ -338,7 +346,6 @@ export const getIncomeTest = async (dispatch) => {
     return data;
   }
 };
-
 
 export const getProfile = async () => {
     const token = localStorage.getItem("token");
