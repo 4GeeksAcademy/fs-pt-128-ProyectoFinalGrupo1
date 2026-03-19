@@ -463,6 +463,16 @@ def get_order_panel():
             })
     return jsonify(response), 200
 
+@api.route('/profile', methods=['GET'])
+@jwt_required()
+def getProfile():
+    user_id = get_jwt_identity()
+    user = db.session.get(User, user_id)
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify(user.serialize()), 200
 # region:Cloudinary
 
 

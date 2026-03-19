@@ -2,7 +2,6 @@ import { Outlet, useNavigate } from "react-router-dom/dist"
 import ScrollToTop from "../components/ScrollToTop"
 import { Navbar } from "../components/Navbar/Navbar"
 import { useLocation } from "react-router-dom/dist"
-import { checkToken } from "../components/CheckToken"
 import { useEffect, useState } from "react"
 import { SpinnerLoad } from "../components/Spinner/SpinnerLoad"
 // Base component that maintains the navbar and footer throughout the page and the scroll to top functionality.
@@ -15,22 +14,21 @@ export const Layout = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const logOut = (e) => {
-        localStorage.removeItem("token")
+        localStorage.clear()
         navigate("/")
     }
 
     useEffect(() => {
         if (!publicRoutes.includes(location.pathname)) {
             if (!localStorage.getItem("token")) {
+                setLoading(true)
                 setTimeout(() => {
                     navigate("/")
                     setLoading(false)
                 }, 2000)
-            } else {
-                checkToken()
-            }
+            } 
         }
-    }, [])
+    }, [location.pathname])
     return loading ?
         (
             <div className="d-flex justify-content-center align-items-center flex-column" style={{ minHeight: "100vh" }}>
@@ -48,7 +46,7 @@ export const Layout = () => {
                         {/* <Footer /> */}
                     </div>
                 </div>
-                <div className="modal fade" id="logOutModal" tabindex="-100" aria-labelledby="ModalLabel" aria-hidden="true">
+                <div className="modal fade" id="logOutModal" tabIndex="-100" aria-labelledby="ModalLabel" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
 

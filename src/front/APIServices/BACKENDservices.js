@@ -18,6 +18,8 @@ export const login = async (user, navigate) => {
     return data;
   }
   localStorage.setItem("token", data.token);
+  console.log(localStorage.getItem("rol"));
+  const profile = await getProfile()
   navigate("/admission");
   console.log(data);
   return data;
@@ -45,7 +47,15 @@ export const activateCount = async (password, token) => {
 
 // region:getUser
 export const getUser = async (dispatch) => {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`);
+  const token = localStorage.getItem("token");
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/users`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
   const data = await response.json();
 
   if (response.ok) {
@@ -59,8 +69,14 @@ export const getUser = async (dispatch) => {
 
 // region:getIncomes
 export const getIncomes = async (dispatch) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/incomes`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   const data = await response.json();
 
@@ -74,8 +90,14 @@ export const getIncomes = async (dispatch) => {
 };
 
 export const getIncome = async (dispatch, id) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/income/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   const data = await response.json();
 
@@ -95,7 +117,8 @@ export const updateIncome = async (id, incomeForm, triageTime, navigate) => {
       method: "PUT",
       body: JSON.stringify({ ...incomeForm, checkpoint_triage: triageTime }),
       headers: {
-        "Content-type": "application/json",
+       "Content-Type": "application/json", 
+        Authorization: `Bearer ${token}`,
       },
     },
   );
@@ -109,8 +132,14 @@ export const updateIncome = async (id, incomeForm, triageTime, navigate) => {
 };
 // region:getPatients
 export const getPatients = async (dispatch) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/patients`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   const data = await response.json();
 
@@ -124,8 +153,14 @@ export const getPatients = async (dispatch) => {
 
 // region:getPatient
 export const getPatient = async (dispatch, id) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/patient/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   const data = await response.json();
 
@@ -140,6 +175,7 @@ export const getPatient = async (dispatch, id) => {
 
 // region: registerUser
 export const registerUser = async (user) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/register/user`,
     {
@@ -147,6 +183,7 @@ export const registerUser = async (user) => {
       body: JSON.stringify(user),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     },
   );
@@ -159,6 +196,7 @@ export const registerUser = async (user) => {
 
 // region:createAdmission
 export const createAdmission = async (admission, navigate) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/admission`,
     {
@@ -166,6 +204,7 @@ export const createAdmission = async (admission, navigate) => {
       body: JSON.stringify(admission),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     },
   );
@@ -178,10 +217,14 @@ export const createAdmission = async (admission, navigate) => {
 
 // region:deleteUser
 export const deleteUser = async (user_id) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/delete/${user_id}`,
     {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
   );
   const data = await response.json();
@@ -211,6 +254,7 @@ export const signup = async (user) => {
 };
 
 export const loadNewOrder = async (orderIds) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/reorder-incomes`,
     {
@@ -218,6 +262,7 @@ export const loadNewOrder = async (orderIds) => {
       body: JSON.stringify({ ordered_ids: orderIds }),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     },
   );
@@ -248,7 +293,9 @@ export const addDiagnosis = async (consult, income_id) => {
   return { ok: true };
 };
 
+// region: postOrders
 export const postOrders = async (id, orders) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/orders`,
     {
@@ -259,6 +306,7 @@ export const postOrders = async (id, orders) => {
       }),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     },
   );
@@ -269,9 +317,16 @@ export const postOrders = async (id, orders) => {
   return { ok: true };
 };
 
+// region: getIncomeTest
 export const getIncomeTest = async (dispatch) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/order-panel`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
   const data = await response.json();
 
@@ -284,6 +339,26 @@ export const getIncomeTest = async (dispatch) => {
   }
 };
 
+
+export const getProfile = async () => {
+    const token = localStorage.getItem("token");
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        const data = await response.json();
+        if (!response.ok) {
+            return false;
+        }
+        console.log(data);
+        
+        localStorage.setItem("email", data.email)
+        localStorage.setItem("firstname", data.firstname)
+        localStorage.setItem("lastname", data.lastname)
+        localStorage.setItem("rol", data.rol)
+        
+    }
 export const changeStatus = async (id, status) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/orders/${id}`,
