@@ -319,18 +319,20 @@ def put_incomes_triage(income_id):
         return jsonify({'error': 'Income not found'}), 404
 
     valoration_triage = data.get('valoration_triage')
+    checkpoint_triage = data.get('checkpoint_triage')
     new_triage_priority = data.get('triage_priority')
 
-    required_fields = ['valoration_triage']
+    required_fields = ['valoration_triage', 'checkpoint_triage']
 
     missing = [
         field for field in required_fields
-        if field not in data or data[field] in (None, "")
+        if field not in data 
     ]
     if missing:
         return jsonify({"Error": f"Rellenar los siguientes campos: {missing}", }), 400
 
     actual_income.valoration_triage = valoration_triage
+    actual_income.checkpoint_triage = checkpoint_triage
     actual_income.triage_priority = new_triage_priority if new_triage_priority else actual_income.triage_priority
     priority = actual_income.triage_priority
     new_position = db.session.query(func.min(Income.position)).filter(

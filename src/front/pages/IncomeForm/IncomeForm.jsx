@@ -5,6 +5,8 @@ import { useNavigate, useParams } from "react-router-dom"
 import "./IncomeForm.css";
 import { PatientCard } from "../../components/PacientCard/PacientCard";
 import { VisitReasonCard } from "../../components/VisitReasonCard/VisitReassonCard";
+import { calculateWaitingTime } from "../../utils/calculateWaitingTime";
+import { SpinnerButton } from "../../components/Spinner/SpinnerButton";
 
 
 export const IncomeForm = () => {
@@ -16,16 +18,10 @@ export const IncomeForm = () => {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const [incomeForm, setIncomeForm] = useState({
-        patient_name: "",
-        patient_lastname: "",
         id_nurse: "",
+        nurse: "",
         valoration_triage: "",
         triage_priority: "",
-        reason_consultation: "",
-        birth_date: "",
-        nurse: ""
-
-
     })
 
 
@@ -58,13 +54,16 @@ export const IncomeForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        const triageTime = calculateWaitingTime(store.income.created_at)
+        console.log('triageTime:', triageTime)
+        console.log(store.incomes.map(i => ({id: i.id, state: i.state})))
         if (!incomeForm.valoration_triage) {
             setError("Describa la valoración del triaje")
             setLoading(false)
             return
         }
         setLoading(true)
-        const response = await updateIncome(id, incomeForm, navigate)
+        const response = await updateIncome(id, incomeForm, triageTime, navigate)
         setError(response.Error)
         setLoading(false)
     }
@@ -72,10 +71,6 @@ export const IncomeForm = () => {
 
     //  console.log(incomeForm)
     // console.log(store.patient.income);
-
-
-
-
 
     useEffect(() => {
         getUser(dispatch)
@@ -99,12 +94,14 @@ export const IncomeForm = () => {
     }, [store.income])
 
     return (
-        <>
-            <div className="container mt-5">
+        <div>
+            <div className="border-bottom mt-2 d-flex align-items-center" style={{ height: '53px' }} >
+                <h2 className="title w-100 text-start fs-6">Control de triaje</h2>
+            </div>
+            <div className="container-fluid mt-2">
+                <h2 className="title w-100 text-start">Triaje</h2>
+                <p className="mb-4">Formulario de triaje con reasignamiento de prioridad</p>
 
-                <div className="container ">
-                    <h1 className="title w-100 text-center mb-4">Triaje</h1>
-                </div>
                 {
                     error && (
                         <div className="alert alert-danger d-flex align-items-center justify-content-center fade-alert" role="alert">
@@ -112,7 +109,7 @@ export const IncomeForm = () => {
                         </div>
                     )
                 }
-                <form onSubmit={handleSubmit} className="container">
+                <form onSubmit={handleSubmit} className="container mt-2">
                     <div className=" d-flex">
                         <PatientCard width={'w-50'}
                             patient_dni={incomeForm.dni}
@@ -140,10 +137,10 @@ export const IncomeForm = () => {
 
                     </div>
 
-                    
+
                     <div className="border border-secondary rounded mt-2 mb-5 container consultation-container">
                         <h2 className="mt-1 mt-1 fs-5 fw-semibold">Valoración</h2>
-                       
+
                         <textarea
                             className="form-control rounded-1 mb-2 p-3 shadow bg-body-tertiary rounded"
                             name="valoration_triage"
@@ -155,42 +152,36 @@ export const IncomeForm = () => {
                     </div>
                     <div className="piorityContainer text-dark mb-3">
                         <div>
-                            <button onClick={handlePrio} className="rounded-start-pill text-dark prio-5" name="5">No urgente</button>
+                            <button type="button" onClick={handlePrio} className="rounded-start-pill text-dark prio-5" name="5">No urgente</button>
                         </div>
                         <div>
-                            <button onClick={handlePrio} className="rounded-0 text-dark prio-4" name="4">Poco urgente</button>
+                            <button type="button" onClick={handlePrio} className="rounded-0 text-dark prio-4" name="4">Poco urgente</button>
                         </div>
                         <div>
-                            <button onClick={handlePrio} className="rounded-0 prio-3" name="3">Urgente</button>
+                            <button type="button" onClick={handlePrio} className="rounded-0 prio-3" name="3">Urgente</button>
                         </div>
                         <div>
-                            <button onClick={handlePrio} className="prio-2 rounded-0 text-dark" name="2">Muy urgente</button>
+                            <button type="button" onClick={handlePrio} className="prio-2 rounded-0 text-dark" name="2">Muy urgente</button>
                         </div>
                         <div>
-                            <button onClick={handlePrio} className="rounded-end-pill text-dark prio-1" name="1">Emergencia</button>
+                            <button type="button" onClick={handlePrio} className="rounded-end-pill text-dark prio-1" name="1">Emergencia</button>
                         </div>
                     </div>
 
                     <div className="d-flex justify-content-center">
-                        {loading ? (
-                            <button
-                                type="submit"
-                                className="btn btn-primary mt-2 mb-2 triageButton"
-                                disabled
-                            ><div className="spinner-border" role="status"></div>
-                            </button>
-                        ) : (
-                            <button
-                                type="submit"
-                                className="btn btn-primary mt-3 mb-3 triageButton"
 
-                            >Pasar a consulta
-                            </button>
-                        )}
+                        <button
+                            type="submit"
+                            className="btn btn-dark mt-3 mb-3 triageButton" >
+                            {loading ? (
+                                <SpinnerButton text={'Guardando datos..'} />
+                            ) : (
+                                'Pasar a consulta'
+                            )}
+                        </button>
                     </div>
-
-                </form>
-            </div>
-        </>
+                </form >
+            </div >
+        </div>
     )
 }

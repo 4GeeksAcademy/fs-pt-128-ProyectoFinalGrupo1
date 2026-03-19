@@ -33,11 +33,13 @@ export const SortableRow = ({ id, income }) => {
             <td className="text-break bg-transparent p-0">
                 {income.visitreason}</td>
             <td className="w-auto text-nowrap bg-transparent p-0">
-                <Link to={`/income/${income.id}`}>
-                    <button className="btn btn-custom-table  bg-transparent border-0 p-0">
-                        Pasar triaje
-                    </button>
-                </Link>
+                {income.state === 'En espera de triaje' ?
+                    <Link to={`/income/${income.id}`}>
+                        <button className="btn btn-custom-table  bg-transparent border-0 p-0">
+                            Pasar triaje
+                        </button>
+                    </Link> : 'Triaje Finalizado'
+                }
 
             </td>
             <td className="w-auto text-nowrap bg-transparent">

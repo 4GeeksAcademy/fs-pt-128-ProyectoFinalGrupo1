@@ -88,12 +88,12 @@ export const getIncome = async (dispatch, id) => {
   }
 };
 
-export const updateIncome = async (id, incomeForm, navigate) => {
+export const updateIncome = async (id, incomeForm, triageTime, navigate) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/incomes-triage/${id}`,
     {
       method: "PUT",
-      body: JSON.stringify(incomeForm),
+      body: JSON.stringify({ ...incomeForm, checkpoint_triage: triageTime }),
       headers: {
         "Content-type": "application/json",
       },
