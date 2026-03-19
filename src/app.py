@@ -24,8 +24,7 @@ app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
 jwt = JWTManager(app)
 
-app.config.update(
-    app.config.update(
+app.config.update( 
     MAIL_SERVER=os.getenv('MAIL_SERVER'),
     MAIL_PORT=os.getenv('MAIL_PORT'),
     MAIL_USERNAME=os.getenv('MAIL_USERNAME'),
@@ -33,7 +32,7 @@ app.config.update(
     MAIL_USE_TLS=True,
     MAIL_USE_SSL=False
 )
-)
+
 mail = Mail(app)
 app.url_map.strict_slashes = False
 cloudinary.config(
