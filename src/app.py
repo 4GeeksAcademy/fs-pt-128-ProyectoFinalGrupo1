@@ -25,12 +25,14 @@ app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
 jwt = JWTManager(app)
 
 app.config.update(
-    MAIL_SERVER='sandbox.smtp.mailtrap.io',
-    MAIL_PORT=587,
-    MAIL_USERNAME='2c6dccfc3c7e46',
-    MAIL_PASSWORD='570362d19bc647',
+    app.config.update(
+    MAIL_SERVER=os.getenv('MAIL_SERVER'),
+    MAIL_PORT=os.getenv('MAIL_PORT'),
+    MAIL_USERNAME=os.getenv('MAIL_USERNAME'),
+    MAIL_PASSWORD=os.getenv('MAIL_PASSWORD'),
     MAIL_USE_TLS=True,
     MAIL_USE_SSL=False
+)
 )
 mail = Mail(app)
 app.url_map.strict_slashes = False
