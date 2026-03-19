@@ -20,6 +20,7 @@ export const initialStore = () => {
     income: {},
     orders: [],
     test: [],
+    search: "",
   };
 };
 
@@ -90,6 +91,11 @@ export default function storeReducer(store, action = {}) {
       return {
         ...store,
         test: action.payload,
+      };
+    case "search":
+      return {
+        ...store,
+        search: action.payload,
       };
     case "add_task":
       const { id, color } = action.payload;

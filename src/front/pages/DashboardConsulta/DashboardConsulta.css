@@ -1,0 +1,6 @@
+.form-select-custom:focus {
+  border-color: #dee2e6 !important;
+}
+.form-select-custom:active {
+  border-color: #dee2e6 !important;
+}

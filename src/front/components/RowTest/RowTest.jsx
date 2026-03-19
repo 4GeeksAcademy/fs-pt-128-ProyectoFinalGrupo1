@@ -13,6 +13,8 @@ export const RowTest = ({ test }) => {
         borderRightColor: priorityColor,
         boxShadow: `inset 15px 0 70px -15px ${priorityColor}, inset 0 0 5px rgba(0,0,0,0.05)`,
     };
+    console.log(test);
+
     return (
         <tr className="color-primary medical-row row-test"
             style={{ ...shadowStyle }}
@@ -26,8 +28,8 @@ export const RowTest = ({ test }) => {
             <td className="text-break bg-transparent ">
                 {test.status}</td>
             <td className="w-auto text-nowrap bg-transparent">
-                <Link to={`/consultation/${test.id}`}>
-                    <button className="btn btn-custom border border-0 p-0">
+                <Link to={`/test-form/${test.income_id}/${test.id}`}>
+                    <button className="btn btn-custom-table bg-transparent border-0 p-0">
                         Ficha paciente
                     </button>
                 </Link>

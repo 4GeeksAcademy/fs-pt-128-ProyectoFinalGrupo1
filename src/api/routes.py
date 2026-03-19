@@ -6,10 +6,10 @@ from sqlalchemy import select, func
 from api.models import db, User, Income, Patient, Order
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token
+from flask_jwt_extended import get_jwt_identity, create_access_token
 import os
-import json
 from flask_mail import Message
+import cloudinary.uploader
 
 api = Blueprint('api', __name__)
 
@@ -21,7 +21,6 @@ CORS(api)
 
 
 @api.route('/users', methods=['GET'])
-@jwt_required()
 def get_user():
     users = User.query.all()
     response = [user.serialize() for user in users]
@@ -31,7 +30,6 @@ def get_user():
 
 
 @api.route('/patients', methods=['GET'])
-@jwt_required()
 def get_patients():
     patients = Patient.query.all()
     response = [patient.serialize() for patient in patients]
@@ -41,7 +39,6 @@ def get_patients():
 
 
 @api.route('/patient/<id>', methods=['GET'])
-@jwt_required()
 def get_patient(id):
     patient = Patient.query.get(id)
     if not patient:
@@ -53,7 +50,6 @@ def get_patient(id):
 
 
 @api.route('/register/user', methods=['POST'])
-@jwt_required()
 def register_user():
     data = request.get_json()
 
@@ -145,7 +141,6 @@ def register_user():
 
 
 @api.route('/activate', methods=['PATCH'])
-@jwt_required()
 def activate():
     data = request.get_json()
     user_id = get_jwt_identity()
@@ -193,7 +188,6 @@ def register():
 
 
 @api.route('/delete/<int:user_id>', methods=['DELETE'])
-@jwt_required()
 def delete(user_id):
     user = User.query.get(user_id)
 
@@ -231,7 +225,6 @@ def login():
 
 
 @api.route('/admission', methods=['POST'])
-@jwt_required()
 def admission():
     adm_required = ["dni", "firstname", "lastname", "birthdate"]
     income_required = ["visitreason", "priority"]
@@ -286,7 +279,6 @@ def admission():
 
 
 @api.route('/incomes', methods=['GET'])
-@jwt_required()
 def get_incomes():
     incomes = Income.query.order_by(Income.position.asc()).all()
     response = [income.serialize_patient_data() for income in incomes]
@@ -294,7 +286,6 @@ def get_incomes():
 
 
 @api.route('/income/<int:id>')
-@jwt_required()
 def get_income(id):
     income = Income.query.get(id)
     if not income:
@@ -302,11 +293,24 @@ def get_income(id):
     response = income.serialize_patient_data()
     return jsonify(response), 200
 
+
+@api.route('/income-alta/<patient_id>', methods=['GET'])
+def get_income_alta(patient_id):
+    incomes = db.session.execute(
+        select(Income).where(
+            Income.id_patient == patient_id,
+            Income.state == 'Alta'
+        )
+    ).scalars().all()
+    if not incomes:
+        return jsonify({"error": "There are no incomes yet"}), 404
+    response = [income.serialize() for income in incomes]
+    return jsonify(response), 200
+
 # region: /incomes-triage/income_id - PUT
 
 
 @api.route('/incomes-triage/<int:income_id>', methods=['PUT'])
-@jwt_required()
 def put_incomes_triage(income_id):
     data = request.get_json()
     actual_income = Income.query.get(income_id)
@@ -315,19 +319,36 @@ def put_incomes_triage(income_id):
         return jsonify({'error': 'Income not found'}), 404
 
     valoration_triage = data.get('valoration_triage')
+    checkpoint_triage = data.get('checkpoint_triage')
     new_triage_priority = data.get('triage_priority')
 
-    required_fields = ['valoration_triage']
+    required_fields = ['valoration_triage', 'checkpoint_triage']
 
     missing = [
         field for field in required_fields
-        if field not in data or data[field] in (None, "")
+        if field not in data 
     ]
     if missing:
         return jsonify({"Error": f"Rellenar los siguientes campos: {missing}", }), 400
 
     actual_income.valoration_triage = valoration_triage
+    actual_income.checkpoint_triage = checkpoint_triage
     actual_income.triage_priority = new_triage_priority if new_triage_priority else actual_income.triage_priority
+    priority = actual_income.triage_priority
+    new_position = db.session.query(func.min(Income.position)).filter(
+        Income.triage_priority > priority).scalar()
+
+    if new_position is not None:
+        db.session.query(Income).filter(Income.position >= new_position).update(
+            {Income.position: Income.position + 1}
+        )
+    else:
+        max_position = db.session.query(func.max(Income.position)).scalar()
+        if max_position is None:
+            new_position = 0
+        else:
+            new_position = max_position + 1
+    actual_income.position = new_position
     actual_income.state = "Esperando consulta"
     db.session.add(actual_income)
     db.session.commit()
@@ -339,7 +360,6 @@ def put_incomes_triage(income_id):
 
 
 @api.route('/incomes-consult/<int:income_id>', methods=['PUT'])
-@jwt_required()
 def put_incomes_consult(income_id):
     data = request.get_json()
     actual_income = Income.query.get(income_id)
@@ -348,11 +368,13 @@ def put_incomes_consult(income_id):
         return jsonify({'error': 'Income not found'}), 404
 
     diagnosis = data.get('diagnosis')
+    treament = data.get('treament')
 
-    if not diagnosis:
+    if not diagnosis or not treament:
         return jsonify({'error': 'Diagnosis are required'}), 409
 
     actual_income.diagnosis = diagnosis
+    actual_income.treament = treament
     actual_income.state = "Alta"
 
     db.session.add(actual_income)
@@ -364,7 +386,6 @@ def put_incomes_consult(income_id):
 
 
 @api.route('/reorder-incomes', methods=['PATCH'])
-@jwt_required()
 def reorder_income():
     data = request.get_json()
 
@@ -386,7 +407,6 @@ def reorder_income():
 
 
 @api.route('/orders', methods=['POST'])
-@jwt_required()
 def post_order():
     data = request.get_json()
     id_income = db.session.execute(
@@ -404,9 +424,24 @@ def post_order():
     db.session.commit()
     return jsonify({'msg': 'Register orders succesfully'}), 201
 
+# region: Order-PATCH
+
+
+@api.route('/orders/<int:order_id>', methods=['PATCH'])
+def patch_order(order_id):
+    data = request.get_json()
+    id_order = db.session.execute(
+        select(Order).where(Order.id == order_id)).scalar_one_or_none()
+    if not id_order:
+        return jsonify({'error': 'Income not found'}), 404
+    id_order.status = data.get('status')
+    db.session.commit()
+    return jsonify({'msg': 'Register orders succesfully'}), 201
+
+# region:  Panel-test -GET
+
 
 @api.route('/order-panel', methods=['GET'])
-@jwt_required()
 def get_order_panel():
     incomes = Income.query.order_by(Income.position.asc()).all()
     response = []
@@ -422,6 +457,8 @@ def get_order_panel():
                 "order_type": order.order_type,
                 "status": order.status,
                 "created_at": order.created_at,
+                "observations": order.observations,
+                "incidents": order.incidents,
                 "results": order.results
             })
     return jsonify(response), 200
@@ -436,3 +473,54 @@ def getProfile():
         return jsonify({"error": "User not found"}), 404
 
     return jsonify(user.serialize()), 200
+# region:Cloudinary
+
+
+@api.route('/order/<int:order_id>/result', methods=['POST'])
+def upload_result(order_id):
+    data = request.files.get('file')
+    observations = request.form.get('observation')
+    incidents = request.form.get('incidents')
+    if not data:
+        return jsonify({'error': 'The file are required'}), 400
+
+    is_pdf = data.content_type == 'application/pdf'
+
+    upload = cloudinary.uploader.upload(
+        data,
+        resource_type='image',
+        **(({'format': 'pdf'}) if is_pdf else {})
+    )
+    source_url = upload.get('secure_url')
+
+    order = Order.query.get(order_id)
+    if order:
+        order.results = source_url
+        order.observations = observations
+        order.incidents = incidents
+        db.session.commit()
+        return jsonify({'msg': 'File upload successfully'}), 201
+    return jsonify({'error': 'Test not found'}), 404
+
+
+@api.route('/order/<int:order_id>/result', methods=['PATCH'])
+def reload_result(order_id):
+    data = request.files.get('file')
+    if not data:
+        return jsonify({'error': 'The file are required'}), 400
+
+    is_pdf = data.content_type == 'application/pdf'
+
+    upload = cloudinary.uploader.upload(
+        data,
+        resource_type='image',
+        **(({'format': 'pdf'}) if is_pdf else {})
+    )
+    source_url = upload.get('secure_url')
+
+    order = Order.query.get(order_id)
+    if order:
+        order.results = source_url
+        db.session.commit()
+        return jsonify({'msg': 'File upload successfully'}), 201
+    return jsonify({'error': 'Test not found'}), 404

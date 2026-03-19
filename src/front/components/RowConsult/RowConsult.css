@@ -16,6 +16,7 @@
 .medical-row:hover td {
   background: transparent;
 }
-.btn-custom:hover {
+.btn-custom-table:hover {
   color: black;
+  transform: scale(1.02);
 }

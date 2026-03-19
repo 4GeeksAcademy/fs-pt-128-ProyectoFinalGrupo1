@@ -118,13 +118,12 @@ export const getIncome = async (dispatch, id) => {
   }
 };
 
-export const updateIncome = async (id, incomeForm, navigate) => {
-  const token = localStorage.getItem("token");
+export const updateIncome = async (id, incomeForm, triageTime, navigate) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/incomes-triage/${id}`,
     {
       method: "PUT",
-      body: JSON.stringify(incomeForm),
+      body: JSON.stringify({ ...incomeForm, checkpoint_triage: triageTime }),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -349,23 +348,38 @@ export const getIncomeTest = async (dispatch) => {
 };
 
 export const getProfile = async () => {
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        const data = await response.json();
+        if (!response.ok) {
+            return false;
+        }
+        console.log(data);
+        
+        localStorage.setItem("email", data.email)
+        localStorage.setItem("firstname", data.firstname)
+        localStorage.setItem("lastname", data.lastname)
+        localStorage.setItem("rol", data.rol)
+        
+    }
+export const changeStatus = async (id, status) => {
   const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}/api/profile`,
+    `${import.meta.env.VITE_BACKEND_URL}/api/orders/${id}`,
     {
+      method: "PATCH",
+      body: JSON.stringify({ status: status }),
       headers: {
-        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
     },
   );
   const data = await response.json();
   if (!response.ok) {
-    return false;
+    return data;
   }
-  console.log(data);
-
-  localStorage.setItem("email", data.email);
-  localStorage.setItem("firstname", data.firstname);
-  localStorage.setItem("lastname", data.lastname);
-  localStorage.setItem("rol", data.rol);
+  return { ok: true };
 };

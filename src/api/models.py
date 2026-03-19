@@ -63,22 +63,30 @@ class Income(db.Model):
         String(600), nullable=True, unique=False)
     triage_priority: Mapped[int] = mapped_column(nullable=True)
     diagnosis: Mapped[str] = mapped_column(Text, nullable=True, unique=False)
+    treatment: Mapped[str] = mapped_column(Text, nullable=True, unique=False)
     state: Mapped[str] = mapped_column(
         String(120), nullable=False, unique=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now())
+    checkpoint_triage: Mapped[int] = mapped_column(
+        Integer, nullable=True, unique=False)
+    checkpoint_consult: Mapped[int] = mapped_column(
+        Integer, nullable=True, unique=False)
     orders: Mapped[list["Order"]] = relationship(
         back_populates="income_order")
 
     def serialize(self):
         return {
             "visitreason": self.visitreason,
-            "valoration_tiage": self.valoration_triage,
+            "valoration_triage": self.valoration_triage,
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
+            "treatment": self.treatment,
             "state": self.state,
             "position": self.position,
             "created_at": self.created_at,
+            "checkpoint_triage": self.checkpoint_triage,
+            "checkpoint_consult": self.checkpoint_triage,
             "doctor": self.doctor.firstname if self.doctor else None,
             "nurse": self.nurse.firstname if self.nurse else None
         }
@@ -95,9 +103,12 @@ class Income(db.Model):
             "valoration_triage": self.valoration_triage,
             "triage_priority": self.triage_priority,
             "diagnosis": self.diagnosis,
+            "treatment": self.treatment,
             "state": self.state,
             "position": self.position,
             "created_at": self.created_at,
+            "checkpoint_triage": self.checkpoint_triage,
+            "checkpoint_consult": self.checkpoint_consult,
             "doctor": self.doctor.firstname if self.doctor else None,
             "nurse": self.nurse.firstname if self.nurse else None,
             "orders": [order.serialize() for order in self.orders] if self.orders else []
@@ -138,6 +149,12 @@ class Order(db.Model):
         String(60), nullable=True, unique=False, default="Solicitado")
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now())
+    finalize_test: Mapped[int] = mapped_column(
+        Integer, nullable=True, unique=False)
+    observations: Mapped[str] = mapped_column(
+        Text, nullable=True, unique=False)
+    incidents: Mapped[str] = mapped_column(
+        Text, nullable=True, unique=False)
     results: Mapped[str] = mapped_column(String(600), nullable=True)
     id_income: Mapped[int] = mapped_column(
         Integer, ForeignKey("income.id"), nullable=True)
@@ -151,5 +168,8 @@ class Order(db.Model):
             "order_type": self.order_type,
             "status": self.status,
             "created_at": self.created_at,
+            "finalize_test": self.finalize_test,
+            "observations": self.observations,
+            "incidents": self.incidents,
             "results": self.results
         }

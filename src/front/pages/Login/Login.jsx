@@ -113,13 +113,7 @@ export const Login = () => {
                             </button>
                             <div className="mb-3 mx-auto" style={{ height: '2px', backgroundColor: "var(--primaryText)", width: "95%" }}></div>
                         </div>
-                        <div className="formFooterLogin">
-                            <div className="mb-3 form-check">
-                                <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                                <label className="form-check-label" htmlFor="exampleCheck1">Recordar usuario</label>
-                            </div>
-                            <p>Olvidaste tu contraseña?</p>
-                        </div>
+                        
                         <div className="d-flex flex-column w-75 loginButtons">
                             {loading ? (
                                 <button
