@@ -255,6 +255,7 @@ def admission():
             firstname=data_admission.get("firstname"),
             lastname=data_admission.get("lastname"),
             birthdate=data_admission.get("birthdate"),
+            gender=data_admission.get("gender"),
             allergies=data_admission.get("allergies")
         )
         db.session.add(new_admission)
@@ -439,6 +440,16 @@ def post_order():
         db.session.add(new_order)
     db.session.commit()
     return jsonify({'msg': 'Register orders succesfully'}), 201
+
+
+@api.route('/order/<int:id>', methods=['GET'])
+def get_order(id):
+    order = Order.query.get(id)
+    if not order:
+        return jsonify({"error": "Patient not found"}), 404
+    response = order.serialize()
+    return jsonify(response), 200
+
 
 # region: Order-PATCH
 

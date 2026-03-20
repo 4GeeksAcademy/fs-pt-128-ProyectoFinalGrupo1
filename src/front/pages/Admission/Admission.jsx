@@ -20,6 +20,7 @@ export const Admission = () => {
         "dni": "",
         "birthdate": "",
         "firstname": "",
+        "gender": "",
         "lastname": "",
         "allergies": []
     })
@@ -60,7 +61,7 @@ export const Admission = () => {
         setError(null)
         console.log(admission);
         e.preventDefault()
-        if (!admission.dni || !admission.firstname || !admission.lastname || !admission.birthdate || !income.visitreason || !income.priority) {
+        if (!admission.dni || !admission.firstname || !admission.lastname || !admission.birthdate || !income.visitreason || !income.priority || !admission.gender) {
             setError("Todos los campos son obligatorios")
             return
         }
@@ -78,6 +79,7 @@ export const Admission = () => {
                 "birthdate": "",
                 "firstname": "",
                 "lastname": "",
+                "gender": "",
                 "allergies": []
             })
             setIncome({
@@ -89,7 +91,7 @@ export const Admission = () => {
             }, 3000);
         }
     }
-
+    console.log(admission)
     // region:handlePrio
     const handlePrio = (e) => {
         e.preventDefault()
@@ -129,6 +131,7 @@ export const Admission = () => {
                     "birthdate": patient.birthdate,
                     "firstname": patient.firstname,
                     "lastname": patient.lastname,
+                    "gender": patient.gender,
                     "allergies": allergiesArray
                 })
                 return
@@ -140,6 +143,7 @@ export const Admission = () => {
             "birthdate": "",
             "firstname": "",
             "lastname": "",
+            "gender": '',
             "allergies": []
         })
         setIncome({
@@ -183,6 +187,18 @@ export const Admission = () => {
                                     <input name="dni" value={admission.dni} onChange={handleChange} maxLength={9} onBlur={searchPatient} type="text" className="form-control rounded-3 mt-2 shadow bg-body-tertiary border border-1" id="InputDNI" />
                                 </div>
                                 <div className="mb-3 align-items-center col-2">
+                                    <label htmlFor="InputLastName" className="form-label mb-0">Genero</label>
+                                    <select className="form-select rounded-3 mt-2 shadow bg-body-tertiary border border-1"
+                                        aria-label="Default select example"
+                                        name="gender"
+                                        value={admission.gender}
+                                        onChange={handleChange}>
+                                        <option defaultValue>Seleccione género</option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Femenino">Femenino</option>
+                                    </select>
+                                </div>
+                                <div className="mb-3 align-items-center col-2">
                                     <label htmlFor="InputBirthday" className="form-label mb-0 text-nowrap">Fecha Nacimiento</label>
                                     <input name="birthdate" disabled={userExist} value={admission.birthdate} onChange={handleChange} type="date" className="form-control rounded-3 mt-2 shadow bg-body-tertiary border border-1" id="InputBirthday" />
                                 </div>
@@ -190,7 +206,7 @@ export const Admission = () => {
                                     <label htmlFor="InputName" className="form-label mb-0">Nombre</label>
                                     <input name="firstname" disabled={userExist} value={admission.firstname} onChange={handleChange} type="text" className="form-control rounded-3 mt-2 shadow bg-body-tertiary border border-1" id="InputName" />
                                 </div>
-                                <div className="mb-3 align-items-center col-5">
+                                <div className="mb-3 align-items-center col-3">
                                     <label htmlFor="InputLastName" className="form-label mb-0">Apellidos</label>
                                     <input name="lastname" disabled={userExist} value={admission.lastname} onChange={handleChange} type="text" className="form-control rounded-3 mt-2 shadow bg-body-tertiary border border-1" id="InputLastName" />
                                 </div>

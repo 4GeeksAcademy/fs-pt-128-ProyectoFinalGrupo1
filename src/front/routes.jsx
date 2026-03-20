@@ -56,6 +56,7 @@ export const router = createBrowserRouter(
       <Route path="/tests" element={<DashboardTest />} />
       <Route path="/tests/:type/:value" element={<DashboardTest />} />
       <Route path="/test-form/:income_id/:id" element={<TestView />} />
+      <Route path="/test-result/:income_id/:id" element={<TestView />} />
       <Route path="/patientsHistory" element={<PatientsHistory />} />
       <Route path="/patientsHistory/:id" element={<PatientsHistoryDetail />} />
       <Route path="/control-panel/triage" element={<ControlPanelTriage />} />

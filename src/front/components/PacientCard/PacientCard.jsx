@@ -1,7 +1,7 @@
 import useGlobalReducer from "../../hooks/useGlobalReducer"
 import { calculateAge } from "../../utils/calculateAge"
 
-export const PatientCard = ({ patient_dni, patient_firstname, patient_lastname, patient_birthdate, patient_allergies, width }) => {
+export const PatientCard = ({ patient_dni, patient_firstname, patient_lastname, patient_birthdate, patient_allergies, patient_gender, width }) => {
     return (
         <div className={`border border-secondary rounded me-1 mt-2 container consultation-container ${width}`}>
             <h2 className="mt-1 fs-5 fw-semibold">Datos del paciente</h2>
@@ -16,7 +16,7 @@ export const PatientCard = ({ patient_dni, patient_firstname, patient_lastname, 
                 </div>
                 <div className="col-12 col-md-4 mb-3 d-flex">
                     <p className="p-0 m-0 me-2 label-custom fw-semibold">Sexo:</p>
-                    <p className="p-0 m-0">Varón</p>
+                    <p className="p-0 m-0">{patient_gender}</p>
                 </div>
                 <div className="col-12 col-md-8 mb-3 d-flex">
                     <p className="p-0 m-0 me-2 label-custom fw-semibold">Edad:</p>

@@ -98,6 +98,7 @@ class Income(db.Model):
             "patient_firstname": self.patient.firstname,
             "patient_lastname": self.patient.lastname,
             "patient_birthdate": self.patient.birthdate,
+            "patient_gender": self.patient.gender,
             "patient_allergies": self.patient.allergies,
             "visitreason": self.visitreason,
             "valoration_triage": self.valoration_triage,
@@ -126,6 +127,8 @@ class Patient(db.Model):
         String(120), nullable=False, unique=False)
     birthdate: Mapped[str] = mapped_column(
         String(10), nullable=False, unique=False)
+    gender: Mapped[str] = mapped_column(
+        String(20), nullable=False, unique=False)
     allergies: Mapped[list[str]] = mapped_column(String(600), nullable=False)
     income: Mapped[list["Income"]] = relationship(back_populates="patient")
 
@@ -135,6 +138,7 @@ class Patient(db.Model):
             "firstname": self.firstname,
             "lastname": self.lastname,
             "birthdate": self.birthdate,
+            "gender": self.gender,
             "allergies": self.allergies,
             "income": [i.serialize() for i in self.income]
         }

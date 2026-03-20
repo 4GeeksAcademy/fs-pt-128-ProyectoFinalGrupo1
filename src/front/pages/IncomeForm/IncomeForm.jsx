@@ -25,7 +25,7 @@ export const IncomeForm = () => {
     })
 
 
-
+    console.log(store.income)
     const handleChange = (e) => {
         setIncomeForm({
             ...incomeForm,
@@ -56,7 +56,7 @@ export const IncomeForm = () => {
         e.preventDefault()
         const triageTime = calculateWaitingTime(store.income.created_at)
         console.log('triageTime:', triageTime)
-        console.log(store.incomes.map(i => ({id: i.id, state: i.state})))
+        console.log(store.incomes.map(i => ({ id: i.id, state: i.state })))
         if (!incomeForm.valoration_triage) {
             setError("Describa la valoración del triaje")
             setLoading(false)
@@ -77,7 +77,6 @@ export const IncomeForm = () => {
         getIncome(dispatch, id);
 
     }, [])
-
     useEffect(() => {
         if (store.income) {
             setIncomeForm({
@@ -86,6 +85,7 @@ export const IncomeForm = () => {
                 patient_name: store.income.patient_firstname,
                 patient_lastname: store.income.patient_lastname,
                 reason_consultation: store.income.visitreason,
+                patient_gender: store.income.patient_gender,
                 birth_date: store.income.patient_birthdate,
                 allergies: store.income.patient_allergies,
                 nurse: store.income.nurse
@@ -116,6 +116,7 @@ export const IncomeForm = () => {
                             patient_firstname={incomeForm.patient_name}
                             patient_lastname={incomeForm.patient_lastname}
                             patient_birthdate={incomeForm.birth_date}
+                            patient_gender={incomeForm.patient_gender}
                             patient_allergies={incomeForm.allergies} />
                         <VisitReasonCard
                             visitreason={incomeForm.reason_consultation}

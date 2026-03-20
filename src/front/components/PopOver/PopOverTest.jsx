@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import { Link } from 'react-router-dom';
 
 export const PopOverTest = ({ patient, orders }) => {
     return (
@@ -14,7 +15,8 @@ export const PopOverTest = ({ patient, orders }) => {
                     <Popover.Header as="h3">Pruebas: {patient}</Popover.Header>
                     <Popover.Body>
                         {
-                            orders.map(order => <p key={order.id}>{order.order_type}: {order.status}</p>)
+                            orders.map(order => <p key={order.id}>{order.order_type}: {order.status == 'Finalizado' ?
+                                <Link to={`/test-result/${order.income_id}/${order.id}`}>Ver resultados</Link> : order.status}</p>)
                         }
                     </Popover.Body>
                 </Popover>

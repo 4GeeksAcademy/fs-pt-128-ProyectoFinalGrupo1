@@ -77,19 +77,22 @@ export const Consultation = () => {
                 </div>)
                 : (<div>
                     <div>
-                        <Link to={'/consultation'}>
-                            <i className="fa-solid fa-arrow-left"></i>
-                            Volver atrás
-                        </Link>
-                        <div className="d-flex flex-column container mt-2 ">
-                            <h1 className="title w-100 text-center">Consulta</h1>
+                        <div className="border-bottom mt-2 d-flex align-items-center" style={{ height: '53px' }} >
+                            <h2 className="title w-100 text-start fs-6">Panel de control triaje</h2>
+                        </div>
+                        <div className="d-flex flex-column container-fluid mt-2 ">
+                            <h2 className="title w-100 text-start fs-3">Panel de control triaje</h2>
+                            <p>Gestión del triaje</p>
+                        </div>
+                        <div className="d-flex flex-column container">
                             <div className="container d-flex">
                                 <PatientCard width={'w-50'}
                                     patient_dni={store.income.patient_dni}
                                     patient_firstname={store.income.patient_firstname}
                                     patient_lastname={store.income.patient_lastname}
                                     patient_birthdate={store.income.patient_birthdate}
-                                    patient_allergies={store.income.patient_allergies} />
+                                    patient_allergies={store.income.patient_allergies}
+                                    patient_gender={store.income.patient_gender} />
                                 <VisitReasonCard
                                     visitreason={store.income.visitreason}
                                     nurse={store.income.nurse}
