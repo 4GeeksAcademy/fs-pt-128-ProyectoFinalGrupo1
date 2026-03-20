@@ -556,7 +556,7 @@ def pre_triage():
                                     Responde únicamente en JSON válido con esta estructura:
 
                                     {
-                                    "prioridad_sugerida": "leve | urgente | emergencia",
+                                    "prioridad_sugerida": "No urgente | Poco urgente | Urgente | Muy Urgente | Emergencia",
                                     "nivel_confianza": number,
                                     "factores_clave": [],
                                     "justificacion": ""
