@@ -16,8 +16,8 @@ export const MedicalTest = () => {
     const { store, dispatch } = useGlobalReducer()
     const [btn, setBtn] = useState('StateBtn')
 
-    const criticalPacient1 = store.test.filter(t => (Number(t.urgency) === 1)).length
-    const criticalPacient2 = store.test.filter(t => (Number(t.urgency) === 2)).length
+    const criticalPacient1 = store.test.filter(t => { if (Number(t.urgency) === 1 && t.status !== 'Finalizado') return true }).length
+    const criticalPacient2 = store.test.filter(t => { if (Number(t.urgency) === 2 && t.status !== 'Finalizado') return true }).length
     const criticalPacient = criticalPacient1 + criticalPacient2
     const oldestPatient = store.test.filter(t => t.status == 'Solicitada').sort((a, b) => a.id - b.id).slice(0, 6).length
     const sendPending = store.test.filter(t => t.status === 'Pendiente').length

@@ -5,6 +5,7 @@ import os
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
+from datetime import timedelta
 from api.utils import APIException, generate_sitemap
 from api.models import db
 from api.routes import api
@@ -22,16 +23,18 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=12)
 jwt = JWTManager(app)
 
 app.config.update(
-    MAIL_SERVER='sandbox.smtp.mailtrap.io',
-    MAIL_PORT=587,
-    MAIL_USERNAME='2c6dccfc3c7e46',
-    MAIL_PASSWORD='570362d19bc647',
+    MAIL_SERVER=os.getenv('MAIL_SERVER'),
+    MAIL_PORT=os.getenv('MAIL_PORT'),
+    MAIL_USERNAME=os.getenv('MAIL_USERNAME'),
+    MAIL_PASSWORD=os.getenv('MAIL_PASSWORD'),
     MAIL_USE_TLS=True,
     MAIL_USE_SSL=False
 )
+
 mail = Mail(app)
 app.url_map.strict_slashes = False
 cloudinary.config(

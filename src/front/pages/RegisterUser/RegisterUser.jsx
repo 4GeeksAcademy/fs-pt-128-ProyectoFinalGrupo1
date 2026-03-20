@@ -6,7 +6,7 @@ import useGlobalReducer from "../../hooks/useGlobalReducer"
 
 export const RegisterUser = () => {
     const { store, dispatch } = useGlobalReducer();
-    console.log(store)
+    console.log(store.users)
     useEffect(() => {
         getUser(dispatch)
     }, [])
@@ -37,9 +37,11 @@ export const RegisterUser = () => {
                                         No hay usuarios registrados
                                     </td>
                                 </tr> :
-                                store.users.map(user => (
-                                    <TableRow key={user.id} user={user} />
-                                ))
+                                store.users
+                                    .sort((a, b) => a.id - b.id)
+                                    .map(user => (
+                                        <TableRow key={user.id} user={user} />
+                                    ))
                             }
                         </tbody>
                     </table>
