@@ -7,13 +7,13 @@ export const orderResult = () => {
     const navigate = useNavigate()
     const { income_id, id } = useParams()
     const { store, dispatch } = useGlobalReducer()
-
+    
 
 
     useEffect(() => {
         getIncome(dispatch, income_id)
         getOrder(dispatch, id)
-    })
+    },[])
 
     return (
         <div className="container">
