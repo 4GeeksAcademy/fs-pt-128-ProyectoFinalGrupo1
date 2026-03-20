@@ -2,12 +2,14 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
+from datetime import timedelta
 from sqlalchemy import select, func
 from api.models import db, User, Income, Patient, Order
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt_identity, create_access_token, jwt_required
 import os
+import requests
 from flask_mail import Message
 import cloudinary.uploader
 
@@ -21,6 +23,7 @@ CORS(api)
 
 
 @api.route('/users', methods=['GET'])
+@jwt_required()
 def get_user():
     users = User.query.all()
     response = [user.serialize() for user in users]
@@ -30,6 +33,7 @@ def get_user():
 
 
 @api.route('/patients', methods=['GET'])
+@jwt_required()
 def get_patients():
     patients = Patient.query.all()
     response = [patient.serialize() for patient in patients]
@@ -39,6 +43,7 @@ def get_patients():
 
 
 @api.route('/patient/<id>', methods=['GET'])
+@jwt_required()
 def get_patient(id):
     patient = Patient.query.get(id)
     if not patient:
@@ -50,6 +55,7 @@ def get_patient(id):
 
 
 @api.route('/register/user', methods=['POST'])
+@jwt_required()
 def register_user():
     data = request.get_json()
 
@@ -76,7 +82,7 @@ def register_user():
 
     additional_claims = {"type": "email_validation"}
     validation_token = create_access_token(
-        identity=str(new_user.id), additional_claims=additional_claims)
+        identity=str(new_user.id), additional_claims=additional_claims, expires_delta=timedelta(days=1))
 
     url = f"{os.getenv('VITE_FRONTEND_URL')}/activate?token={validation_token}"
     msg = Message(
@@ -107,7 +113,7 @@ def register_user():
                                         <table border="0" cellpadding="0" cellspacing="0">
                                         <tr>
                                             <td align="center" style="border-radius: 4px; background-color: #2b6cb0;">
-                                            <a href={url} target="_blank" style="display: inline-block; padding: 15px 25px; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; border: 1px solid #2b6cb0;">
+                                            <a href="{url}"target="_blank" style="display: inline-block; padding: 15px 25px; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; border: 1px solid #2b6cb0;">
                                                 Activar Mi Cuenta
                                             </a>
                                             </td>
@@ -189,6 +195,7 @@ def register():
 
 
 @api.route('/delete/<int:user_id>', methods=['DELETE'])
+@jwt_required()
 def delete(user_id):
     user = User.query.get(user_id)
 
@@ -226,6 +233,7 @@ def login():
 
 
 @api.route('/admission', methods=['POST'])
+@jwt_required()
 def admission():
     adm_required = ["dni", "firstname", "lastname", "birthdate"]
     income_required = ["visitreason", "priority"]
@@ -280,6 +288,7 @@ def admission():
 
 
 @api.route('/incomes', methods=['GET'])
+@jwt_required()
 def get_incomes():
     incomes = Income.query.order_by(Income.position.asc()).all()
     response = [income.serialize_patient_data() for income in incomes]
@@ -287,6 +296,7 @@ def get_incomes():
 
 
 @api.route('/income/<int:id>')
+@jwt_required()
 def get_income(id):
     income = Income.query.get(id)
     if not income:
@@ -296,6 +306,7 @@ def get_income(id):
 
 
 @api.route('/income-alta/<patient_id>', methods=['GET'])
+@jwt_required()
 def get_income_alta(patient_id):
     incomes = db.session.execute(
         select(Income).where(
@@ -312,6 +323,7 @@ def get_income_alta(patient_id):
 
 
 @api.route('/incomes-triage/<int:income_id>', methods=['PUT'])
+@jwt_required()
 def put_incomes_triage(income_id):
     data = request.get_json()
     actual_income = Income.query.get(income_id)
@@ -320,18 +332,20 @@ def put_incomes_triage(income_id):
         return jsonify({'error': 'Income not found'}), 404
 
     valoration_triage = data.get('valoration_triage')
+    checkpoint_triage = data.get('checkpoint_triage')
     new_triage_priority = data.get('triage_priority')
 
-    required_fields = ['valoration_triage']
+    required_fields = ['valoration_triage', 'checkpoint_triage']
 
     missing = [
         field for field in required_fields
-        if field not in data or data[field] in (None, "")
+        if field not in data
     ]
     if missing:
         return jsonify({"Error": f"Rellenar los siguientes campos: {missing}", }), 400
 
     actual_income.valoration_triage = valoration_triage
+    actual_income.checkpoint_triage = checkpoint_triage
     actual_income.triage_priority = new_triage_priority if new_triage_priority else actual_income.triage_priority
     priority = actual_income.triage_priority
     new_position = db.session.query(func.min(Income.position)).filter(
@@ -359,6 +373,7 @@ def put_incomes_triage(income_id):
 
 
 @api.route('/incomes-consult/<int:income_id>', methods=['PUT'])
+@jwt_required()
 def put_incomes_consult(income_id):
     data = request.get_json()
     actual_income = Income.query.get(income_id)
@@ -385,6 +400,7 @@ def put_incomes_consult(income_id):
 
 
 @api.route('/reorder-incomes', methods=['PATCH'])
+@jwt_required()
 def reorder_income():
     data = request.get_json()
 
@@ -406,6 +422,7 @@ def reorder_income():
 
 
 @api.route('/orders', methods=['POST'])
+@jwt_required()
 def post_order():
     data = request.get_json()
     id_income = db.session.execute(
@@ -427,6 +444,7 @@ def post_order():
 
 
 @api.route('/orders/<int:order_id>', methods=['PATCH'])
+@jwt_required()
 def patch_order(order_id):
     data = request.get_json()
     id_order = db.session.execute(
@@ -441,6 +459,7 @@ def patch_order(order_id):
 
 
 @api.route('/order-panel', methods=['GET'])
+@jwt_required()
 def get_order_panel():
     incomes = Income.query.order_by(Income.position.asc()).all()
     response = []
@@ -462,10 +481,22 @@ def get_order_panel():
             })
     return jsonify(response), 200
 
+
+@api.route('/profile', methods=['GET'])
+@jwt_required()
+def getProfile():
+    user_id = get_jwt_identity()
+    user = db.session.get(User, user_id)
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify(user.serialize()), 200
 # region:Cloudinary
 
 
 @api.route('/order/<int:order_id>/result', methods=['POST'])
+@jwt_required()
 def upload_result(order_id):
     data = request.files.get('file')
     observations = request.form.get('observation')
@@ -493,6 +524,7 @@ def upload_result(order_id):
 
 
 @api.route('/order/<int:order_id>/result', methods=['PATCH'])
+@jwt_required()
 def reload_result(order_id):
     data = request.files.get('file')
     if not data:
@@ -513,3 +545,64 @@ def reload_result(order_id):
         db.session.commit()
         return jsonify({'msg': 'File upload successfully'}), 201
     return jsonify({'error': 'Test not found'}), 404
+
+
+@api.route('/pre-triage', methods=['POST'])
+def pre_triage():
+    data = request.get_json()
+
+    visitreason = data.get('visitreason')
+
+    if not visitreason:
+        return jsonify({'error': 'The visitreason is required'}), 400
+
+    url = "https://api.groq.com/openai/v1/chat/completions"
+
+    payload = {
+        "model": "llama-3.3-70b-versatile",
+        "messages": [
+            {
+                "role": "system",
+                "content": """
+                                    Eres un asistente de apoyo al pretriaje en urgencias hospitalarias.
+
+                                    No realizas diagnósticos ni tomas decisiones finales.
+                                    Solo sugieres un nivel de prioridad basado en los datos proporcionados.
+
+                                    Responde únicamente en JSON válido con esta estructura:
+
+                                    {
+                                    "prioridad_sugerida": "No urgente | Poco urgente | Urgente | Muy Urgente | Emergencia",
+                                    "nivel_confianza": number,
+                                    "factores_clave": [],
+                                    "justificacion": ""
+                                    }
+
+                                    Normas:
+                                    - No añadas texto fuera del JSON
+                                    - No hagas preguntas
+                                    - No inventes datos
+                                    - Usa lenguaje claro y profesional
+                                    """
+            },
+            {
+                "role": "user",
+                "content": f"""
+                sintomas: {visitreason}
+                """
+            }
+        ]
+    }
+
+    headers = {
+        "Authorization": f"Bearer {os.getenv('GROQ_API_KEY')}",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+    result = response.json()
+
+    return jsonify({
+        "msg": "Pre-triage generated",
+        "ia_response": result.get("choices", [{}])[0].get("message", {}).get("content", "")
+    }), 200

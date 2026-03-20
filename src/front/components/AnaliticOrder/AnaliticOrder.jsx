@@ -3,7 +3,7 @@ import { OffCanvas } from '../OffCanvas/OffCanvas'
 import useGlobalReducer from '../../hooks/useGlobalReducer'
 import { getIncome, postOrders } from '../../APIServices/BACKENDservices'
 import { SpinnerButton } from '../Spinner/SpinnerButton'
-
+import { testsCatalog } from '../../utils/testsCatalog'
 
 
 export const AnaliticOrder = ({ orders, id }) => {
@@ -12,9 +12,19 @@ export const AnaliticOrder = ({ orders, id }) => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [confirm, setConfirm] = useState('')
+    const [showInput, setShowInput] = useState(false)
+    const [radValue, setRadValue] = useState('')
 
     const handlerChangeOrders = (e) => {
+        if (e.target.name === 'Radiografía') {
+            setShowInput(e.target.checked)
+            if (!e.target.checked) {
+                dispatch({ type: 'remove_order', payload: store.orders.find(o => o?.startsWith('Radiografía')) })
+            }
+            return
+        }
         if (!store.orders.includes(e.target.name)) {
+
             dispatch({ type: "add_order", payload: e.target.name })
         } else {
             dispatch({ type: "remove_order", payload: e.target.name })
@@ -62,49 +72,51 @@ export const AnaliticOrder = ({ orders, id }) => {
                 <form onSubmit={handlerSubmit} className=''>
 
                     <div className="d-flex align-items-center justify-content-center mb-1">
-                        <div className="d-flex justify-content-center align-items-center mx-2">
-                            <input type="checkbox"
-                                name="Analítica básica"
-                                id="hemoglobina"
-                                onChange={handlerChangeOrders}
-                                checked={Array.isArray(orders) && orders.some(o => o.order_type === "Analítica básica") || store.orders.includes("Analítica básica")}
-                                disabled={Array.isArray(orders) && orders.some(o => o.order_type === "Analítica básica")} />
-                            <label htmlFor="hemoglobina" className="mx-1">Analítica básica</label>
-                        </div>
-                        <div className="d-flex justify-content-center align-items-center mx-2">
-                            <input type="checkbox" name="Electrocardiograma"
-                                id="ecg"
-                                onChange={handlerChangeOrders}
-                                checked={Array.isArray(orders) && orders.some(o => o.order_type === "Electrocardiograma") || store.orders.includes("Electrocardiograma")}
-                                disabled={Array.isArray(orders) && orders.some(o => o.order_type === "Electrocardiograma")} />
-                            <label htmlFor="ecg" className="mx-1">Electrocardiograma</label>
-                        </div>
-                        <div className="d-flex  justify-content-center align-items-center mx-2">
-                            <input type="checkbox"
-                                name="Radiografía" id="rx"
-                                onChange={handlerChangeOrders}
-                                checked={Array.isArray(orders) && orders.some(o => o.order_type === "Radiografía") || store.orders.includes("Radiografía")}
-                                disabled={Array.isArray(orders) && orders.some(o => o.order_type === "Radiografía")} />
-                            <label htmlFor="radigrafía" className="mx-1">Radiografía</label>
-                        </div>
-                        <div className="d-flex justify-content-center align-items-center mx-2">
-                            <input type="checkbox"
-                                name="Analisís de orina"
-                                id="orina"
-                                onChange={handlerChangeOrders}
-                                checked={Array.isArray(orders) && orders.some(o => o.order_type === "Analisís de orina") || store.orders.includes("Analisís de orina")}
-                                disabled={Array.isArray(orders) && orders.some(o => o.order_type === "Analisís de orina")} />
-                            <label htmlFor="orina" className="mx-1">Analisís de orina</label>
-                        </div>
-                        <div className="d-flex justify-content-center align-items-center mx-2">
-                            <input type="checkbox"
-                                name="Re-evaluación de constantes"
-                                id="constantes"
-                                onChange={handlerChangeOrders}
-                                checked={Array.isArray(orders) && orders.some(o => o.order_type === "Re-evaluación de constantes") || store.orders.includes("Re-evaluación de constantes")}
-                                disabled={Array.isArray(orders) && orders.some(o => o.order_type === "Re-evaluación de constantes")} />
-                            <label htmlFor="constantes" className="mx-1">Re-evaluación de constantes</label>
-                        </div>
+                        {testsCatalog
+                            .filter(t => t.category === "pruebas mas solicitadas")
+                            .map(test =>
+                                test.items
+                                    .map(item => (
+                                        <div className="d-flex justify-content-center align-items-center mx-2">
+                                            <input type="checkbox"
+                                                name={item}
+                                                id={item}
+                                                onChange={handlerChangeOrders}
+                                                checked={Array.isArray(orders) && orders.some(o =>
+                                                    item === 'Radiografía'
+                                                        ? o.order_type?.startsWith('Radiografía')
+                                                        : o.order_type === item
+                                                ) || (item === 'Radiografía'
+                                                    ? store.orders.some(o => o?.startsWith('Radiografía'))
+                                                    : store.orders.includes(item))}
+                                                disabled={Array.isArray(orders) && orders.some(o =>
+                                                    item === 'Radiografía'
+                                                        ? o.order_type?.startsWith('Radiografía')
+                                                        : o.order_type === item
+                                                )} />
+                                            <label htmlFor={item} className="mx-1"> {item}</label>
+                                            {item === 'Radiografía' && showInput &&
+                                                <input type="text"
+                                                    className='border shadow-sm'
+                                                    placeholder="Especificar zona..."
+                                                    onChange={(e) => {
+                                                        setRadValue(e.target.value)
+                                                        const existing = store.orders.find(o => o?.startsWith('Radiografía'))
+                                                        if (existing) dispatch({ type: 'remove_order', payload: existing })
+                                                        dispatch({ type: 'add_order', payload: `Radiografía - ${e.target.value}` })
+                                                    }}
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    disabled={Array.isArray(orders) && orders.some(o =>
+                                                        item === 'Radiografía'
+                                                            ? o.order_type?.startsWith('Radiografía')
+                                                            : o.order_type === item
+                                                    )} />}
+                                        </div>
+
+                                    ))
+
+                            )
+                        }
                         <div className="d-flex justify-content-center align-items-center mx-2">
                             <OffCanvas orders={orders} handlerChangeOrders={handlerChangeOrders} />
                         </div>

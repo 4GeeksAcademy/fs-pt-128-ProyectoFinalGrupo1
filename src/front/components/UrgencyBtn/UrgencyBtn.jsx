@@ -9,7 +9,9 @@ export const UrgencyBtn = ({ test }) => {
         <div>
             {
                 test
-                    .filter(t => Number(t.urgency) < 4)
+                    .filter(t => {
+                        if (Number(t.urgency) < 3 && t.status !== 'Finalizado') return true
+                    })
                     .sort((a, b) => a.prioridad - b.prioridad)
                     .map(t => (
                         <UrgencyCard key={t.id} t={t} calculateTime={calculateTime} />

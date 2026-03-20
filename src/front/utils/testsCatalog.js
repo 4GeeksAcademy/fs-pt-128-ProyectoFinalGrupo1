@@ -1,9 +1,19 @@
 export const testsCatalog = [
   {
+    id: "solicitadas",
+    category: "pruebas mas solicitadas",
+    items: [
+      "Analítica básica",
+      "Electrocardiograma",
+      "Radiografía",
+      "Analisis de orina",
+      "TAC Craneal",
+    ],
+  },
+  {
     id: "imagenologia",
     category: "BLOQUE DE IMAGENOLOGÍA",
     items: [
-      "TAC Craneal",
       "TAC Abdominal",
       "TAC Torácico",
       "Ecografía Abdominal",

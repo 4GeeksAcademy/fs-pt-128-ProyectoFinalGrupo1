@@ -16,7 +16,6 @@ export const DashboardConsulta = () => {
     const { type, value } = useParams()
     const [typeSelect, setTypeSelect] = useState('')
     const [valueSelect, setValueSelect] = useState('')
-
     const [isLoading, setIsLoading] = useState(false)
 
     let patientLoad = [...store.incomes]
@@ -70,10 +69,15 @@ export const DashboardConsulta = () => {
             await loadNewOrder(orderedIds)
         }
     }
+    console.log(store.incomes)
 
     useEffect(() => {
         loadPatients()
-    }, [])
+        if (type && value) {
+            setTypeSelect(type)
+            setValueSelect(value)
+        }
+    }, [type, value, dispatch])
 
     return (
         <div>
@@ -119,6 +123,7 @@ export const DashboardConsulta = () => {
                                     onChange={handleValueSelect}
                                     value={valueSelect}>
                                     <option value='select' selected>Selecciona una prioridad</option>
+                                    <option value="control">Criticos</option>
                                     <option value="1">Inminente</option>
                                     <option value="2">Emergencia</option>
                                     <option value="3">Urgente</option>
@@ -149,7 +154,9 @@ export const DashboardConsulta = () => {
                                             filtered
                                                 .filter(income => {
                                                     if (income.state === 'Esperando consulta' && (valueSelect == 'select' || valueSelect == '')) return true
-                                                    if (typeSelect == 'urgency' && income.state === 'Esperando consulta') return income.triage_priority == valueSelect
+                                                    if (typeSelect === 'patient' && valueSelect === 'all') return income.state === 'Esperando consulta'
+                                                    if (income.state === 'Esperando consulta' && (typeSelect == 'urgency' && valueSelect == 'control')) return income.triage_priority === 1 || income.triage_priority === 2
+                                                    // if (typeSelect == 'urgency' && income.state === 'Esperando consulta') return income.triage_priority == valueSelect
                                                 })
                                                 .sort((a, b) => {
                                                     if (type === 'task' && value === 'next') { return (a.id - b.id) }
