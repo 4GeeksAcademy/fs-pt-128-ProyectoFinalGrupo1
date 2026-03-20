@@ -74,12 +74,12 @@ export const ModalAddUser = () => {
                             }
                             <div className="d-flex flex-column p-3 mt-0">
                                 <div className="input-group mb-3">
-                                    <span className="input-group-text"
+                                    <span className="input-group-text border shadow-sm"
                                         id="basic-addon1">
                                         <i className="fa-solid fa-address-card"></i>
                                     </span>
                                     <input type="text"
-                                        className="form-control"
+                                        className="form-control border shadow-sm"
                                         placeholder="Nombre"
                                         aria-label="Username"
                                         aria-describedby="basic-addon1"
@@ -88,12 +88,12 @@ export const ModalAddUser = () => {
                                         onChange={handlerChange} />
                                 </div>
                                 <div className="input-group mb-3">
-                                    <span className="input-group-text"
+                                    <span className="input-group-text border shadow-sm"
                                         id="basic-addon1">
                                         <i className="fa-solid fa-address-card"></i>
                                     </span>
                                     <input type="text"
-                                        className="form-control"
+                                        className="form-control border shadow-sm"
                                         placeholder="Apellidos"
                                         aria-label="lastname"
                                         aria-describedby="basic-addon1"
@@ -101,7 +101,7 @@ export const ModalAddUser = () => {
                                         value={user.lastname}
                                         onChange={handlerChange} />
                                 </div>
-                                <select className="form-select mb-3"
+                                <select className="form-select mb-3 border shadow-sm"
                                     aria-label="Default select example"
                                     name="rol"
                                     value={user.rol}
@@ -112,12 +112,12 @@ export const ModalAddUser = () => {
                                     <option value="Administrativo">Administrativo</option>
                                 </select>
                                 <div className="input-group mb-3">
-                                    <span className="input-group-text"
+                                    <span className="input-group-text border shadow-sm"
                                         id="basic-addon1">
                                         @
                                     </span>
                                     <input type="email"
-                                        className="form-control"
+                                        className="form-control border shadow-sm"
                                         placeholder="Email"
                                         aria-label="Email"
                                         aria-describedby="basic-addon1"
@@ -127,20 +127,19 @@ export const ModalAddUser = () => {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary rounded-pill" ref={closeBtnRef} data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" className="btn btn-secondary" ref={closeBtnRef} data-bs-dismiss="modal">Cerrar</button>
                                 {loading ? (
                                     <button
                                         type="submit"
-                                        className="btn btn-primary mt-2 mb-2 rounded-pill"
-                                        style={{ backgroundColor: "var(--navBar)" }}
+                                        className="btn btn-dark mt-2 mb-2"
+
                                         disabled
                                     ><div className="spinner-border" role="status"></div>
                                     </button>
                                 ) : (
                                     <button
                                         type="submit"
-                                        className="btn btn-primary mt-2 mb-2 rounded-pill"
-                                        style={{ backgroundColor: "var(--navBar)" }}
+                                        className="btn btn-dark mt-2 mb-2 "
                                     >
                                         Notificar
                                         <i className="fa-solid fa-envelope ms-2"></i>

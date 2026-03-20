@@ -121,6 +121,7 @@ export const getIncome = async (dispatch, id) => {
 };
 
 export const updateIncome = async (id, incomeForm, triageTime, navigate) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/incomes-triage/${id}`,
     {
@@ -350,24 +351,26 @@ export const getIncomeTest = async (dispatch) => {
 };
 
 export const getProfile = async () => {
-    const token = localStorage.getItem("token");
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/profile`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        })
-        const data = await response.json();
-        if (!response.ok) {
-            return false;
-        }
-        console.log(data);
-        
-        localStorage.setItem("email", data.email)
-        localStorage.setItem("firstname", data.firstname)
-        localStorage.setItem("lastname", data.lastname)
-        localStorage.setItem("rol", data.rol)
-        
-    }
+  const token = localStorage.getItem("token");
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/profile`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    return false;
+  }
+  console.log(data);
+
+  localStorage.setItem("email", data.email);
+  localStorage.setItem("firstname", data.firstname);
+  localStorage.setItem("lastname", data.lastname);
+  localStorage.setItem("rol", data.rol);
+};
 export const changeStatus = async (id, status) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/orders/${id}`,

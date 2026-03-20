@@ -115,10 +115,10 @@ export const DashboardTest = () => {
                         typeSelect === 'status' &&
                         <select className="form-select w-25 mx-1 shadow-sm border" aria-label="Default select example" onChange={handleValueSelect}>
                             <option value='select' selected>Selecciona un estado</option>
-                            <option value="Solicitada">Solicitada</option>
-                            <option value="En proceso">En proceso</option>
-                            <option value="Pendiente">Pendiente de envio</option>
-                            <option value="Finalizado">Finalizada</option>
+                            <option value="solicitada">Solicitada</option>
+                            <option value="enProceso">En proceso</option>
+                            <option value="pendiente">Pendiente de envio</option>
+                            <option value="finalizado">Finalizado</option>
                         </select>
                     }
 
@@ -140,10 +140,15 @@ export const DashboardTest = () => {
                             filtered
                                 .filter(test => {
 
-                                    if (test.status === 'Finalizado' && valueSelect !== 'Finalizado') {
+                                    if (test.status === 'Finalizado' && valueSelect !== 'finalizado') {
                                         return false;
                                     }
-
+                                    if (test.status === "Finalizado" && (typeSelect == 'status' && valueSelect == 'finalizado')) {
+                                        return true;
+                                    }
+                                    if (test.status === "Solicitada" && (typeSelect == 'status' && valueSelect == 'solicitada')) {
+                                        return true;
+                                    }
                                     if (valueSelect === 'select' || valueSelect === '' || !valueSelect) {
                                         return true;
                                     }

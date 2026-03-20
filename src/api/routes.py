@@ -2,6 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint, current_app
+from datetime import timedelta
 from sqlalchemy import select, func
 from api.models import db, User, Income, Patient, Order
 from api.utils import generate_sitemap, APIException
@@ -80,7 +81,7 @@ def register_user():
 
     additional_claims = {"type": "email_validation"}
     validation_token = create_access_token(
-        identity=str(new_user.id), additional_claims=additional_claims)
+        identity=str(new_user.id), additional_claims=additional_claims, expires_delta=timedelta(days=1))
 
     url = f"{os.getenv('VITE_FRONTEND_URL')}/activate?token={validation_token}"
     msg = Message(
@@ -111,7 +112,7 @@ def register_user():
                                         <table border="0" cellpadding="0" cellspacing="0">
                                         <tr>
                                             <td align="center" style="border-radius: 4px; background-color: #2b6cb0;">
-                                            <a href={url} target="_blank" style="display: inline-block; padding: 15px 25px; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; border: 1px solid #2b6cb0;">
+                                            <a href="{url}"target="_blank" style="display: inline-block; padding: 15px 25px; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; border: 1px solid #2b6cb0;">
                                                 Activar Mi Cuenta
                                             </a>
                                             </td>
@@ -337,7 +338,7 @@ def put_incomes_triage(income_id):
 
     missing = [
         field for field in required_fields
-        if field not in data 
+        if field not in data
     ]
     if missing:
         return jsonify({"Error": f"Rellenar los siguientes campos: {missing}", }), 400
@@ -478,6 +479,7 @@ def get_order_panel():
                 "results": order.results
             })
     return jsonify(response), 200
+
 
 @api.route('/profile', methods=['GET'])
 @jwt_required()

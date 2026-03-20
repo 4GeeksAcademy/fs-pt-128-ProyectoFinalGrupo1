@@ -21,10 +21,13 @@ export const TableRow = ({ user }) => {
                     : 'fa-solid fa-circle-minus text-danger fs-5'} ></i>
             </td>
             <td className="text-center">
-                <button className="btn btn-outline-danger"
-                    onClick={handlerClick}>
-                    <i className="fa-solid fa-trash"></i>
-                </button>
+                {
+                    user.rol !== 'admin' &&
+                    <button className="btn btn-outline-danger"
+                        onClick={handlerClick}>
+                        <i className="fa-solid fa-trash"></i>
+                    </button>
+                }
             </td>
         </tr>
     )

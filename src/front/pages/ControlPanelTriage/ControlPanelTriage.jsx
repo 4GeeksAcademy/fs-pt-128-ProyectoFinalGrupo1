@@ -14,7 +14,7 @@ export const ControlPanelTriage = () => {
     const [btn, setBtn] = useState('Waiting')
 
     const patientWaiting = store.incomes?.filter(s => s.state === 'En espera de triaje').length
-    const criticalPatient = store.incomes?.filter(s => s.triage_priority === 1 || s.triage_priority === 2).length
+    const criticalPatient = store.incomes?.filter(s =>{if ((s.triage_priority === 1 || s.triage_priority === 2)&& (s.state === 'En espera de triaje')) return true}).length
     const timeWaiting = calculateWaiting(calculateMedia(store.incomes))
     const valoratedPatients = store.incomes?.filter(s => s.state == 'Esperando consulta').length
     const criticalPacients = store.incomes.filter(income =>
@@ -22,7 +22,6 @@ export const ControlPanelTriage = () => {
         && income.state === 'En espera de triaje'
     ).length
     const oldestPatient = store.incomes.filter(income => income.state == 'En espera de triaje').sort((a, b) => a.id - b.id).slice(0, 6).length
-
 
     const loadPatients = async () => {
         setIsLoading(true)
@@ -44,23 +43,23 @@ export const ControlPanelTriage = () => {
     return (
         <div>
             <div className="border-bottom mt-2 d-flex align-items-center" style={{ height: '53px' }} >
-                <h2 className="title w-100 text-start fs-6">Panel de control triage</h2>
+                <h2 className="title w-100 text-start fs-6">Panel de control triaje</h2>
             </div>
             <div className="d-flex flex-column container-fluid mt-2 ">
                 <h2 className="title w-100 text-start fs-3">Panel de control triaje</h2>
-                <p>Gestión del triage</p>
+                <p>Gestión del triaje</p>
                 <div className="container d-flex">
                     <div className="border border-secondary rounded me-1 mb-2 w-25 container consultation-container ">
                         <h4 className="title title-ordercard mt-1 text-muted">Pacientes en espera</h4>
                         <p className="text-dark fs-4 fw-bolder">
-                            <i className="fa-solid fa-clock-rotate-left text-primary fs-4 me-2"></i>
+                            <i className="fa-solid fa-user-clock text-secondary fs-4 me-2"></i>
                             {patientWaiting ? patientWaiting : 0}
                         </p>
                     </div>
                     <div className="border border-secondary rounded me-1 mb-2  w-25 container consultation-container">
                         <h4 className="title title-ordercard mt-1 text-muted">Pacientes criticos</h4>
                         <p className="text-dark fs-4 fw-bolder">
-                            <i className="fa-solid fa-triangle-exclamation text-danger me-2"></i>
+                            <i className="fa-solid fa-triangle-exclamation text-danger fs-4 me-2"></i>
                             {criticalPatient ? criticalPatient : 0}
                         </p>
                     </div>

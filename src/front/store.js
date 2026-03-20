@@ -53,7 +53,11 @@ export default function storeReducer(store, action = {}) {
       const data = Array.isArray(action.payload) ? action.payload : [];
       return {
         ...store,
-        incomes: data.filter((i) => i.state !== "Alta"),
+        incomes: data.filter((i) => {
+          if (i.state === "Alta")
+            return (new Date() - new Date(i.created_at)) / 60000 < 720;
+          return true;
+        }),
       };
 
     case "get_income":
