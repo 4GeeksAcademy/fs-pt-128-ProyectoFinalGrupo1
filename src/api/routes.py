@@ -9,6 +9,7 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import get_jwt_identity, create_access_token, jwt_required
 import os
+import requests
 from flask_mail import Message
 import cloudinary.uploader
 
@@ -528,3 +529,64 @@ def reload_result(order_id):
         db.session.commit()
         return jsonify({'msg': 'File upload successfully'}), 201
     return jsonify({'error': 'Test not found'}), 404
+
+
+@api.route('/pre-triage', methods=['POST'])
+def pre_triage():
+    data = request.get_json()
+
+    visitreason = data.get('visitreason')
+
+    if not visitreason:
+        return jsonify({'error': 'The visitreason is required'}), 400
+
+    url = "https://api.groq.com/openai/v1/chat/completions"
+
+    payload = {
+        "model": "llama-3.3-70b-versatile",
+        "messages": [
+            {
+                "role": "system",
+                "content": """
+                                    Eres un asistente de apoyo al pretriaje en urgencias hospitalarias.
+
+                                    No realizas diagnósticos ni tomas decisiones finales.
+                                    Solo sugieres un nivel de prioridad basado en los datos proporcionados.
+
+                                    Responde únicamente en JSON válido con esta estructura:
+
+                                    {
+                                    "prioridad_sugerida": "leve | urgente | emergencia",
+                                    "nivel_confianza": number,
+                                    "factores_clave": [],
+                                    "justificacion": ""
+                                    }
+
+                                    Normas:
+                                    - No añadas texto fuera del JSON
+                                    - No hagas preguntas
+                                    - No inventes datos
+                                    - Usa lenguaje claro y profesional
+                                    """
+            },
+            {
+                "role": "user",
+                "content": f"""
+                sintomas: {visitreason}
+                """
+            }
+        ]
+    }
+
+    headers = {
+        "Authorization": f"Bearer {os.getenv('GROQ_API_KEY')}",
+        "Content-Type": "application/json"
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+    result = response.json()
+
+    return jsonify({
+        "msg": "Pre-triage generated",
+        "ia_response": result.get("choices", [{}])[0].get("message", {}).get("content", "")
+    }), 200

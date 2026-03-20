@@ -23,6 +23,7 @@ resend = "*"
 flask-mail = "*"
 flask-jwt-extended = "*"
 cloudinary = "*"
+requests = "*"
 
 [requires]
 python_version = "3.13"
