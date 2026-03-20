@@ -3,6 +3,8 @@ import "./Admission.css"
 import { createAdmission, getPatient } from "../../APIServices/BACKENDservices";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../../hooks/useGlobalReducer";
+import { postPreTriaje } from "../../APIServices/GroqAI";
+import { alignPropType } from "react-bootstrap/esm/types";
 
 export const Admission = () => {
     const [error, setError] = useState("")
@@ -11,6 +13,7 @@ export const Admission = () => {
     const navigate = useNavigate()
     const [userExist, setUserExist] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
+    const [ia, setIA] = useState('')
     const { dispatch } = useGlobalReducer()
     const [newAlergie, setNewAlergie] = useState("")
     const [admission, setAdmission] = useState({
@@ -47,6 +50,11 @@ export const Admission = () => {
             })
 
         }
+    }
+    const hadlerAI = async () => {
+        const response = await postPreTriaje(income.visitreason)
+        const parsed = JSON.parse(response.ia_response)
+        setIA(parsed)
     }
     // region:handleSubmit
     const handleSubmit = async (e) => {
@@ -230,6 +238,23 @@ export const Admission = () => {
                         <div className="border border-secondary rounded mt-2 container w-100 consultation-container p-2">
                             <label htmlFor="InputLastName" className="form-label mb-1">Motivo de la consulta</label>
                             <textarea name="visitreason" value={income.visitreason} onChange={handleChange} type="text" rows={5} className="form-control rounded-1 mb-2 p-3 shadow bg-body-tertiary rounded border border-1" id="InputVisitReason" />
+                            <div className="d-flex justify-content-center mt-2 mb-2">
+                                <button type="button" onClick={hadlerAI} className="btn btn-dark title btn-iacustom" disabled={ia}>Pre tr<span>IA</span>je</button>
+                            </div>
+                            {ia && (
+                                <div className="bg-white p-3 rounded shadow-sm">
+                                    <h3 className="title fs-5">Valoracion pretriage recomendada por IA</h3>
+                                    <p>Prioridad: {ia.prioridad_sugerida}</p>
+                                    <p>Confianza: {ia.nivel_confianza}</p>
+                                    <p>Justificación: {ia.justificacion}</p>
+                                    <ul>
+                                        {ia.factores_clave?.map((factor, index) => (
+                                            <li key={index}>{factor}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+
                         </div>
                         <div className="text-center mt-4">
                             <button name="prio5" onClick={handlePrio} className="col-2 crit5 rounded-start-pill">No urgente</button>

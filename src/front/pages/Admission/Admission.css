@@ -7,40 +7,47 @@ input {
 }
 .form-control:focus {
   background-color: var(--cardBackground);
-  border: "2px solid black"
+  border: "2px solid black";
 }
-.form-control:disabled{
+.form-control:disabled {
   background-color: #ffffff00;
 }
 
-.crit1{
-  background-color: #EF4444;
-  border:none;
+.crit1 {
+  background-color: #ef4444;
+  border: none;
   height: 40px;
 }
-.crit2{
-  background-color: #F97316;
-  border:none;
+.crit2 {
+  background-color: #f97316;
+  border: none;
   height: 40px;
 }
-.crit3{
-  background-color: #FACC15;
-  border:none;
+.crit3 {
+  background-color: #facc15;
+  border: none;
   height: 40px;
 }
-.crit4{
-  background-color: #22C55E;
-  border:none;
+.crit4 {
+  background-color: #22c55e;
+  border: none;
   height: 40px;
 }
-.crit5{
-  background-color: #3B82F6;
-  border:none;
+.crit5 {
+  background-color: #3b82f6;
+  border: none;
   height: 40px;
 }
 
 .selected_button {
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   transform: scale(1.1);
   border: 2px dotted rgb(0, 0, 0);
+}
+
+.btn-iacustom:hover {
+  background-color: #fff;
+}
+.btn-iacustom:hover span {
+  color: #000;
 }
