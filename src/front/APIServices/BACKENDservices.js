@@ -119,6 +119,26 @@ export const getIncome = async (dispatch, id) => {
     return data;
   }
 };
+export const getOrder = async (dispatch, id) => {
+  const token = localStorage.getItem("token");
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/order/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  const data = await response.json();
+
+  if (response.ok) {
+    dispatch({ type: "get_order", payload: data });
+    return data;
+  } else {
+    dispatch({ type: "get_order", payload: [] });
+    return data;
+  }
+};
 
 export const updateIncome = async (id, incomeForm, triageTime, navigate) => {
   const token = localStorage.getItem("token");
