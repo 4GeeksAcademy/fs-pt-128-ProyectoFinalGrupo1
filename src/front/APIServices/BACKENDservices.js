@@ -120,6 +120,12 @@ export const getIncome = async (dispatch, id) => {
   }
 };
 
+export const getIncomeAlta = async (id) => {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/income-alta/${id}`);
+  const data = await response.json();
+  return data;
+}
+
 export const updateIncome = async (id, incomeForm, triageTime, navigate) => {
   const token = localStorage.getItem("token");
   const response = await fetch(

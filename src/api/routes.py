@@ -316,7 +316,7 @@ def get_income_alta(patient_id):
     ).scalars().all()
     if not incomes:
         return jsonify({"error": "There are no incomes yet"}), 404
-    response = [income.serialize() for income in incomes]
+    response = [income.serialize_patient_data() for income in incomes]
     return jsonify(response), 200
 
 # region: /incomes-triage/income_id - PUT

@@ -21,6 +21,8 @@ import { DashboardConsulta } from "./pages/DashboardConsulta/DashboardConsulta";
 import { MedicalTest } from "./pages/MedicalTest/MedicalTest";
 import { DashboardTest } from "./pages/DashboardTest/DashboardTest";
 import { TestView } from "./pages/TestsView/TestView";
+import { PatientsHistoryDetail } from "./pages/History/PatientHistoryDetail";
+import { PatientsHistory } from "./pages/History/PatientHistory";
 import { ControlPanelTriage } from "./pages/ControlPanelTriage/ControlPanelTriage";
 import { ControlPanelConsult } from "./pages/ControlPanelConsult/ControlPanelConsult";
 
@@ -54,6 +56,8 @@ export const router = createBrowserRouter(
       <Route path="/tests" element={<DashboardTest />} />
       <Route path="/tests/:type/:value" element={<DashboardTest />} />
       <Route path="/test-form/:income_id/:id" element={<TestView />} />
+      <Route path="/patientsHistory" element={<PatientsHistory />} />
+      <Route path="/patientsHistory/:id" element={<PatientsHistoryDetail />} />
       <Route path="/control-panel/triage" element={<ControlPanelTriage />} />
     </Route>
   )
