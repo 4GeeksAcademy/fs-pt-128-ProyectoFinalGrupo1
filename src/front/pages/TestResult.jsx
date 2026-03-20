@@ -22,7 +22,7 @@ export const orderResult = () => {
                 patient_firstname={store.income.patient_firstname}
                 patient_lastname={store.income.patient_lastname}
                 patient_birthdate={store.income.patient_birthdate}
-                patient_hgender={store.income.patient_gender}
+                patient_gender={store.income.patient_gender}
                 patient_allergies={store.income.patient_allergies} />
             <div className='border border-secondary rounded me-1 mt-2 container consultation-container w-100'>
                 <h2 className="title fs-3 mt-3">Tipo de analitica realizada</h2>
