@@ -22,6 +22,7 @@ CORS(api)
 
 
 @api.route('/users', methods=['GET'])
+@jwt_required()
 def get_user():
     users = User.query.all()
     response = [user.serialize() for user in users]
@@ -31,6 +32,7 @@ def get_user():
 
 
 @api.route('/patients', methods=['GET'])
+@jwt_required()
 def get_patients():
     patients = Patient.query.all()
     response = [patient.serialize() for patient in patients]
@@ -40,6 +42,7 @@ def get_patients():
 
 
 @api.route('/patient/<id>', methods=['GET'])
+@jwt_required()
 def get_patient(id):
     patient = Patient.query.get(id)
     if not patient:
@@ -191,6 +194,7 @@ def register():
 
 
 @api.route('/delete/<int:user_id>', methods=['DELETE'])
+@jwt_required()
 def delete(user_id):
     user = User.query.get(user_id)
 
@@ -228,6 +232,7 @@ def login():
 
 
 @api.route('/admission', methods=['POST'])
+@jwt_required()
 def admission():
     adm_required = ["dni", "firstname", "lastname", "birthdate"]
     income_required = ["visitreason", "priority"]
@@ -282,6 +287,7 @@ def admission():
 
 
 @api.route('/incomes', methods=['GET'])
+@jwt_required()
 def get_incomes():
     incomes = Income.query.order_by(Income.position.asc()).all()
     response = [income.serialize_patient_data() for income in incomes]
@@ -289,6 +295,7 @@ def get_incomes():
 
 
 @api.route('/income/<int:id>')
+@jwt_required()
 def get_income(id):
     income = Income.query.get(id)
     if not income:
@@ -298,6 +305,7 @@ def get_income(id):
 
 
 @api.route('/income-alta/<patient_id>', methods=['GET'])
+@jwt_required()
 def get_income_alta(patient_id):
     incomes = db.session.execute(
         select(Income).where(
@@ -314,6 +322,7 @@ def get_income_alta(patient_id):
 
 
 @api.route('/incomes-triage/<int:income_id>', methods=['PUT'])
+@jwt_required()
 def put_incomes_triage(income_id):
     data = request.get_json()
     actual_income = Income.query.get(income_id)
@@ -363,6 +372,7 @@ def put_incomes_triage(income_id):
 
 
 @api.route('/incomes-consult/<int:income_id>', methods=['PUT'])
+@jwt_required()
 def put_incomes_consult(income_id):
     data = request.get_json()
     actual_income = Income.query.get(income_id)
@@ -389,6 +399,7 @@ def put_incomes_consult(income_id):
 
 
 @api.route('/reorder-incomes', methods=['PATCH'])
+@jwt_required()
 def reorder_income():
     data = request.get_json()
 
@@ -410,6 +421,7 @@ def reorder_income():
 
 
 @api.route('/orders', methods=['POST'])
+@jwt_required()
 def post_order():
     data = request.get_json()
     id_income = db.session.execute(
@@ -431,6 +443,7 @@ def post_order():
 
 
 @api.route('/orders/<int:order_id>', methods=['PATCH'])
+@jwt_required()
 def patch_order(order_id):
     data = request.get_json()
     id_order = db.session.execute(
@@ -445,6 +458,7 @@ def patch_order(order_id):
 
 
 @api.route('/order-panel', methods=['GET'])
+@jwt_required()
 def get_order_panel():
     incomes = Income.query.order_by(Income.position.asc()).all()
     response = []
@@ -481,6 +495,7 @@ def getProfile():
 
 
 @api.route('/order/<int:order_id>/result', methods=['POST'])
+@jwt_required()
 def upload_result(order_id):
     data = request.files.get('file')
     observations = request.form.get('observation')
@@ -508,6 +523,7 @@ def upload_result(order_id):
 
 
 @api.route('/order/<int:order_id>/result', methods=['PATCH'])
+@jwt_required()
 def reload_result(order_id):
     data = request.files.get('file')
     if not data:

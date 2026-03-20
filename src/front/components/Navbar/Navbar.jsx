@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LogoUrl from "../../assets/img/Logo.svg";
 import "./Navbar.css"
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ export const Navbar = () => {
 
 	const [offCanvas, setOffCanvas] = useState(false)
 	const { store, dispatch } = useGlobalReducer()
+	const navigate = useNavigate()
 	const profile = ({
 		"email": localStorage.getItem("email") || "",
 		"firstname": localStorage.getItem("firstname") || "",
@@ -24,9 +25,7 @@ export const Navbar = () => {
 				<div className="border-bottom border-secondary w-100 mt-1">
 					<div className="d-flex align-items-center  mb-2">
 						<div className="continer-logo_custom bg-dark rounded d-flex justify-content-center align-items-center me-1">
-							<a className="" href="#">
-								<i className="fa-solid fa-staff-snake align-middle text-white fs-3"></i>
-							</a>
+							<i className="fa-solid fa-staff-snake align-middle text-white fs-3"></i>
 						</div>
 						<div>
 							<h4 className="p-0 m-0 fs-5">Sistema médico</h4>
@@ -35,68 +34,75 @@ export const Navbar = () => {
 					</div>
 				</div>
 
+				<div className="container-fluid mt-3 custom-navbar__list " id="navbarNav">
+					<h4 className="text-start">Menu Principal</h4>
+					{profile.rol === "Administrativo" || profile.rol === "Médico" &&
+						<div className="d-flex align-items-center mb-2"
+							onClick={() =>
+								navigate(
+									profile.rol === "Administrativo"
+										? "/control-panel/triage"
+										:
+										profile.rol === "Médico"
+											? "/control-panel/consultation"
+											: "/"
+								)
+							}>
+							<div className="col-2 text-center">
+								<i className="fa-solid fa-layer-group custom-navbar__linktext"></i>
+							</div>
+							<div>
+								<p className="m-0 custom-navbar__linktext">Panel de control</p>
+							</div>
+						</div>
+					}
+					{(profile.rol === "Médico" || profile.rol === "Enfermero") &&
+						<div className="d-flex align-items-center mb-2"
+							onClick={() =>
+								navigate(
+									profile.rol === "Médico"
+										? "/consultation"
+										:
+										profile.rol === "Enfermero"
+											? "/triage"
+											: "/"
+								)
+							}>
+							<div className="col-2 text-center">
+								<i className="fa-solid fa-users custom-navbar__linktext"></i>
+							</div>
+							<div>
+								<p className="m-0 custom-navbar__linktext">Pacientes</p>
+							</div>
+						</div>
+					}
+					{(profile.rol === "Médico" || profile.rol === "Enfermero") &&
+						<div className="d-flex align-items-center mb-2" onClick={() => navigate("/tests")}>
+							<div className="col-2 text-center">
+								<i className="fa-solid fa-flask-vial custom-navbar__linktext"></i>
+							</div>
+							<div>
+								<p className="m-0 custom-navbar__linktext">Pruebas</p>
+							</div>
+						</div>
+					}
+					{(profile.rol === "Médico" || profile.rol === "Enfermero") &&
+						<div className="d-flex align-items-center mb-2" onClick={() => alert("Página aun en construcción. Vuelva pronto 😊")}>
+							<div className="col-2 text-center">
+								<i className="fa-solid fa-clipboard-check custom-navbar__linktext"></i>
+							</div>
+							<div>
+								<p className="m-0 custom-navbar__linktext">Historial pacientes</p>
+							</div>
+						</div>
+					}
+				</div>
 
-				<div className="container-fluid mt-3 custom-navbar__list " id="navbarNav">
-					<p className="text-start">Principal</p>
-					<div className="d-flex align-items-center mb-2">
-						<div className="col-2 text-center">
-							<i className="fa-solid fa-layer-group custom-navbar__linktext"></i>
-						</div>
-						<div>
-							<p className="m-0 custom-navbar__linktext">Panel de control</p>
-						</div>
-					</div>
-					<div className="d-flex align-items-center mb-2">
-						<div className="col-2 text-center">
-							<i className="fa-solid fa-users custom-navbar__linktext"></i>
-						</div>
-						<div>
-							<p className="m-0 custom-navbar__linktext">Pacientes</p>
-						</div>
-					</div>
-					<div className="d-flex align-items-center mb-2">
-						<div className="col-2 text-center">
-							<i className="fa-solid fa-flask-vial custom-navbar__linktext"></i>
-						</div>
-						<div>
-							<p className="m-0 custom-navbar__linktext">Pruebas</p>
-						</div>
-					</div>
-					<div className="d-flex align-items-center mb-2">
-						<div className="col-2 text-center">
-							<i className="fa-solid fa-clipboard-check custom-navbar__linktext"></i>
-						</div>
-						<div>
-							<p className="m-0 custom-navbar__linktext">Historial pacientes</p>
-						</div>
-					</div>
-				</div>
-				<div className="container-fluid mt-3 custom-navbar__list " id="navbarNav">
-					<p className="text-start">Configuración</p>
-					<div className="d-flex align-items-center mb-2">
-						<div className="col-2 text-center">
-							<i className="fa-solid fa-user custom-navbar__linktext"></i>
-						</div>
-						<div>
-							<p className="m-0 custom-navbar__linktext">Mi perfil</p>
-						</div>
-					</div>
-					<div className="d-flex align-items-center mb-2">
-						<div className="col-2 text-center">
-							<i className="fa-solid fa-gear custom-navbar__linktext"></i>
-						</div>
-						<div>
-							<p className="m-0 custom-navbar__linktext">Tipos de informe</p>
-						</div>
-					</div>
-				</div>
 			</div>
 			<div className="border-top border-secondary d-flex align-items-center">
 				<div className="d-flex align-items-center mb-2 mt-2">
 					<div className="continer-logo_custom bg-dark rounded d-flex justify-content-center align-items-center  me-1">
-						<a className="" href="#">
-							<i className="fa-solid fa-stethoscope align-middle text-white fs-4"></i>
-						</a>
+						<i className="fa-solid fa-stethoscope align-middle text-white fs-4"></i>
 					</div>
 					<div className="">
 						<h4 className="p-0 m-0 fs-5 truncate-text">{profile.firstname}</h4>
