@@ -6,7 +6,7 @@ from sqlalchemy import select, func
 from api.models import db, User, Income, Patient, Order
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from flask_jwt_extended import get_jwt_identity, create_access_token
+from flask_jwt_extended import get_jwt_identity, create_access_token, jwt_required
 import os
 from flask_mail import Message
 import cloudinary.uploader
@@ -141,6 +141,7 @@ def register_user():
 
 
 @api.route('/activate', methods=['PATCH'])
+@jwt_required()
 def activate():
     data = request.get_json()
     user_id = get_jwt_identity()
@@ -304,7 +305,7 @@ def get_income_alta(patient_id):
     ).scalars().all()
     if not incomes:
         return jsonify({"error": "There are no incomes yet"}), 404
-    response = [income.serialize() for income in incomes]
+    response = [income.serialize_patient_data() for income in incomes]
     return jsonify(response), 200
 
 # region: /incomes-triage/income_id - PUT

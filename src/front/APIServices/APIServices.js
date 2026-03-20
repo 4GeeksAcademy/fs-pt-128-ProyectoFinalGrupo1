@@ -28,3 +28,7 @@ export const reloadFile = async (id, formData) => {
   }
   return { ok: true };
 };
+
+export const getFile = async () =>{
+  
+}

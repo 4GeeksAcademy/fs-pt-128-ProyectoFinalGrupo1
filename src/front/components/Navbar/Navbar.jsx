@@ -64,25 +64,7 @@ export const Navbar = () => {
 						</div>
 					</div>
 				</div>
-				<div className="container-fluid mt-3 custom-navbar__list " id="navbarNav">
-					<p className="text-start">Configuración</p>
-					<div className="d-flex align-items-center mb-2">
-						<div className="col-2 text-center">
-						<i className="fa-solid fa-user custom-navbar__linktext"></i>
-						</div>
-						<div>
-						<p className="m-0 custom-navbar__linktext">Mi perfil</p>
-						</div>
-					</div>
-					<div className="d-flex align-items-center mb-2">
-						<div className="col-2 text-center">
-						<i className="fa-solid fa-gear custom-navbar__linktext"></i>
-						</div>
-						<div>
-						<p className="m-0 custom-navbar__linktext">Tipos de informe</p>
-						</div>
-					</div>
-				</div>
+				
 			</div>
 			<div className="border-top border-secondary d-flex align-items-center">
 				<div className="d-flex align-items-center mb-2 mt-2">

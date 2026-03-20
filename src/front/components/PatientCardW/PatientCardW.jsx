@@ -14,10 +14,7 @@ export const PatientCardW = ({ patient_dni, patient_firstname, patient_lastname,
                     <p className="p-0 m-0 me-2 label-custom fw-semibold">Nombre y apellidos: </p>
                     <p className="p-0 m-0">{patient_firstname} {patient_lastname}</p>
                 </div>
-                <div className="col-12 col-md-2 mb-3 d-flex">
-                    <p className="p-0 m-0 me-2 label-custom fw-semibold">Sexo:</p>
-                    <p className="p-0 m-0">Varón</p>
-                </div>
+                
                 <div className="col-12 col-md-2 mb-3 d-flex">
                     <p className="p-0 m-0 me-2 label-custom fw-semibold">Edad:</p>
                     <p className="p-0 m-0">{patient_birthdate ? calculateAge(patient_birthdate) : 'Calculando..'}</p>

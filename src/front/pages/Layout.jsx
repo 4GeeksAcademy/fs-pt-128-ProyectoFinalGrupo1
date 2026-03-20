@@ -19,18 +19,18 @@ export const Layout = () => {
         navigate("/")
     }
 
-    useEffect(() => {
-        if (!publicRoutes.includes(location.pathname)) {
-            if (!localStorage.getItem("token")) {
-                setTimeout(() => {
-                    navigate("/")
-                    setLoading(false)
-                }, 2000)
-            } else {
-                checkToken()
-            }
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (!publicRoutes.includes(location.pathname)) {
+    //         if (!localStorage.getItem("token")) {
+    //             setTimeout(() => {
+    //                 navigate("/")
+    //                 setLoading(false)
+    //             }, 2000)
+    //         } else {
+    //             checkToken()
+    //         }
+    //     }
+    // }, [])
     return loading ?
         (
             <div className="d-flex justify-content-center align-items-center flex-column" style={{ minHeight: "100vh" }}>
