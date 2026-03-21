@@ -8,28 +8,27 @@
 .loginIconContainer{
     display: flex;
     justify-content: center;
-    margin: 15px auto;
-    height: 100px;
-    width: 100px;
+    margin: 5px auto;
+    height: 75px;
+    width: 65px;
+    font-size: 60px;
 }
 
-.loginIconContainer img{
-    max-width: 100%;
-    overflow: hidden;
-    
-}
+
 
 .loginInputs{
-    margin: 5px auto;
+    margin: 20px auto;
 }
 
 .loginButtons{
-    margin: 0px auto;
+    margin: 20px auto;
 }
 
 .iconLogo{
     filter: brightness(0.2);
 }
+
+
 
 .formFooterLogin{
     display: flex;
