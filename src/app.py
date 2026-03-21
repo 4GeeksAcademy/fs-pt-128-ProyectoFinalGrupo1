@@ -43,7 +43,6 @@ cloudinary.config(
     api_secret=os.getenv("CLOUDINARY_API_SECRTET"),
     secure=True
 )
-import os
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 

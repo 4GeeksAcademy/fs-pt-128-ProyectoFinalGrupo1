@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import logo from "../../pages/Login/logo_Medicina.png"
-import icon from "../../assets/img/Signup/signup_image.png"
 import { activateCount } from "../../APIServices/BACKENDservices";
+import './ActivateAccount.css'
 
 
 export const ActivateAccount = () => {
@@ -58,47 +58,45 @@ export const ActivateAccount = () => {
     }, [token, navigate]);
 
     return (
-        <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-            <div className="text-center mx-3" style={{ maxHeight: '70vh' }}>
-                <img src={icon} className="img-fluid" alt="Medicos" style={{ minHeight: '70vh' }} />
+        <div className="container-fluid d-flex flex-column justify-content-center align-items-center bg-white" style={{ maxHeight: '100vh' }}>
+            <div className="border-bottom mt-1 d-flex align-items-center w-100 mb-4" style={{ height: '53px' }} >
+                <i className="fa-solid fa-staff-snake align-middle fs-3"></i>
+                <h2 className="title w-100 text-start m-0 align-middle fs-6">Sistema Médico</h2>
             </div>
-            <div className="d-flex flex-column align-items-center justify-content-center p-4 rounded position-relative"
-                style={{ backgroundColor: "var(--cardBackground)", minHeight: '60vh', width: "400px" }}>
-                <div className="text-center py-5 top-0" >
-                    <img src={logo} alt="RegisterImage" style={{ height: "100px", width: "100px" }} />
-                    <div>
-                        <h2>Registro en la plataforma!</h2>
-                        <h5>Por favor introduzca su contraseña</h5>
-                    </div>
+            <div className="d-flex flex-column align-items-center justify-content-center bg-light shadow rounded bg-color mt-3 mb-3 rounded g-1"
+                style={{ height: 'auto', width: "400px", minHeight: '65vh' }}>
+                <div className="text-center align-start mb-4 top-0" style={{ height: 'auto', minHeight: '100%' }} >
+                    <i className="fa-solid fa-staff-snake align-middle mb-2" style={{ fontSize: '60px' }}></i>
+                    <h2>Activación de la cuenta</h2>
+                    <h5>Por favor introduzca su contraseña</h5>
                 </div>
                 {error && <div className="alert fade-alert alert-danger " role="alert">
                     {error}
                 </div>}
-                <form onSubmit={handleSubmit} >
+                <form onSubmit={handleSubmit} style={{ height: 'auto' }}>
                     <div className="mb-3">
-                        <div className="input-group">
+                        <div className="input-group border rounded shadow-sm">
                             <input type={showPwd ? "text" : "password"} name="password" placeholder="Contraseña" onChange={handleChange} value={user.password} className="form-control" id="InputPassword" />
                             <button type="button" className="btn" onClick={() => setShowPwd(!showPwd)}>
                                 <i className={showPwd ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"} />
                             </button>
                         </div>
-                        <div className="mb-3 mx-auto" style={{ height: '2px', backgroundColor: "var(--primaryText)", width: "95%" }}></div>
                     </div>
                     <div className="mb-3">
-                        <div className="input-group">
-                            <input type={showConfPwd ? "text" : "password"} name="confirmPassword" placeholder="Confirme su contraseña" onChange={handleChange} value={user.confirmPassword} className="form-control" id="InputPassword2" />
+                        <div className="input-group border rounded shadow-smborder rounded shadow-sm">
+                            <input type={showConfPwd ? "text" : "password"} name="confirmPassword" placeholder="Confirme su contraseña" onChange={handleChange} value={user.confirmPassword} className="form-control " id="InputPassword2" />
                             <button type="button" className="btn" onClick={() => setShowConfPwd(!showConfPwd)}>
                                 <i className={showConfPwd ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"} />
                             </button>
                         </div>
-                        <div className="mb-3 mx-auto" style={{ height: '2px', backgroundColor: "var(--primaryText)", width: "95%" }}></div>
                     </div>
                     <div className="text-center my-3">
-                        <button type="submit" className="btn btn-primary rounded-pill col-11 align-self-center mt-4">Enviar</button>
+                        <button type="submit" className="btn btn-dark col-11 align-self-center mt-4">Cofirmar</button>
                     </div>
                 </form>
             </div>
-        </div >
+        </div>
+
 
     )
 };
