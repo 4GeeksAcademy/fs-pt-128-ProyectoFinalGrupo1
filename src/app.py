@@ -16,6 +16,7 @@ from flask_mail import Mail, Message
 import cloudinary
 
 
+
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -43,7 +44,6 @@ cloudinary.config(
     api_secret=os.getenv("CLOUDINARY_API_SECRTET"),
     secure=True
 )
-import os
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 

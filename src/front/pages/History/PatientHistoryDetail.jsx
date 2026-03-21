@@ -5,6 +5,7 @@ import "./PatientHistoryDetail.css";
 import { getIncomeAlta, getIncomeTest, getPatient } from "../../APIServices/BACKENDservices";
 import { PatientCardW } from "../../components/PatientCardW/PatientCardW";
 import { TriageCard } from "../../components/TriageCard/TriajeCard";
+import { SpinnerLoad } from "../../components/Spinner/SpinnerLoad";
 
 
 
@@ -16,21 +17,22 @@ export const PatientsHistoryDetail = () => {
     const { store, dispatch } = useGlobalReducer()
     const [incomes, setIncomes] = useState([])
     const [visibleOrderId, setVisibleOrderId] = useState(null);
+    const [loading, setLoading] = useState(true);
 
 
 
     const Income = async () => {
         const data = await getIncomeAlta(id)
-
+        setLoading(true)
 
         if (data) {
             setIncomes(data)
+            setLoading(false)
         } else {
+            setLoading(false)
             return data
         }
-        console.log(incomes);
-
-
+        
     }
 
 
@@ -57,7 +59,11 @@ export const PatientsHistoryDetail = () => {
 
 
                 <h3 className="title w-100 mt-5 mb-3 text-center">Ingresos</h3>
-                {incomes.map(income => {
+                
+                     
+                {
+                   (incomes.length > 0 ) ?
+                (incomes.map(income => {
                     return (
                         <div key={income.id} className="container border border-secondary rounded mt-2 mb-5 containerIncome">
                             <div className="row mx-auto">
@@ -100,9 +106,16 @@ export const PatientsHistoryDetail = () => {
                             </div>
                         </div>
                     )
-
-
-                })}
+                    })) : (
+                        <div className="border border-secondary rounded p-2 mt-2 mb-2 container w-100 consultation-container text-center">
+                            {
+                                loading ? (<SpinnerLoad></SpinnerLoad>):(<h3 className="p-3">Aún no ha recibido altas</h3>)
+                            }
+                            
+                        </div>
+                    )
+                }
+                
 
 
 

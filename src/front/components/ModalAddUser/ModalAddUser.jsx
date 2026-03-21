@@ -3,6 +3,7 @@ import { useRef } from "react"
 import { getUser, registerUser } from "../../APIServices/BACKENDservices";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../../hooks/useGlobalReducer";
+import { SpinnerButton } from "../Spinner/SpinnerButton";
 
 export const ModalAddUser = () => {
     const navigate = useNavigate()
@@ -132,10 +133,10 @@ export const ModalAddUser = () => {
                                 {loading ? (
                                     <button
                                         type="submit"
-                                        className="btn btn-dark mt-2 mb-2"
+                                        className="btn btn-dark mt-2 mb-2 d-flex"
 
                                         disabled
-                                    ><div className="spinner-border" role="status"></div>
+                                    ><SpinnerButton text={"Enviando"}></SpinnerButton>
                                     </button>
                                 ) : (
                                     <button
