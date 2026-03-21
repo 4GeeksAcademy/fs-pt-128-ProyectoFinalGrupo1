@@ -65,7 +65,7 @@ export const PatientsHistoryDetail = () => {
                                     <p className="p-0 m-0 me-2 label-custom fw-semibold">Fecha y hora de ingreso:</p>
                                     <p className="p-0 m-0"> {new Date(income.created_at).toLocaleString('es-ES')}</p>
                                 </div>
-                                <TriageCard valoration_triage={income.valoration_triage} nurse={income.nurse}/>
+                                <TriageCard valoration_triage={income.valoration_triage} nurse={income.nurse} />
                                 <div className="container mt-3">
                                     <h2 className=" fs-5 fw-semibold">Pruebas:</h2>
                                     {
@@ -93,7 +93,7 @@ export const PatientsHistoryDetail = () => {
                                 </div>
                                 <div className="container">
                                     <div className="border border-secondary rounded mt-2 mb-2 container w-100 consultation-container">
-                                        <h2 className="mt-1 fs-5 fw-semibold">Diagnóstico dado por: {income.doctor} </h2>
+                                        <h2 className="mt-1 fs-5 fw-semibold">Diagnóstico dado por: {income.user} </h2>
                                         <p className="p-0 mb-1 label-custom">{income.diagnosis == null ? 'No ha recibido un diagnóstico' : income.diagnosis}</p>
                                     </div>
                                 </div>

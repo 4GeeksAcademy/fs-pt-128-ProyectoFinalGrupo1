@@ -1,5 +1,3 @@
-import { useAsyncValue } from "react-router-dom";
-
 // region:login
 export const login = async (user, navigate) => {
   const response = await fetch(
@@ -25,12 +23,12 @@ export const login = async (user, navigate) => {
     rol === "Administrativo"
       ? "/admission"
       : rol === "Enfermero"
-        ? "/triage"
+        ? "/control-panel/triage"
         : rol === "Médico"
-          ? "/consultation"
+          ? "/control-panel/consultation"
           : rol === "admin"
-          ? "/register-user"
-          : "/"
+            ? "/register-user"
+            : "/",
   );
   return data;
 };
@@ -141,10 +139,18 @@ export const getOrder = async (dispatch, id) => {
 };
 
 export const getIncomeAlta = async (id) => {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/income-alta/${id}`);
+  const token = localStorage.getItem("token");
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/income-alta/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
   const data = await response.json();
   return data;
-}
+};
 
 export const updateIncome = async (id, incomeForm, triageTime, navigate) => {
   const token = localStorage.getItem("token");
@@ -313,6 +319,7 @@ export const loadNewOrder = async (orderIds) => {
 // region: Diagnosis
 
 export const addDiagnosis = async (consult, income_id) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/incomes-consult/${income_id}`,
     {
@@ -320,6 +327,7 @@ export const addDiagnosis = async (consult, income_id) => {
       body: JSON.stringify(consult),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     },
   );
@@ -398,6 +406,7 @@ export const getProfile = async () => {
   localStorage.setItem("rol", data.rol);
 };
 export const changeStatus = async (id, status) => {
+  const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/orders/${id}`,
     {
@@ -405,6 +414,7 @@ export const changeStatus = async (id, status) => {
       body: JSON.stringify({ status: status }),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     },
   );

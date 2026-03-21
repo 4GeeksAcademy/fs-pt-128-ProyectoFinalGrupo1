@@ -87,7 +87,7 @@ export const Navbar = () => {
 						</div>
 					}
 					{(profile.rol === "Médico" || profile.rol === "Enfermero") &&
-						<div className="d-flex align-items-center mb-2" onClick={() => alert("Página aun en construcción. Vuelva pronto 😊")}>
+						<div className="d-flex align-items-center mb-2" onClick={() => navigate('/patientsHistory')}>
 							<div className="col-2 text-center">
 								<i className="fa-solid fa-clipboard-check custom-navbar__linktext"></i>
 							</div>
@@ -113,7 +113,7 @@ export const Navbar = () => {
 					<Dropup />
 				</div>
 			</div>
-		</nav>
+		</nav >
 
 	);
 };

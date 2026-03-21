@@ -25,6 +25,7 @@ import { PatientsHistoryDetail } from "./pages/History/PatientHistoryDetail";
 import { PatientsHistory } from "./pages/History/PatientHistory";
 import { ControlPanelTriage } from "./pages/ControlPanelTriage/ControlPanelTriage";
 import { ControlPanelConsult } from "./pages/ControlPanelConsult/ControlPanelConsult";
+import { TestResult } from '../front/pages/TestResult.jsx'
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -56,7 +57,7 @@ export const router = createBrowserRouter(
       <Route path="/tests" element={<DashboardTest />} />
       <Route path="/tests/:type/:value" element={<DashboardTest />} />
       <Route path="/test-form/:income_id/:id" element={<TestView />} />
-      <Route path="/test-result/:income_id/:id" element={<TestView />} />
+      <Route path="/test-result/:id_income" element={<TestResult />} />
       <Route path="/patientsHistory" element={<PatientsHistory />} />
       <Route path="/patientsHistory/:id" element={<PatientsHistoryDetail />} />
       <Route path="/control-panel/triage" element={<ControlPanelTriage />} />
