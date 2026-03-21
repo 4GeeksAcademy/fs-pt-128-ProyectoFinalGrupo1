@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getIncomeTest } from "../../APIServices/BACKENDservices"
+import { getIncomes, getIncomeTest } from "../../APIServices/BACKENDservices"
 import useGlobalReducer from "../../hooks/useGlobalReducer"
 import { RowTest } from "../../components/RowTest/RowTest"
 import { testsCatalog } from "../../utils/testsCatalog"
@@ -32,6 +32,40 @@ export const DashboardTest = () => {
             test.patient_dni?.toLowerCase().includes(searchTerm)
         );
     });
+
+    console.log(store.test)
+    console.log(store.incomes)
+    const f = filtered.filter(test => {
+
+        if ((store.incomes?.find(i => i.id == test.income_id)?.state == 'Alta') && test.status == 'Finalizado') return false
+
+        if (test.status === 'Finalizado' && valueSelect !== 'finalizado') {
+            return false;
+        }
+        if (test.status === "Finalizado" && (typeSelect == 'status' && valueSelect == 'finalizado')) {
+            return true;
+        }
+        if (test.status === "Solicitada" && (typeSelect == 'status' && valueSelect == 'solicitada')) {
+            return true;
+        }
+        if (valueSelect === 'select' || valueSelect === '' || !valueSelect) {
+            return true;
+        }
+
+        if (typeSelect === 'urgency' && valueSelect === 'control') {
+            return test.urgency == 1 || test.urgency == 2;
+        }
+        if (typeSelect === 'urgency') return test.urgency == valueSelect;
+        if (typeSelect === 'order_type') return test.order_type == (valueSelect?.value || valueSelect);
+        if (typeSelect === 'status') return test.status == valueSelect;
+
+        return true;
+    })
+        .sort((a, b) => {
+
+            if (type === 'task' && value === 'next') { return (a.id - b.id) }
+            return 0;
+        })
     const handleTypeSelect = (e) => {
         setTypeSelect(e.target.value)
         setValueSelect("select")
@@ -39,18 +73,11 @@ export const DashboardTest = () => {
     const handleValueSelect = (e) => {
         setValueSelect(e.target.value)
     }
-
-    console.log(typeSelect);
-    console.log(valueSelect);
-    console.log(store.test);
-
-
-
     useEffect(() => {
         getIncomeTest(dispatch)
+        getIncomes(dispatch)
         if (type && value) {
             setTypeSelect(type)
-
             setValueSelect(decodedValue)
         }
     }, [type, value, dispatch])
@@ -137,39 +164,15 @@ export const DashboardTest = () => {
 
                     <tbody className="list">
                         {
-                            filtered
-                                .filter(test => {
-
-                                    if (test.status === 'Finalizado' && valueSelect !== 'finalizado') {
-                                        return false;
-                                    }
-                                    if (test.status === "Finalizado" && (typeSelect == 'status' && valueSelect == 'finalizado')) {
-                                        return true;
-                                    }
-                                    if (test.status === "Solicitada" && (typeSelect == 'status' && valueSelect == 'solicitada')) {
-                                        return true;
-                                    }
-                                    if (valueSelect === 'select' || valueSelect === '' || !valueSelect) {
-                                        return true;
-                                    }
-
-                                    if (typeSelect === 'urgency' && valueSelect === 'control') {
-                                        return test.urgency == 1 || test.urgency == 2;
-                                    }
-                                    if (typeSelect === 'urgency') return test.urgency == valueSelect;
-                                    if (typeSelect === 'order_type') return test.order_type == (valueSelect?.value || valueSelect);
-                                    if (typeSelect === 'status') return test.status == valueSelect;
-
-                                    return true;
-                                })
-                                .sort((a, b) => {
-
-                                    if (type === 'task' && value === 'next') { return (a.id - b.id) }
-                                    return 0;
-                                })
-                                .map((test) =>
+                            f.length > 0 ?
+                                f.map((test) =>
                                     <RowTest key={test.id} test={test} />
-                                )
+                                ) : <tr>
+                                    <td colSpan="5">
+                                        No hay resultados para este filtro
+                                    </td>
+                                </tr>
+
                         }
                     </tbody>
 
