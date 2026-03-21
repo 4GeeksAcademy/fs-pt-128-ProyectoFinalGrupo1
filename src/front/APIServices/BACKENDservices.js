@@ -28,7 +28,9 @@ export const login = async (user, navigate) => {
           ? "/control-panel/consultation"
           : rol === "admin"
             ? "/register-user"
-            : "/",
+            : rol === "Técnico"
+              ? "/medical-test"
+              : "/",
   );
   return data;
 };
