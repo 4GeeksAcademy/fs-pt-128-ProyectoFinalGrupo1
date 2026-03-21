@@ -128,7 +128,7 @@ export const Consultation = () => {
                                 </div>
                                 <div className="d-flex justify-content-center mt-2">
                                     <button className="btn btn-dark text-center">{loading ?
-                                        (<SpinnerButton />)
+                                        (<SpinnerButton text={'Generando alta'} />)
                                         : 'Dar alta al paciente'}</button>
                                 </div>
                             </form>

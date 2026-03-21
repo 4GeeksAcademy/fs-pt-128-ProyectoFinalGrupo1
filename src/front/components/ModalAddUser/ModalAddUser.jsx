@@ -110,6 +110,7 @@ export const ModalAddUser = () => {
                                     <option value="Médico">Médico</option>
                                     <option value="Enfermero">Enfermero</option>
                                     <option value="Administrativo">Administrativo</option>
+                                    <option value="Técnico">Técnico</option>
                                 </select>
                                 <div className="input-group mb-3">
                                     <span className="input-group-text border shadow-sm"

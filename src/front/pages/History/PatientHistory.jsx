@@ -7,22 +7,12 @@ import { Link } from "react-router-dom";
 
 export const PatientsHistory = () => {
 
-
-
-
     const { store, dispatch } = useGlobalReducer()
     const [filter, setFilter] = useState("")
-
-
-
-
     const handleChange = (e) => {
         e.preventDefault()
         setFilter(e.target.value)
     }
-
-
-
 
     useEffect(() => {
         getPatients(dispatch)

@@ -16,6 +16,7 @@ export const Navbar = () => {
 		"lastname": localStorage.getItem("lastname") || "",
 		"rol": localStorage.getItem("rol") || "",
 	})
+	console.log(profile)
 
 
 	return (
@@ -35,17 +36,20 @@ export const Navbar = () => {
 				</div>
 
 				<div className="container-fluid mt-3 custom-navbar__list " id="navbarNav">
-					<h4 className="text-start">Menu Principal</h4>
-					{profile.rol === "Administrativo" || profile.rol === "Médico" &&
-						<div className="d-flex align-items-center mb-2"
+					<h4 className="text-start title fs-6">Menu Principal</h4>
+					{(profile.rol === "Enfermero" || profile.rol === "Médico" || profile.rol === "Técnico") &&
+						<div className="d-flex align-items-center mb-2 cursor-pointer"
 							onClick={() =>
 								navigate(
-									profile.rol === "Administrativo"
+									profile.rol === "Enfermero"
 										? "/control-panel/triage"
 										:
 										profile.rol === "Médico"
 											? "/control-panel/consultation"
-											: "/"
+											:
+											profile.rol === "Técnico"
+												? "/medical-test" :
+												"/"
 								)
 							}>
 							<div className="col-2 text-center">
@@ -56,8 +60,8 @@ export const Navbar = () => {
 							</div>
 						</div>
 					}
-					{(profile.rol === "Médico" || profile.rol === "Enfermero") &&
-						<div className="d-flex align-items-center mb-2"
+					{(profile.rol === "Médico" || profile.rol === "Enfermero" || profile.rol === 'Técnico') &&
+						<div className="d-flex align-items-center mb-2 cursor-pointer"
 							onClick={() =>
 								navigate(
 									profile.rol === "Médico"
@@ -65,7 +69,11 @@ export const Navbar = () => {
 										:
 										profile.rol === "Enfermero"
 											? "/triage"
-											: "/"
+											:
+											profile.rol === 'Técnico'
+												? '/tests' :
+												'/'
+
 								)
 							}>
 							<div className="col-2 text-center">
@@ -76,8 +84,11 @@ export const Navbar = () => {
 							</div>
 						</div>
 					}
-					{(profile.rol === "Médico" || profile.rol === "Enfermero") &&
-						<div className="d-flex align-items-center mb-2" onClick={() => navigate("/tests")}>
+					{(profile.rol === "Médico" || profile.rol === "Técnico") &&
+						<div className="d-flex align-items-center mb-2 cursor-pointer"
+							onClick={() => navigate(profile.rol === "Médico"
+								? "/tests"
+								: profile.rol === "Técnico" ? "/tests/status/solicitada" : "/")}>
 							<div className="col-2 text-center">
 								<i className="fa-solid fa-flask-vial custom-navbar__linktext"></i>
 							</div>
@@ -87,7 +98,7 @@ export const Navbar = () => {
 						</div>
 					}
 					{(profile.rol === "Médico" || profile.rol === "Enfermero") &&
-						<div className="d-flex align-items-center mb-2" onClick={() => alert("Página aun en construcción. Vuelva pronto 😊")}>
+						<div className="d-flex align-items-center mb-2 cursor-pointer" onClick={() => navigate('/patientsHistory')}>
 							<div className="col-2 text-center">
 								<i className="fa-solid fa-clipboard-check custom-navbar__linktext"></i>
 							</div>
@@ -113,7 +124,7 @@ export const Navbar = () => {
 					<Dropup />
 				</div>
 			</div>
-		</nav>
+		</nav >
 
 	);
 };

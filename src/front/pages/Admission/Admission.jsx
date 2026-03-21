@@ -163,13 +163,7 @@ export const Admission = () => {
             <div className="container-fluid d-flex flex-column justify-content-center mt-2 w-100 ">
                 <h2 className="title text-start">Admisión</h2>
                 <p>Registro de paciente con pre-triage</p>
-                <div className="d-flex justify-content-start align-items-start w-100 mb-4">
-
-                    {/* <div className="align-items-center d-flex">
-                        <h4>Nombre usuario</h4>
-                        <i className=" ms-3 fs-4 fa-solid fa-user-nurse bg-info rounded-circle p-3" />
-                    </div> */}
-                </div>
+        
                 <div>
 
                     <form onSubmit={handleSubmit}>
@@ -192,7 +186,8 @@ export const Admission = () => {
                                         aria-label="Default select example"
                                         name="gender"
                                         value={admission.gender}
-                                        onChange={handleChange}>
+                                        onChange={handleChange}
+                                        disabled={userExist}>
                                         <option defaultValue>Seleccione género</option>
                                         <option value="Masculino">Masculino</option>
                                         <option value="Femenino">Femenino</option>
