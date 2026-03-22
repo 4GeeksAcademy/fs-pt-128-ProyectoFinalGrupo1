@@ -53,7 +53,7 @@ export const ModalAddUser = () => {
 
     return (
         <div className="text-end mb-3">
-            <button type="button" className="btn btn-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" className="btn btn-sm btn-dark " data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Agregar
                 <i className="fa-solid fa-user-plus ms-2"></i>
             </button>

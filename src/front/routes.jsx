@@ -6,7 +6,6 @@ import {
   Route,
 } from "react-router-dom";
 import { Layout } from "./pages/Layout";
-import { Home } from "./pages/Home";
 import { Single } from "./pages/Single";
 import { Demo } from "./pages/Demo";
 import { Signup } from "./pages/Signup";
@@ -25,7 +24,7 @@ import { PatientsHistoryDetail } from "./pages/History/PatientHistoryDetail";
 import { PatientsHistory } from "./pages/History/PatientHistory";
 import { ControlPanelTriage } from "./pages/ControlPanelTriage/ControlPanelTriage";
 import { ControlPanelConsult } from "./pages/ControlPanelConsult/ControlPanelConsult";
-import { TestResult } from '../front/pages/TestResult.jsx'
+import { TestResult } from '../front/pages/TestResult.jsx';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,9 +40,9 @@ export const router = createBrowserRouter(
       {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/admission" element={<Admission />} />
-      <Route path="/register-user" element={<RegisterUser />} />
       <Route path="/activate" element={<ActivateAccount />} />
+      <Route path="/register-user" element={<RegisterUser />} />
+      <Route path="/admission" element={<Admission />} />
       <Route path="/triage" element={<DashboardTriaje />} />
       <Route path="/triage/:type/:value" element={<DashboardTriaje />} />
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
