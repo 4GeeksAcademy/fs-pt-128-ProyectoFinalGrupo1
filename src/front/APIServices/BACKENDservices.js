@@ -18,7 +18,7 @@ export const login = async (user, navigate) => {
   
   localStorage.setItem("token", data.token);
   const profile = await getProfile(); 
-  const userRol = profile.rol || data.user.rol; 
+  const userRol = profile.rol || localStorage.getItem("rol");; 
   navigate(
       userRol === "Administrativo" ? "/admission" : 
       userRol === "Enfermero" ? "/control-panel/triage" : 
