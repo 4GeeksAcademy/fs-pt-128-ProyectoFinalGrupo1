@@ -41,8 +41,19 @@ export const DashboardTriaje = () => {
         setValueSelect(e.target.value)
     }
 
+    const loadPatients = async () => {
+        setIsLoading(true)
+        const response = await getIncomes(dispatch)
+
+        if (response) {
+            setIsLoading(false)
+            return
+        }
+        setIsLoading(false)
+    }
     const handleDnD = async (e) => {
         const { active, over } = e
+
         if (!over || active.id === over.id) return
 
         if (active.id !== over.id) {
@@ -54,30 +65,25 @@ export const DashboardTriaje = () => {
                 type: "update_incomes_order",
                 payload: newOrder
             })
+
             const orderedIds = newOrder.map(income => income.id)
             await loadNewOrder(orderedIds)
         }
     }
-    const loadPatients = async () => {
-        setIsLoading(true)
-        const response = await getIncomes(dispatch)
 
-        if (response) {
-            setIsLoading(false)
-            return
-        }
-        setIsLoading(false)
-    }
-
-    console.log(typeSelect)
-    console.log(valueSelect)
     useEffect(() => {
         loadPatients()
+        const interval = setTimeout(() => {
+            loadPatients()
+        },30000)
+        return () => clearInterval(interval)
+    }, [dispatch])
+    useEffect(() => {
         if (type && value) {
             setTypeSelect(type)
             setValueSelect(value)
         }
-    }, [type, value, dispatch])
+    }, [type, value])
 
     return (
         <div>
@@ -88,7 +94,7 @@ export const DashboardTriaje = () => {
 
                 isLoading ? (
                     <div className="d-flex justify-content-center align-items-center flex-column" style={{ minHeight: "100vh" }}>
-                        <h2 className="title">Cagando datos del paciente...</h2>
+                        <h2 className="title">Cargando datos del paciente...</h2>
                         <SpinnerLoad />
                     </div>
                 ) :

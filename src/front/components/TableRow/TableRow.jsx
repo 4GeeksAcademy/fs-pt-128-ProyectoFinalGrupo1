@@ -1,13 +1,8 @@
 import { deleteUser, getUser } from "../../APIServices/BACKENDservices"
 import useGlobalReducer from "../../hooks/useGlobalReducer"
+import { ModalDeleteUser } from "../ModalDeleteUser/ModalDeleteUser"
 
 export const TableRow = ({ user }) => {
-    const { store, dispatch } = useGlobalReducer()
-    const handlerClick = async () => {
-        await deleteUser(user.id)
-        await getUser(dispatch)
-        return
-    }
 
     return (
         <tr>
@@ -23,10 +18,7 @@ export const TableRow = ({ user }) => {
             <td className="text-center">
                 {
                     user.rol !== 'admin' &&
-                    <button className="btn btn-outline-danger"
-                        onClick={handlerClick}>
-                        <i className="fa-solid fa-trash"></i>
-                    </button>
+                    <ModalDeleteUser user={user.id} />
                 }
             </td>
         </tr>

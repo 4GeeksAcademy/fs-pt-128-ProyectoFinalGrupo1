@@ -16,7 +16,6 @@ export const Navbar = () => {
 		"lastname": localStorage.getItem("lastname") || "",
 		"rol": localStorage.getItem("rol") || "",
 	})
-	console.log(profile)
 
 
 	return (

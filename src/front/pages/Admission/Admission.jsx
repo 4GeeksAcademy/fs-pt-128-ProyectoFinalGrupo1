@@ -12,6 +12,7 @@ export const Admission = () => {
     const prioBtn = document.querySelectorAll(".selected_button")
     const navigate = useNavigate()
     const [userExist, setUserExist] = useState(false)
+    const [showAI, setShowAI] = useState(false)
     const [showSuccess, setShowSuccess] = useState(false)
     const [ia, setIA] = useState('')
     const { dispatch } = useGlobalReducer()
@@ -55,6 +56,7 @@ export const Admission = () => {
         const response = await postPreTriaje(income.visitreason)
         const parsed = JSON.parse(response.ia_response)
         setIA(parsed)
+        setShowAI(true)
     }
     // region:handleSubmit
     const handleSubmit = async (e) => {
@@ -86,6 +88,7 @@ export const Admission = () => {
                 "visitreason": "",
                 "priority": ""
             })
+            setShowAI(false)
             setTimeout(() => {
                 setShowSuccess(false)
             }, 3000);
@@ -163,7 +166,7 @@ export const Admission = () => {
             <div className="container-fluid d-flex flex-column justify-content-center mt-2 w-100 ">
                 <h2 className="title text-start">Admisión</h2>
                 <p>Registro de paciente con pre-triage</p>
-        
+
                 <div>
 
                     <form onSubmit={handleSubmit}>
@@ -234,9 +237,9 @@ export const Admission = () => {
                             <label htmlFor="InputLastName" className="form-label mb-1">Motivo de la consulta</label>
                             <textarea name="visitreason" value={income.visitreason} onChange={handleChange} type="text" rows={5} className="form-control rounded-1 mb-2 p-3 shadow bg-body-tertiary rounded border border-1" id="InputVisitReason" />
                             <div className="d-flex justify-content-center mt-2 mb-2">
-                                <button type="button" onClick={hadlerAI} className="btn btn-dark title btn-iacustom" disabled={ia}>Pre tr<span>IA</span>je</button>
+                                <button type="button" onClick={hadlerAI} className="btn btn-dark title btn-iacustom" disabled={showAI}>Pre tr<span>IA</span>je</button>
                             </div>
-                            {ia && (
+                            {(ia && showAI) && (
                                 <div className="bg-white p-3 rounded shadow-sm">
                                     <h3 className="title fs-5">Valoracion pretriage recomendada por IA</h3>
                                     <p>Prioridad: {ia.prioridad_sugerida}</p>
@@ -252,11 +255,11 @@ export const Admission = () => {
 
                         </div>
                         <div className="text-center mt-4">
-                            <button name="prio5" onClick={handlePrio} className="col-2 crit5 rounded-start-pill">No urgente</button>
-                            <button name="prio4" onClick={handlePrio} className="col-2 crit4">Poco urgente</button>
-                            <button name="prio3" onClick={handlePrio} className="col-2 crit3">Urgente</button>
-                            <button name="prio2" onClick={handlePrio} className="col-2 crit2">Muy Urgente</button>
-                            <button name="prio1" onClick={handlePrio} className="col-2 crit1 rounded-end-pill">Emergencia</button>
+                            <button name="prio5" onClick={handlePrio} className="col-2 prio-5 rounded-start-pill">No urgente</button>
+                            <button name="prio4" onClick={handlePrio} className="col-2 prio-4">Poco urgente</button>
+                            <button name="prio3" onClick={handlePrio} className="col-2 prio-3">Urgente</button>
+                            <button name="prio2" onClick={handlePrio} className="col-2 prio-2">Muy Urgente</button>
+                            <button name="prio1" onClick={handlePrio} className="col-2 prio-1 rounded-end-pill">Emergencia</button>
                         </div>
                         <div className="text-center my-3">
                             {!loading ?

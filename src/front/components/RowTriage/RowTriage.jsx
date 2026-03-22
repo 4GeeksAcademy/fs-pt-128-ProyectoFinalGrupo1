@@ -28,7 +28,7 @@ export const SortableRow = ({ id, income }) => {
                 {income.patient_firstname} {income.patient_lastname}
             </td>
             <td colSpan={1} className="text-nowrap bg-transparent p-0">
-                <PopOver patient={income.patient_firstname} allergies={income.patient_allergies} />
+                {income.patient_allergies.replace('{', '').replace('}', '').length > 0 && <PopOver patient={income.patient_firstname} allergies={income.patient_allergies} />}
             </td>
             <td className="text-break bg-transparent p-0">
                 {income.visitreason}</td>
