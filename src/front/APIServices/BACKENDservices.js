@@ -26,7 +26,7 @@ export const login = async (user, navigate) => {
         ? "/control-panel/triage"
         : rol === "Médico"
           ? "/control-panel/consultation"
-          : rol === "admin"
+          : rol === "Admin"
             ? "/register-user"
             : rol === "Técnico"
               ? "/medical-test"
