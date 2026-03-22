@@ -26,6 +26,7 @@ export const login = async (user, navigate) => {
       userRol === "Admin" ? "/register-user" : 
       userRol === "Técnico" ? "/medical-test" : "/"
   );
+  return data
 };
 
 // region: activateCount
