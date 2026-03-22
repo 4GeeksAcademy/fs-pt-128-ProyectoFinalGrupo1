@@ -52,7 +52,7 @@ export const Signup = () => {
         <div>
 
             {
-                store.user.length <= 0 ? (<div className="container-fluid d-flex flex-column justify-content-center align-items-center bg-white" style={{ maxHeight: '100vh' }}>
+                store.user.length > 0 ? (<div className="container-fluid d-flex flex-column justify-content-center align-items-center bg-white" style={{ maxHeight: '100vh' }}>
                     <div className="border-bottom mt-1 d-flex align-items-center w-100 mb-4" style={{ height: '53px' }} >
                         <i className="fa-solid fa-staff-snake align-middle fs-3"></i>
                         <h2 className="title w-100 text-start m-0 align-middle fs-6">Sistema Médico</h2>
