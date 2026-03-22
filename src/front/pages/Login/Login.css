@@ -1,0 +1,57 @@
+.loginFormContainer{
+    height: 550px;
+    width: 450px;
+    max-height: fit-content;
+    border-radius: 15px;
+}
+
+.loginIconContainer{
+    display: flex;
+    justify-content: center;
+    margin: 5px auto;
+    height: 75px;
+    width: 65px;
+    font-size: 60px;
+}
+
+
+
+.loginInputs{
+    margin: 20px auto;
+}
+
+.loginButtons{
+    margin: 20px auto;
+}
+
+.iconLogo{
+    filter: brightness(0.2);
+}
+
+
+
+.formFooterLogin{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+
+
+
+@media (max-width: 425px){
+    .loginFormContainer{
+        width: 100%;
+        height: fit-content;
+        margin-top: -90px;
+    }
+
+    .imgLoginContainer{
+        display: none
+    }
+
+    .formFooterLogin{
+        flex-direction: column;
+    }
+}

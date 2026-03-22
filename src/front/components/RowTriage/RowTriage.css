@@ -1,0 +1,21 @@
+.font-size {
+  font-size: 15px;
+}
+.medical-row {
+  transition: all 0.3s ease;
+  border-left: 6px solid;
+  background-color: white;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.medical-row:hover {
+  filter: brightness(0.98);
+  transform: scale(1.002);
+}
+
+.medical-row:hover td {
+  background: transparent;
+}
+.btn-custom:hover {
+  color: black;
+}

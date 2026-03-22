@@ -1,0 +1,9 @@
+.image {
+  background-image: url(https://www.intelho.com/wp-content/uploads/2021/11/software-hospitalario-sigcenter.jpeg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.bg-color {
+  background-color: var(--label);
+}

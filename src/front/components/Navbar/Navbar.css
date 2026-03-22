@@ -1,0 +1,28 @@
+.custom-navbar {
+  background-color: #e2e5e7;
+  height: 100%;
+  width:280px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  
+}
+.continer-logo_custom {
+  height: 40px;
+  width: 40px;
+}
+.custom-navbar__linktext {
+  font-size: 18px;
+  text-decoration: none;
+}
+.truncate-text {
+  width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cursor-pointer{
+  cursor: pointer;
+}

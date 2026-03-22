@@ -1,0 +1,92 @@
+.priorityResponsive{
+    display: none;
+}
+
+.piorityContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.triageButton{
+    width: 200px;
+}
+
+.consultation-container {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+    background-color: #f1f3f5;    
+  
+}
+
+.valoration-container {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+    background-color: #f1f3f5;
+    
+}
+
+
+.prio-1{
+    background-color: #EF4444;
+    width: 150px;
+    height: 40px;
+    border: none;
+    transition: transform 0.15s ease, border 0.15s ease;
+}
+
+.prio-2{
+    background-color: #F97316;
+    width: 150px;
+    height: 40px;
+    border: none;
+    transition: transform 0.15s ease, border 0.15s ease;
+}
+
+.prio-3{
+    background-color: #FACC15;
+    width: 150px;
+    height: 40px;
+    border: none;
+    transition: transform 0.15s ease, border 0.15s ease;
+}
+
+.prio-4{
+    background-color: #22C55E;
+    width: 150px;
+    height: 40px;
+    border: none;
+    transition: transform 0.15s ease, border 0.15s ease;
+}
+
+.prio-5{
+    background-color: #3B82F6;
+    width: 150px;
+    height: 40px;
+    border: none;
+    transition: transform 0.15s ease, border 0.15s ease;
+}
+
+
+.prio-1:hover,
+.prio-2:hover,
+.prio-3:hover,
+.prio-4:hover,
+.prio-5:hover{
+    transform: scale(1.05);
+}
+
+.selected-button{
+    border: 1px solid black;
+}
+
+
+
+
+
+@media (max-width: 425px){
+    .priorityResponsive{
+        display: flex;
+    }
+
+    .piorityContainer{
+        display: none;
+    }
+}
