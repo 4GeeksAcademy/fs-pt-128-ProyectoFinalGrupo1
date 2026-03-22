@@ -20,15 +20,15 @@ export const login = async (user, navigate) => {
   const rol = localStorage.getItem("rol");
 
   navigate(
-    rol === "Administrativo"
+    user.rol === "user.rol"
       ? "/admission"
-      : rol === "Enfermero"
+      : user.rol === "Enfermero"
         ? "/control-panel/triage"
-        : rol === "Médico"
+        : user.rol === "Médico"
           ? "/control-panel/consultation"
-          : rol === "Admin"
+          : user.rol === "Admin"
             ? "/register-user"
-            : rol === "Técnico"
+            : user.rol === "Técnico"
               ? "/medical-test"
               : "/",
   );
