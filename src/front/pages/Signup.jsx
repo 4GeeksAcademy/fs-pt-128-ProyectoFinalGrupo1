@@ -38,8 +38,8 @@ export const Signup = () => {
             return
         }
         const response = await signup(user);
-        if (response.error) {
-            setError(response.error)
+        if (response.Error) {
+            setError(response.Error)
             setErrorRegister(true)
         }
         setUser({
