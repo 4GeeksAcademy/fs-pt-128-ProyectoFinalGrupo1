@@ -30,7 +30,7 @@ export const RowConsult = ({ id, income }) => {
                 {income.patient_firstname} {income.patient_lastname}
             </td>
             <td className="w-auto text-nowrap bg-transparent ">
-                <PopOver patient={income.patient_firstname} allergies={income.patient_allergies} />
+                {income.patient_allergies.replace('{', '').replace('}', '').length > 0 && <PopOver patient={income.patient_firstname} allergies={income.patient_allergies} />}
             </td>
             <td className="text-break bg-transparent ">
                 {income.valoration_triage}</td>
@@ -43,7 +43,7 @@ export const RowConsult = ({ id, income }) => {
 
             </td>
             <td className="w-auto text-nowrap bg-transparent ">
-                <PopOverTest patient={income.patient_firstname} orders={income.orders} />
+                {income.orders.length > 0 && <PopOverTest patient={income.patient_firstname} income={income.id} orders={income.orders} />}
             </td>
             <td className="w-auto text-nowrap bg-transparent">
                 <TimeCounter startTime={income.created_at} priority={income.triage_priority} />

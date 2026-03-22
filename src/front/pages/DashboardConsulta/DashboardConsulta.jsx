@@ -93,7 +93,7 @@ export const DashboardConsulta = () => {
                     <h2>Cargando datos del paciente...</h2>
                     <SpinnerLoad />
                 </div>) : (
-                    <div className="container-fluid mt-3 container-table" style={{ maxHeight: "80vh", overflowX: "hidden", overflowY: "auto", maxWidht: '100%' }} >
+                    <div className="container-fluid mt-3 border rounded container-table" style={{ maxHeight: "80vh", overflowX: "hidden", overflowY: "auto", maxWidht: '100%' }} >
                         <h1 className="title w-100 text-start fs-3 mt-2">Control de Consulta</h1>
                         <p>Gestión de consulta con reordenado híbrido</p>
                         <div className="d-flex justify-content-center align-items-center">

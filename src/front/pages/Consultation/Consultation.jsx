@@ -72,17 +72,17 @@ export const Consultation = () => {
         <div className="container-max-height">
             {isLoading ?
                 (<div className="d-flex justify-content-center align-items-center flex-column" style={{ minHeight: "100vh" }}>
-                    <h2>Cagando datos de los paciente...</h2>
+                    <h2>Cargando datos de los paciente...</h2>
                     <SpinnerLoad />
                 </div>)
                 : (<div>
                     <div>
                         <div className="border-bottom mt-2 d-flex align-items-center" style={{ height: '53px' }} >
-                            <h2 className="title w-100 text-start fs-6">Panel de control triaje</h2>
+                            <h2 className="title w-100 text-start fs-6">Panel de control consulta</h2>
                         </div>
                         <div className="d-flex flex-column container-fluid mt-2 ">
-                            <h2 className="title w-100 text-start fs-3">Panel de control triaje</h2>
-                            <p>Gestión del triaje</p>
+                            <h2 className="title w-100 text-start fs-3">Panel de control consulta</h2>
+                            <p>Gestión del consulta</p>
                         </div>
                         <div className="d-flex flex-column container">
                             <div className="container d-flex">

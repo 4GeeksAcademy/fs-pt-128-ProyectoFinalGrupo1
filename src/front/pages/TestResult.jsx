@@ -57,7 +57,7 @@ export const TestResult = () => {
                                             <p className="title fs-5">{order.incidents}</p>
                                         </div>
                                         <div className="d-flex container justify-content-center mt-2 mb-2">
-                                            <a href={order.results} target="_blank" rel="noopener noreferrer" className="btn btn-dark me-2">Ver resultados</a>
+                                            <a href={order.results} target="_blank" rel="noopener noreferrer" className="btn btn-dark">Ver resultados</a>
                                         </div>
                                     </div>
 
@@ -66,10 +66,7 @@ export const TestResult = () => {
                         )
                 }
 
-                <div className="d-flex container justify-content-center mt-4">
-                    <button className="btn btn-secondary" onClick={() => navigate(`/consultation/${store.income.id}`)}>Volver a consulta</button>
-                </div>
-            </div >
+            </div>
         </div>
     )
 }

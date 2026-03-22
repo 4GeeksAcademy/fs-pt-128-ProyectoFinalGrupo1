@@ -67,7 +67,7 @@ export const QuickActionsConsultation = ({ criticalPacients }) => {
                             <h6 className="mb-0 fw-bold text-dark">Ver pruebas finalizadas</h6>
                             <p className="text-muted m-0">Pruebas finalizadas de forma individual para cada especialidad</p>
                         </div>
-                         {
+                        {
                             store.test.filter(t => t.status == 'Finalizado').length > 0 &&
                             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 {store.test.filter(t => t.status == 'Finalizado').length}
@@ -75,7 +75,7 @@ export const QuickActionsConsultation = ({ criticalPacients }) => {
                         }
                     </div>
                 </Link>
-                <Link className="text-decoration-none" to={'/triage/patient/all'}>
+                <Link className="text-decoration-none" to={'/patientsHistory'}>
                     <div className="d-flex bg-white align-items-center bg-white p-3 rounded-3 bg-light action-btn-hover" style={{ cursor: 'pointer' }}>
                         <div className="bg-light p-2 rounded-3 shadow me-3 text-center" style={{ width: '40px', height: '40px' }}>
                             <i className="fa-solid fa-box-archive text-secondary fs-5"></i>

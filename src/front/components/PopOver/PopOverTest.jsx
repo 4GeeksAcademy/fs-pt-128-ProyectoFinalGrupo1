@@ -3,7 +3,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { Link } from 'react-router-dom';
 
-export const PopOverTest = ({ patient, orders }) => {
+export const PopOverTest = ({ income, orders }) => {
     console.log(orders)
     return (
         <OverlayTrigger
@@ -13,12 +13,14 @@ export const PopOverTest = ({ patient, orders }) => {
             placement="left"
             overlay={
                 <Popover id="popover-positioned-right">
-                    <Popover.Header as="h3">Pruebas: {patient}</Popover.Header>
-                    <Popover.Body>
+                    <Popover.Header as="h3" className='text-center title'>Estado de pruebas</Popover.Header>
+                    <Popover.Body className='text-center'>
                         {
-                            orders.map(order => <p key={order.id}>{order.order_type}: {order.status == 'Finalizado' ?
-                                <Link to={`/test-result/${order.id_income}`}>Ver resultados</Link> : order.status}</p>)
+                            orders.map(order => <p key={order.id} className='fw-semibold'>{order.order_type}: {order.status}</p>)
                         }
+                        <div className='text-center'>
+                            <Link to={`/test-result/${income}`} className='link-underline-dark text-dark fw-semibold'>Ver resultados</Link>
+                        </div>
                     </Popover.Body>
                 </Popover>
             }
