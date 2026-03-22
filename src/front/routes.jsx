@@ -26,6 +26,7 @@ import { PatientsHistory } from "./pages/History/PatientHistory";
 import { ControlPanelTriage } from "./pages/ControlPanelTriage/ControlPanelTriage";
 import { ControlPanelConsult } from "./pages/ControlPanelConsult/ControlPanelConsult";
 import { TestResult } from '../front/pages/TestResult.jsx'
+import { ProtectedRoute } from "./components/ProtectedRoute.jsx/ProtectedRoute.jsx";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,27 +41,46 @@ export const router = createBrowserRouter(
 
       {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
       <Route path="/" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/admission" element={<Admission />} />
-      <Route path="/register-user" element={<RegisterUser />} />
       <Route path="/activate" element={<ActivateAccount />} />
-      <Route path="/triage" element={<DashboardTriaje />} />
-      <Route path="/triage/:type/:value" element={<DashboardTriaje />} />
+      <Route path="/signup" element={<Signup />} />
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
-      <Route path="/income/:id" element={<IncomeForm />} />
-      <Route path="/control-panel/consultation" element={<ControlPanelConsult />} />
-      <Route path="/consultation" element={<DashboardConsulta />} />
-      <Route path="/consultation/:type/:value" element={<DashboardConsulta />} />
-      <Route path="/consultation/:id" element={<Consultation />} />
-      <Route path="/medical-test" element={<MedicalTest />} />
-      <Route path="/tests" element={<DashboardTest />} />
-      <Route path="/tests/:type/:value" element={<DashboardTest />} />
-      <Route path="/test-form/:income_id/:id" element={<TestView />} />
-      <Route path="/test-result/:id_income" element={<TestResult />} />
-      <Route path="/patientsHistory" element={<PatientsHistory />} />
-      <Route path="/patientsHistory/:id" element={<PatientsHistoryDetail />} />
-      <Route path="/control-panel/triage" element={<ControlPanelTriage />} />
+      <Route path="/register-user" element={
+        <ProtectedRoute isAllowed={localStorage.getItem('rol')?.trim() == 'admin'}>
+          <RegisterUser />
+        </ProtectedRoute>} />
+      <Route path="/admission" element={
+        <ProtectedRoute isAllowed={localStorage.getItem('rol')?.trim() == 'Administrativo'}>
+          <Admission />
+        </ProtectedRoute>} />
+      <Route element={<ProtectedRoute isAllowed={localStorage.getItem('rol')?.trim() == 'Enfermero'} />}>
+        <Route path="/control-panel/triage" element={<ControlPanelTriage />} />
+        <Route path="/triage" element={<DashboardTriaje />} />
+        <Route path="/triage/:type/:value" element={<DashboardTriaje />} />
+        <Route path="/income/:id" element={<IncomeForm />} />
+      </Route>
+      <Route element={<ProtectedRoute isAllowed={localStorage.getItem('rol')?.trim() == 'Médico'} />}>
+        <Route path="/consultation" element={<DashboardConsulta />} />
+        <Route path="/consultation/:type/:value" element={<DashboardConsulta />} />
+        <Route path="/consultation/:id" element={<Consultation />} />
+        <Route path="/control-panel/consultation" element={<ControlPanelConsult />} />
+        <Route path="/patientsHistory" element={<PatientsHistory />} />
+        <Route path="/patientsHistory/:id" element={<PatientsHistoryDetail />} />
+        <Route path="/test-result/:id_income" element={<TestResult />} />
+      </Route>
+      <Route element={<ProtectedRoute isAllowed={localStorage.getItem('rol')?.trim() == 'Médico' || localStorage.getItem('rol')?.trim() == 'Enfermero'} />}>
+        <Route path="/patientsHistory" element={<PatientsHistory />} />
+        <Route path="/patientsHistory/:id" element={<PatientsHistoryDetail />} />
+        <Route path="/test-result/:id_income" element={<TestResult />} />
+      </Route>
+      <Route element={<ProtectedRoute isAllowed={localStorage.getItem('rol')?.trim() == 'Técnico'} />}>
+        <Route path="/test-form/:income_id/:id" element={<TestView />} />
+        <Route path="/medical-test" element={<MedicalTest />} />
+      </Route>
+      <Route element={<ProtectedRoute isAllowed={localStorage.getItem('rol')?.trim() == 'Médico' || localStorage.getItem('rol')?.trim() == 'Técnico'} />}>
+        <Route path="/tests" element={<DashboardTest />} />
+        <Route path="/tests/:type/:value" element={<DashboardTest />} />
+      </Route>
     </Route>
   )
 );
