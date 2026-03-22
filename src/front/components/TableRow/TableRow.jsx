@@ -17,7 +17,7 @@ export const TableRow = ({ user }) => {
             </td>
             <td className="text-center">
                 {
-                    user.rol !== 'admin' &&
+                    user.rol !== 'Admin' &&
                     <ModalDeleteUser user={user.id} />
                 }
             </td>
