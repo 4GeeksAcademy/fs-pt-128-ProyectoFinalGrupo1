@@ -15,18 +15,18 @@ export const login = async (user, navigate) => {
   if (!response.ok) {
     return data;
   }
-  
   localStorage.setItem("token", data.token);
-  const profile = await getProfile(); 
-  const userRol = profile.rol || localStorage.getItem("rol");
+  const profile = await getProfile();
+  const rol = localStorage.getItem("rol");
+
   navigate(
-      userRol === "Administrativo" ? "/admission" : 
-      userRol === "Enfermero" ? "/control-panel/triage" : 
-      userRol === "Médico" ? "/control-panel/consultation" : 
-      userRol === "Admin" ? "/register-user" : 
-      userRol === "Técnico" ? "/medical-test" : "/"
+    rol === "Administrativo" ? "/admission"
+    : rol === "Enfermero" ? "/control-panel/triage"
+    : rol === "Médico" ? "/control-panel/consultation"
+    : rol === "admin" ? "/register-user"
+    : rol === "Técnico" ? "/medical-test" : "/",
   );
-  return data
+  return data;
 };
 
 // region: activateCount
