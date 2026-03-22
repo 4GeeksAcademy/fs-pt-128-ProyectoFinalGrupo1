@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer"
+import { signup } from "../APIServices/BACKENDservices";
 
 export const Signup = () => {
 
