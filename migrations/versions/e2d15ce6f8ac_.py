@@ -55,7 +55,7 @@ def upgrade():
     sa.Column('checkpoint_consult', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['id_doctor'], ['user.id'], ),
     sa.ForeignKeyConstraint(['id_nurse'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['id_patient'], ['patient.dni'], ),
+    sa.ForeignKeyConstraint(['id_patient'], ['patient.dni'], ),python_version
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('order',
