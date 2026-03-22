@@ -45,7 +45,7 @@ export const router = createBrowserRouter(
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
       <Route path="/register-user" element={
-        <ProtectedRoute isAllowed={localStorage.getItem('rol')?.trim() == 'admin'}>
+        <ProtectedRoute isAllowed={localStorage.getItem('rol')?.trim() == 'Admin'}>
           <RegisterUser />
         </ProtectedRoute>} />
       <Route path="/admission" element={
