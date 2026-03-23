@@ -20,17 +20,11 @@ export const login = async (user, navigate, dispatch) => {
   const rol = localStorage.getItem("rol");
 
   navigate(
-    rol === "Administrativo"
-      ? "/admission"
-      : rol === "Enfermero"
-        ? "/control-panel/triage"
-        : rol === "Médico"
-          ? "/control-panel/consultation"
-          : rol === "admin"
-            ? "/register-user"
-            : rol === "Técnico"
-              ? "/medical-test"
-              : "/",
+    rol === "Administrativo" ? "/admission"
+    : rol === "Enfermero" ? "/control-panel/triage"
+    : rol === "Médico" ? "/control-panel/consultation"
+    : rol === "admin" ? "/register-user"
+    : rol === "Técnico" ? "/medical-test" : "/",
   );
   return data;
 };

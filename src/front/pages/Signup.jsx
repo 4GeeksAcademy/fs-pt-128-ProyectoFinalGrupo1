@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer"
+import { signup } from "../APIServices/BACKENDservices";
 
 export const Signup = () => {
 
     const { store } = useGlobalReducer()
     const navigate = useNavigate()
+    const [errorRegister, setErrorRegister] = useState(false)
     const [error, setError] = useState(null)
     const [showPwd, setShowPwd] = useState(false)
     const [showConfPwd, setShowConfPwd] = useState(false)
@@ -36,8 +38,9 @@ export const Signup = () => {
             return
         }
         const response = await signup(user);
-        if (response.error) {
-            setError(response.error)
+        if (response.Error) {
+            setError(response.Error)
+            setErrorRegister(true)
         }
         setUser({
             "email": "",
@@ -52,7 +55,7 @@ export const Signup = () => {
         <div>
 
             {
-                store.user.length === 0 ? (<div className="container-fluid d-flex flex-column justify-content-center align-items-center bg-white" style={{ maxHeight: '100vh' }}>
+                !errorRegister ? (<div className="container-fluid d-flex flex-column justify-content-center align-items-center bg-white" style={{ maxHeight: '100vh' }}>
                     <div className="border-bottom mt-1 d-flex align-items-center w-100 mb-4" style={{ height: '53px' }} >
                         <i className="fa-solid fa-staff-snake align-middle fs-3"></i>
                         <h2 className="title w-100 text-start m-0 align-middle fs-6">Sistema Médico</h2>
