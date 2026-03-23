@@ -71,6 +71,14 @@ export const DashboardTriaje = () => {
         }
     }
 
+        if (response) {
+            setIsLoading(false)
+            return
+        }
+        setIsLoading(false)
+    }
+
+ 
     useEffect(() => {
         loadPatients()
         const interval = setTimeout(() => {

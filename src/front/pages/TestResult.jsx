@@ -15,7 +15,7 @@ export const TestResult = () => {
         getIncome(dispatch, id_income)
         getIncomeTest(dispatch)
     }, [])
-    console.log(store.test)
+ 
     return (
         <div>
 

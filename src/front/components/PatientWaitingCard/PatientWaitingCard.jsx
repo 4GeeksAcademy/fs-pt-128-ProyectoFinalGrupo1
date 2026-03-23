@@ -2,7 +2,7 @@ import { calculateTime } from "../../utils/calculateTime.js"
 import './PatientWaitingCard.css'
 
 export const PatientWaitingCard = ({ incomes }) => {
-    console.log(incomes);
+
 
     return (
         <div>

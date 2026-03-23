@@ -25,7 +25,7 @@ export const IncomeForm = () => {
     })
 
 
-    console.log(store.income)
+    
     const handleChange = (e) => {
         setIncomeForm({
             ...incomeForm,
@@ -55,8 +55,7 @@ export const IncomeForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const triageTime = calculateWaitingTime(store.income.created_at)
-        console.log('triageTime:', triageTime)
-        console.log(store.incomes.map(i => ({ id: i.id, state: i.state })))
+      
         if (!incomeForm.valoration_triage) {
             setError("Describa la valoración del triaje")
             setLoading(false)
@@ -69,8 +68,7 @@ export const IncomeForm = () => {
     }
 
 
-    //  console.log(incomeForm)
-    // console.log(store.patient.income);
+   
 
     useEffect(() => {
         getUser(dispatch)

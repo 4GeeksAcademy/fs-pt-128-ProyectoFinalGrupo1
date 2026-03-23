@@ -4,7 +4,7 @@ import Popover from 'react-bootstrap/Popover';
 import { Link } from 'react-router-dom';
 
 export const PopOverTest = ({ income, orders }) => {
-    console.log(orders)
+  
     return (
         <OverlayTrigger
             trigger="click"

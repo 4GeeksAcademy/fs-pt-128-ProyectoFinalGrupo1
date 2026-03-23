@@ -4,10 +4,11 @@ import "./Login.css";
 import { useState } from "react";
 import { login } from "../../APIServices/BACKENDservices";
 import { useNavigate } from "react-router-dom";
+import useGlobalReducer from "../../hooks/useGlobalReducer";
 
 
 export const Login = () => {
-
+    const { store, dispatch } = useGlobalReducer()
     const [visiblePassword, setVisiblePassword] = useState(false)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -41,7 +42,7 @@ export const Login = () => {
             return
         }
         setLoading(true)
-        const response = await login(user, navigate)
+        const response = await login(user, navigate, dispatch)
         setError(response.Error)
         setLoading(false)
     }
@@ -49,7 +50,7 @@ export const Login = () => {
 
 
     return (
-        <div style={{maxHeight : "100vh"}}>
+        <div style={{ maxHeight: "100vh" }}>
             <div className="border-bottom mt-1 d-flex align-items-center w-100 mb-4" style={{ height: '53px' }} >
                 <i className="fa-solid fa-staff-snake align-middle fs-3"></i>
                 <h2 className="title w-100 text-start m-0 align-middle fs-6">Sistema Médico</h2>
@@ -75,9 +76,9 @@ export const Login = () => {
                         {
                             error && (
                                 <div className="container">
-                                <div className="alert alert-danger d-flex align-items-center justify-content-around fade-alert" role="alert">
-                                    {error} <i className="fa-solid fa-triangle-exclamation"></i>
-                                </div>
+                                    <div className="alert alert-danger d-flex align-items-center justify-content-around fade-alert" role="alert">
+                                        {error} <i className="fa-solid fa-triangle-exclamation"></i>
+                                    </div>
 
                                 </div>
                             )
@@ -118,7 +119,7 @@ export const Login = () => {
                                     <i className="fa-solid fa-eye"></i>
                                 )}
                                 </button>
-                                
+
                             </div>
 
                             <div className="d-flex flex-column w-75 loginButtons">
@@ -126,7 +127,7 @@ export const Login = () => {
                                     <button
                                         type="submit"
                                         className="btn btn-dark mt-2 mb-4"
-                                        
+
                                         disabled
                                     ><div className="spinner-border" role="status"></div>
                                     </button>
@@ -134,7 +135,7 @@ export const Login = () => {
                                     <button
                                         type="submit"
                                         className="btn btn-dark mt-2 mb-4"
-                                        
+
                                     >Iniciar Sesión
                                     </button>
                                 )}

@@ -22,12 +22,18 @@ export const initialStore = () => {
     order: {},
     orders: [],
     test: [],
+    profile: {},
     search: "",
   };
 };
 
 export default function storeReducer(store, action = {}) {
   switch (action.type) {
+    case "set_profile":
+      return {
+        ...store,
+        profile: action.payload,
+      };
     case "get_users":
       return {
         ...store,

@@ -17,7 +17,7 @@ export const ExecutationAndDocu = ({ income, test, onNext }) => {
     const handleChangeIncidents = (e) => {
         setIncidents(e.target.value)
     }
-    console.log(selectFile);
+;
 
     const handlerSubmit = async (e) => {
         e.preventDefault()
