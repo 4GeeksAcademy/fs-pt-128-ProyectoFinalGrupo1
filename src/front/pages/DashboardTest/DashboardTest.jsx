@@ -33,7 +33,6 @@ export const DashboardTest = () => {
         );
     });
 
-
     const f = filtered.filter(test => {
 
         if (store.incomesAlta?.find(i => i.id == test.income_id)) return false
@@ -42,6 +41,7 @@ export const DashboardTest = () => {
             return false;
         }
         if (test.status === "Finalizado" && (typeSelect == 'status' && valueSelect == 'finalizado')) {
+            if (store.incomesAlta?.find(i => i.id == test.income_id)) return false
             return true;
         }
         if (test.status === "Solicitada" && (typeSelect == 'status' && valueSelect == 'solicitada')) {

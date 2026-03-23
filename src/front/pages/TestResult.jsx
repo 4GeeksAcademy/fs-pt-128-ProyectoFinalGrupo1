@@ -15,7 +15,7 @@ export const TestResult = () => {
         getIncome(dispatch, id_income)
         getIncomeTest(dispatch)
     }, [])
- 
+
     return (
         <div>
 
@@ -44,17 +44,17 @@ export const TestResult = () => {
 
                                     <div className='border border-secondary rounded me-1 mt-2 container consultation-container w-100'>
                                         <h2 className="title fs-3 mt-3">Tipo de analitica realizada</h2>
-                                        <p className="title fs-6">{order.order_type}</p>
+                                        <p className="title fs-5">{order.order_type}</p>
                                     </div>
                                     <div className='border border-secondary rounded me-1 mt-2 container consultation-container w-100'>
                                         <h2 className="title fs-4 mt-3">Observaciones anotadas durante la prueba:</h2>
                                         <div className="bg-white rounded shadow px-2">
-                                            <p className="fs-6">{order.observations}</p>
+                                            <p className="title fs-5">{order.observations}</p>
                                         </div>
 
-                                        <h2 className="title fs-4 mt-3">Incidencias transcurridas en la prueba</h2>
+                                        <h2 className="title fs-4 mt-3">Incidencias transcurridas en la prueba:</h2>
                                         <div className="bg-white rounded shadow px-2">
-                                            <p className="fs-6">{order.incidents}</p>
+                                            <p className="title fs-5">{order.incidents}</p>
                                         </div>
                                         <div className="d-flex container justify-content-center mt-2 mb-2">
                                             <a href={order.results} target="_blank" rel="noopener noreferrer" className="btn btn-dark">Ver resultados</a>
