@@ -71,24 +71,26 @@ export const PatientsHistoryDetail = () => {
                             return (
                                 <div key={income.id} className="container border border-secondary rounded mt-2 mb-5 containerIncome">
                                     <div className="row mx-auto">
-                                        <div className="col-12 mt-2 mb-3 d-flex bg-white border rounded shadow-sm">
+                                        <div className="col-12 mt-2 mb-3 d-flex rounded shadow-sm">
                                             <p className="p-0 m-0 me-2 label-custom fw-semibold title">Fecha y hora de ingreso:</p>
                                             <p className="p-0 m-0"> {new Date(income.created_at).toLocaleString('es-ES')}</p>
                                         </div>
                                         <TriageCard valoration_triage={income.valoration_triage} nurse={income.nurse} />
                                         <div className="container">
-                                            <div className="border border-secondary rounded mt-2 mb-2 container w-100 consultation-container">
+                                            <div className="border rounded mt-2 mb-2 container w-100 consultation-container">
                                             <h2 className=" mt-1 fs-5 fw-semibold title">Pruebas:</h2>
-                                            <div className="border border bg-white shadow-sm rounded mt-2 mb-2 d-flex container">
+                                            <div className="mt-2 mb-2 d-flex container">
                                                 <p className="mb-0 me-2">Pruebas realizadas</p>
                                                 <Link to={`/test-result/${income.id}`} className='link-underline-dark text-dark fw-semibold'>Ver resultados</Link>
                                             </div>
                                         </div>
                                         </div>
                                         <div className="container">
-                                            <div className="border border-secondary rounded mt-2 mb-2 container w-100 consultation-container">
-                                                <h2 className="mt-1 fs-5 fw-semibold title">Diagnóstico dado por: {income.user} </h2>
+                                            <div className="mt-2 mb-2 d-flex container">
+                                                <h2 className="mt-1 fs-5 fw-semibold">Diagnóstico:  </h2>
                                                 <p className="border border bg-white shadow-sm rounded mt-2 mb-2 d-flex container">{income.diagnosis == null ? 'No ha recibido un diagnóstico' : income.diagnosis}</p>
+                                                <h2 className="mt-1 fs-5 fw-semibold">Tratamiento a seguir:  </h2>
+                                                <p className="border border bg-white shadow-sm rounded mt-2 mb-2 d-flex container">{income.treatment == null ? 'No ha recibido un diagnóstico' : income.treatment}</p>
                                             </div>
                                         </div>
                                     </div>

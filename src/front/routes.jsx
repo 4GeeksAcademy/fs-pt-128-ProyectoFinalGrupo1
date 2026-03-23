@@ -45,10 +45,10 @@ export const router = createBrowserRouter(
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
       <Route element={<ProtectedRoute rol={['Admin']} />}>
-        <Route path="/register-user" element={<RegisterUser />}/>
+        <Route path="/register-user" element={<RegisterUser />} />
       </Route>
-      <Route element={<ProtectedRoute rol={['Administrativo']} />}/>
-        <Route path="/admission" element={<Admission />}>
+      <Route element={<ProtectedRoute rol={['Administrativo']} />} />
+      <Route path="/admission" element={<Admission />}>
       </Route>
       <Route element={<ProtectedRoute rol={['Enfermero']} />}>
         <Route path="/control-panel/triage" element={<ControlPanelTriage />} />
@@ -61,9 +61,6 @@ export const router = createBrowserRouter(
         <Route path="/consultation/:type/:value" element={<DashboardConsulta />} />
         <Route path="/consultation/:id" element={<Consultation />} />
         <Route path="/control-panel/consultation" element={<ControlPanelConsult />} />
-        <Route path="/patientsHistory" element={<PatientsHistory />} />
-        <Route path="/patientsHistory/:id" element={<PatientsHistoryDetail />} />
-        <Route path="/test-result/:id_income" element={<TestResult />} />
       </Route>
       <Route element={<ProtectedRoute rol={['Médico', 'Enfermero']} />}>
         <Route path="/patientsHistory" element={<PatientsHistory />} />

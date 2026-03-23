@@ -29,6 +29,16 @@ export const DashboardConsulta = () => {
             income.patient_dni?.toLowerCase().includes(searchPatient)
         )
     })
+    const f = filtered
+        .filter(income => {
+            if (income.state === 'Esperando consulta' && (valueSelect == 'select' || valueSelect == '')) return true
+            if (typeSelect === 'patient' && valueSelect === 'all') return income.state === 'Esperando consulta'
+            if (income.state === 'Esperando consulta' && (typeSelect == 'urgency' && valueSelect == 'control')) return income.triage_priority === 1 || income.triage_priority === 2
+        })
+        .sort((a, b) => {
+            if (type === 'task' && value === 'next') { return (a.id - b.id) }
+            return 0;
+        })
 
     const handleTypeSelect = (e) => {
         setTypeSelect(e.target.value)
@@ -155,18 +165,15 @@ export const DashboardConsulta = () => {
                                 <SortableContext items={store.incomes.map(income => income.id)} strategy={verticalListSortingStrategy}>
                                     <tbody className="list">
                                         {
-                                            filtered
-                                                .filter(income => {
-                                                    if (income.state === 'Esperando consulta' && (valueSelect == 'select' || valueSelect == '')) return true
-                                                    if (typeSelect === 'patient' && valueSelect === 'all') return income.state === 'Esperando consulta'
-                                                    if (income.state === 'Esperando consulta' && (typeSelect == 'urgency' && valueSelect == 'control')) return income.triage_priority === 1 || income.triage_priority === 2
-                                                })
-                                                .sort((a, b) => {
-                                                    if (type === 'task' && value === 'next') { return (a.id - b.id) }
-                                                    return 0;
-                                                })
-                                                .map((income) =>
+                                            f.length > 0 ?
+                                                f.map((income) =>
                                                     < RowConsult key={income.id} id={income.id} income={income} />
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="7">
+                                                            No hay registros
+                                                        </td>
+                                                    </tr>
                                                 )
                                         }
                                     </tbody>

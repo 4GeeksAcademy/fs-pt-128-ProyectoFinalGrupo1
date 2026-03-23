@@ -20,11 +20,17 @@ export const login = async (user, navigate, dispatch) => {
   const rol = localStorage.getItem("rol");
 
   navigate(
-    rol === "Administrativo" ? "/admission"
-    : rol === "Enfermero" ? "/control-panel/triage"
-    : rol === "Médico" ? "/control-panel/consultation"
-    : rol === "Admin" ? "/register-user"
-    : rol === "Técnico" ? "/medical-test" : "/",
+    rol === "Administrativo"
+      ? "/admission"
+      : rol === "Enfermero"
+        ? "/control-panel/triage"
+        : rol === "Médico"
+          ? "/control-panel/consultation"
+          : rol === "Admin"
+            ? "/register-user"
+            : rol === "Técnico"
+              ? "/medical-test"
+              : "/",
   );
   return data;
 };
@@ -86,9 +92,11 @@ export const getIncomes = async (dispatch) => {
 
   if (response.ok) {
     dispatch({ type: "get_incomes", payload: data });
+    dispatch({ type: "get_incomes_alta", payload: data });
     return;
   } else {
     dispatch({ type: "get_incomes", payload: [] });
+    dispatch({ type: "get_incomes_alta", payload: [] });
     return data;
   }
 };
@@ -394,7 +402,7 @@ export const getProfile = async (dispatch) => {
   if (!response.ok) {
     return false;
   }
-  
+
   const profile = {
     email: localStorage.setItem("email", data.email),
     firstname: localStorage.setItem("firstname", data.firstname),

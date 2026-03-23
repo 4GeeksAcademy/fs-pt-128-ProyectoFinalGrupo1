@@ -52,12 +52,12 @@ export const Login = () => {
     return (
         <div style={{ maxHeight: "100vh" }}>
             <div className="border-bottom mt-1 d-flex align-items-center w-100 mb-4" style={{ height: '53px' }} >
-                <i className="fa-solid fa-staff-snake align-middle fs-3"></i>
+                <i className="fa-solid fa-staff-snake align-middle fs-3 me-2"></i>
                 <h2 className="title w-100 text-start m-0 align-middle fs-6">Sistema Médico</h2>
             </div>
-            <div className="container d-flex justify-content-center mt-5">
+            <div className="container d-flex justify-content-center">
                 <div
-                    className="container d-flex justify-content-center mt-5"
+                    className="container d-flex justify-content-center"
                     style={{
                         color: "var(--primaryText)",
                         backgroundColor: "transparent",

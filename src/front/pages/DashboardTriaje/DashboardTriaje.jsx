@@ -31,6 +31,22 @@ export const DashboardTriaje = () => {
             income.patient_dni?.toLowerCase().includes(searchPatient)
         )
     })
+    const f = filtered
+        .filter(income => {
+            if (typeSelect === 'historial' && valueSelect === 'all')
+                return income.state === 'Esperando consulta' && (new Date() - new Date(income.created_at)) / 60000 < 720
+            if (typeSelect === 'patient' && valueSelect === 'all') return income.state === 'En espera de triaje'
+            if (typeSelect == 'task' && valueSelect == 'next') return income.state === 'En espera de triaje'
+            if (valueSelect === 'select' || valueSelect === '' || !valueSelect)
+                return income.state === 'En espera de triaje'
+            if (income.state === 'En espera de triaje' && (typeSelect == 'urgency' && valueSelect == 'control')) return income.triage_priority == 1 || income.triage_priority == 2
+            if (typeSelect == 'urgency' && income.state === 'En espera de triaje') return income.triage_priority == valueSelect
+            return false
+        })
+        .sort((a, b) => {
+            if (type === 'task' && value === 'next') { return (a.id - b.id) }
+            return 0;
+        })
 
     const handleTypeSelect = (e) => {
         setTypeSelect(e.target.value)
@@ -71,14 +87,14 @@ export const DashboardTriaje = () => {
         }
     }
 
-      
 
- 
+
+
     useEffect(() => {
         loadPatients()
         const interval = setTimeout(() => {
             loadPatients()
-        },30000)
+        }, 30000)
         return () => clearInterval(interval)
     }, [dispatch])
     useEffect(() => {
@@ -159,24 +175,16 @@ export const DashboardTriaje = () => {
                                 <SortableContext items={store.incomes.map(income => income.id)} strategy={verticalListSortingStrategy}>
                                     <tbody className="list">
                                         {
-                                            filtered
-                                                .filter(income => {
-                                                    if (typeSelect === 'historial' && valueSelect === 'all')
-                                                        return income.state === 'Esperando consulta' && (new Date() - new Date(income.created_at)) / 60000 < 720
-                                                    if (typeSelect === 'patient' && valueSelect === 'all') return income.state === 'En espera de triaje'
-                                                    if (typeSelect == 'task' && valueSelect == 'next') return income.state === 'En espera de triaje'
-                                                    if (valueSelect === 'select' || valueSelect === '' || !valueSelect)
-                                                        return income.state === 'En espera de triaje'
-                                                    if (income.state === 'En espera de triaje' && (typeSelect == 'urgency' && valueSelect == 'control')) return income.triage_priority == 1 || income.triage_priority == 2
-                                                    if (typeSelect == 'urgency' && income.state === 'En espera de triaje') return income.triage_priority == valueSelect
-                                                    return false
-                                                })
-                                                .sort((a, b) => {
-                                                    if (type === 'task' && value === 'next') { return (a.id - b.id) }
-                                                    return 0;
-                                                })
-                                                .map((income) =>
-                                                    < SortableRow key={income.id} id={income.id} income={income} />
+                                            f.length > 0 ?
+                                                f
+                                                    .map((income) =>
+                                                        < SortableRow key={income.id} id={income.id} income={income} />
+                                                    ) : (
+                                                    <tr>
+                                                        <td colSpan="6">
+                                                            No hay registros
+                                                        </td>
+                                                    </tr>
                                                 )
                                         }
                                     </tbody>

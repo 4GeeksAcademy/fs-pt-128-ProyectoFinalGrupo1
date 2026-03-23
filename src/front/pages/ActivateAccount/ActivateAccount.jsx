@@ -60,7 +60,7 @@ export const ActivateAccount = () => {
     return (
         <div className="container-fluid d-flex flex-column justify-content-center align-items-center bg-white" style={{ maxHeight: '100vh' }}>
             <div className="border-bottom mt-1 d-flex align-items-center w-100 mb-4" style={{ height: '53px' }} >
-                <i className="fa-solid fa-staff-snake align-middle fs-3"></i>
+                <i className="fa-solid fa-staff-snake align-middle fs-3 me-2"></i>
                 <h2 className="title w-100 text-start m-0 align-middle fs-6">Sistema Médico</h2>
             </div>
             <div className="d-flex flex-column align-items-center justify-content-center bg-light shadow rounded bg-color mt-3 mb-3 rounded g-1"

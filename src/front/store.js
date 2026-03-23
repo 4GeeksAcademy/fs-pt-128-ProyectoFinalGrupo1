@@ -18,6 +18,7 @@ export const initialStore = () => {
     patients: [],
     patient: {},
     incomes: [],
+    incomesAlta: [],
     income: {},
     order: {},
     orders: [],
@@ -70,6 +71,12 @@ export default function storeReducer(store, action = {}) {
             return (new Date() - new Date(i.created_at)) / 60000 < 720;
           return true;
         }),
+      };
+    case "get_incomes_alta":
+      const alta = Array.isArray(action.payload) ? action.payload : [];
+      return {
+        ...store,
+        incomesAlta: alta.filter((i) => i.state === "Alta"),
       };
 
     case "get_income":
