@@ -33,7 +33,7 @@ export const DashboardConsulta = () => {
         .filter(income => {
             if (income.state === 'Esperando consulta' && (valueSelect == 'select' || valueSelect == '')) return true
             if (typeSelect === 'patient' && valueSelect === 'all') return income.state === 'Esperando consulta'
-            if (income.state === 'Esperando consulta' && (typeSelect == 'urgency' && valueSelect == 'control')) return income.triage_priority === 1 || income.triage_priority === 2
+            if (income.state === 'Esperando consulta' && (typeSelect == 'urgency' && valueSelect == 'control')) return income.triage_priority == 1 || income.triage_priority == 2
             if (typeSelect == urgency) return income.triage_priority == valueSelect
             return true
         })
