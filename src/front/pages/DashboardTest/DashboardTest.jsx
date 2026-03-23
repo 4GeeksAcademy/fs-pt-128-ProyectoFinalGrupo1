@@ -36,7 +36,7 @@ export const DashboardTest = () => {
 
     const f = filtered.filter(test => {
 
-        if ((store.incomes?.find(i => i.id == test.income_id)?.state == 'Alta') && test.status == 'Finalizado') return false
+        if (store.incomes?.find(i => i.id == test.income_id)?.state == 'Alta') return false
 
         if (test.status === 'Finalizado' && valueSelect !== 'finalizado') {
             return false;
@@ -50,7 +50,6 @@ export const DashboardTest = () => {
         if (valueSelect === 'select' || valueSelect === '' || !valueSelect) {
             return true;
         }
-
         if (typeSelect === 'urgency' && valueSelect === 'control') {
             return test.urgency == 1 || test.urgency == 2;
         }

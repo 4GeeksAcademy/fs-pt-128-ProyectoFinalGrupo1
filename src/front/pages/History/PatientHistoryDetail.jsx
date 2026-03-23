@@ -16,7 +16,6 @@ export const PatientsHistoryDetail = () => {
     const { id } = useParams()
     const { store, dispatch } = useGlobalReducer()
     const [incomes, setIncomes] = useState([])
-    const [visibleOrderId, setVisibleOrderId] = useState(null);
     const [loading, setLoading] = useState(true);
 
 
@@ -50,9 +49,18 @@ export const PatientsHistoryDetail = () => {
             <div className="border-bottom mt-2 d-flex align-items-center" style={{ height: '53px' }} >
                 <h2 className="title w-100 text-start fs-6">Control de historial de ingreso</h2>
             </div>
-            <div className="d-flex flex-column container-fluid mt-2 ">
-                <h2 className="title w-100 text-start fs-3">Historial</h2>
-                <p>Historiales de ingreso del paciente</p>
+            <div className="d-flex justify-content-between container-fluid mt-2 ">
+                <div className="d-flex flex-flex">
+                    <h2 className="title w-100 text-start fs-3">Historial</h2>
+                    <p>Historiales de ingreso del paciente</p>
+                </div>
+                <div>
+                    <Link to={'/patientsHistory'}>
+                        <button className="btn btn-dark">
+                            <i class="fa-solid fa-arrow-left me-2"></i> Volver
+                        </button>
+                    </Link>
+                </div>
             </div>
             <div className="container mt-5">
                 <PatientCardW
@@ -61,8 +69,7 @@ export const PatientsHistoryDetail = () => {
                     patient_lastname={store.patient.lastname}
                     patient_birthdate={store.patient.birthdate}
                     patient_allergies={store.patient.allergies}
-                    patient_gender={store.patient.gender}
-                ></PatientCardW>
+                    patient_gender={store.patient.gender} />
 
 
                 <h3 className="title w-100 mt-5 mb-3 text-center">Ingresos</h3>
@@ -106,11 +113,6 @@ export const PatientsHistoryDetail = () => {
                             </div>
                         )
                 }
-
-
-
-
-
             </div>
         </>
     );
