@@ -33,15 +33,15 @@ export const DashboardTest = () => {
         );
     });
 
-
     const f = filtered.filter(test => {
 
-        if (store.incomes?.find(i => i.id == test.income_id)?.state == 'Alta') return false
+        if (store.incomesAlta?.find(i => i.id == test.income_id)) return false
 
         if (test.status === 'Finalizado' && valueSelect !== 'finalizado') {
             return false;
         }
         if (test.status === "Finalizado" && (typeSelect == 'status' && valueSelect == 'finalizado')) {
+            if (store.incomesAlta?.find(i => i.id == test.income_id)) return false
             return true;
         }
         if (test.status === "Solicitada" && (typeSelect == 'status' && valueSelect == 'solicitada')) {
