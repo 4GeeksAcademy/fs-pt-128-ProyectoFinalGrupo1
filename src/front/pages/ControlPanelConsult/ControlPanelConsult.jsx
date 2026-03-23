@@ -30,7 +30,7 @@ export const ControlPanelConsult = () => {
         getIncomeTest(dispatch)
         loadPatients()
     }, [])
-    console.log(store.incomes)
+  
     return (
         <div>
             <div className="border-bottom mt-2 d-flex align-items-center" style={{ height: '53px' }} >

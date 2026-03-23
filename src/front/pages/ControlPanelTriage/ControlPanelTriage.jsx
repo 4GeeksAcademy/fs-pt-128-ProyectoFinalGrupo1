@@ -43,6 +43,7 @@ export const ControlPanelTriage = () => {
         return () => clearInterval(interval)
     }, [])
 
+
     return (
         <div>
             {isLoading ? (
