@@ -4,6 +4,7 @@ import { Navbar } from "../components/Navbar/Navbar"
 import { useLocation } from "react-router-dom/dist"
 import { useEffect, useState } from "react"
 import { SpinnerLoad } from "../components/Spinner/SpinnerLoad"
+import { getProfile } from "../APIServices/BACKENDservices"
 // Base component that maintains the navbar and footer throughout the page and the scroll to top functionality.
 export const Layout = () => {
     const location = useLocation();
@@ -21,6 +22,7 @@ export const Layout = () => {
 
     useEffect(() => {
         if (!publicRoutes.includes(location.pathname)) {
+            getProfile(dispatch)
             if (!localStorage.getItem("token")) {
                 setLoading(true)
                 setTimeout(() => {
