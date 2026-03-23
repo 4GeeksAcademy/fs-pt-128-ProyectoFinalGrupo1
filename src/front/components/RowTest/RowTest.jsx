@@ -31,7 +31,7 @@ export const RowTest = ({ test }) => {
             <td className="text-break bg-transparent ">
                 {test.status}</td>
             <td className="w-auto text-nowrap bg-transparent">
-                {rol === 'Técnico' ? <Link to={`/test-form/${test.income_id}/${test.id}`}>
+                {store.profile?.rol == 'Técnico' ? <Link to={`/test-form/${test.income_id}/${test.id}`}>
                     <button className="btn btn-custom-table bg-transparent border-0 p-0">
                         Ficha paciente
                     </button>
