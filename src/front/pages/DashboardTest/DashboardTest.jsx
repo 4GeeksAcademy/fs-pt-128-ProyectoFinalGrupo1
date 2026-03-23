@@ -36,7 +36,7 @@ export const DashboardTest = () => {
 
     const f = filtered.filter(test => {
 
-        if (store.incomes?.find(i => i.id == test.income_id)?.state == 'Alta') return false
+        if (store.incomesAlta?.find(i => i.id == test.income_id)) return false
 
         if (test.status === 'Finalizado' && valueSelect !== 'finalizado') {
             return false;
