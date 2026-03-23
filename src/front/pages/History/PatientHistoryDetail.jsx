@@ -78,7 +78,7 @@ export const PatientsHistoryDetail = () => {
                                         </div>
                                         <TriageCard valoration_triage={income.valoration_triage} nurse={income.nurse} />
                                         <div className="container">
-                                            <div className="border rounded mt-2 mb-2 container w-100 consultation-container">
+                                            <div className="mt-2 mb-2 container w-100 consultation-container">
                                                 <h2 className=" mt-1 fs-5 fw-semibold title">Pruebas:</h2>
                                                 <div className="mt-2 mb-2 d-flex container">
                                                     <p className="mb-0 me-2">Pruebas realizadas</p>
@@ -87,11 +87,11 @@ export const PatientsHistoryDetail = () => {
                                             </div>
                                         </div>
                                         <div className="container">
-                                            <div className="mt-2 mb-2 d-flex container">
+                                            <div className="mt-2 mb-2 d-flex flex-column container">
                                                 <h2 className="mt-1 fs-5 fw-semibold">Diagnóstico:  </h2>
-                                                <p className="border border bg-white shadow-sm rounded mt-2 mb-2 d-flex container">{income.diagnosis == null ? 'No ha recibido un diagnóstico' : income.diagnosis}</p>
+                                                <p className="mt-2 mb-2 d-flex container">{income.diagnosis == null ? 'No ha recibido un diagnóstico' : income.diagnosis}</p>
                                                 <h2 className="mt-1 fs-5 fw-semibold">Tratamiento a seguir:  </h2>
-                                                <p className="border border bg-white shadow-sm rounded mt-2 mb-2 d-flex container">{income.treatment == null ? 'No ha recibido un diagnóstico' : income.treatment}</p>
+                                                <p className="mt-2 mb-2 d-flex container">{income.treatment == null ? 'No ha recibido un diagnóstico' : income.treatment}</p>
                                             </div>
                                         </div>
                                     </div>
