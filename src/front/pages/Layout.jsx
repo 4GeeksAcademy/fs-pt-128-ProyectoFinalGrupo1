@@ -7,10 +7,10 @@ import { SpinnerLoad } from "../components/Spinner/SpinnerLoad"
 // Base component that maintains the navbar and footer throughout the page and the scroll to top functionality.
 export const Layout = () => {
     const location = useLocation();
-    
+
     const excludedRoutes = ["/", "/activate", "/signup"];
     //Se pueden escribir ↓aqui↓ las rutas a las que se quiere acceder sin token para pruebas
-    const publicRoutes = ["/", "/signup", "/activate" ]
+    const publicRoutes = ["/", "/signup", "/activate"]
     const showNavbar = !excludedRoutes.includes(location.pathname);
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
@@ -27,7 +27,7 @@ export const Layout = () => {
                     navigate("/")
                     setLoading(false)
                 }, 2000)
-            } 
+            }
         }
     }, [location.pathname])
     return loading ?
@@ -56,7 +56,7 @@ export const Layout = () => {
                                 <h1 className="modal-title fs-5" id="ModalLabel">¿Cerrar sesión?</h1>
                             </div>
                             <div className="modal-footer d-flex justify-content-center">
-                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Volver</button>
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
                                 <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={logOut}>Cerrar sesión</button>
                             </div>
                         </div>

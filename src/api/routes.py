@@ -180,7 +180,7 @@ def register():
     new_user = User(
         firstname="Admin",
         email=data.get("email"),
-        rol="admin",
+        rol="Admin",
         is_active=True
     )
 
