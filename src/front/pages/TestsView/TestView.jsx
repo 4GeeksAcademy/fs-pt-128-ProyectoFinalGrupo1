@@ -2,8 +2,6 @@ import { useEffect, useState } from "react"
 import useGlobalReducer from "../../hooks/useGlobalReducer"
 import { useParams } from "react-router-dom"
 import { changeStatus, getIncome, getIncomeTest } from "../../APIServices/BACKENDservices"
-import { PatientCardW } from "../../components/PatientCardW/PatientCardW"
-import { SpinnerButton } from "../../components/Spinner/SpinnerButton"
 import { ValidationTestData } from "../../components/ValidationTestCard/ValidationTestCard"
 import { ExecutationAndDocu } from "../../components/ExecutationAndDocu/ExecutationAndDocu"
 import { DocuTestCheck } from "../../components/DocuTestCheck/DocuTestCheck"
@@ -16,7 +14,7 @@ export const TestView = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
     const test = store.test.filter(t => t.id == id)[0]
- 
+
 
     const loadData = async () => {
         setIsLoading(true)

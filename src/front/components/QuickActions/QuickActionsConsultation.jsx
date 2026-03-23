@@ -71,13 +71,13 @@ export const QuickActionsConsultation = ({ criticalPacients }) => {
                             store.test?.filter(t => {
                                 if (t.status !== 'Finalizado') return false
                                 const income = store.incomesAlta?.find(i => i.id == t.income_id)
-                                return income?.state == 'Alta'
+                                return income?.state !== 'Alta'
                             }).length > 0 &&
                             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 {store.test?.filter(t => {
                                     if (t.status !== 'Finalizado') return false
                                     const income = store.incomesAlta?.find(i => i.id == t.income_id)
-                                    return income?.state == 'Alta'
+                                    return income?.state !== 'Alta'
                                 }).length}
                             </span>
                         }
