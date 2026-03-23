@@ -23,7 +23,7 @@ export const login = async (user, navigate, dispatch) => {
     rol === "Administrativo" ? "/admission"
     : rol === "Enfermero" ? "/control-panel/triage"
     : rol === "Médico" ? "/control-panel/consultation"
-    : rol === "admin" ? "/register-user"
+    : rol === "Admin" ? "/register-user"
     : rol === "Técnico" ? "/medical-test" : "/",
   );
   return data;
