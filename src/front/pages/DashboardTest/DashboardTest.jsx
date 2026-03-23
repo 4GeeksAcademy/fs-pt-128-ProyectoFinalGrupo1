@@ -33,7 +33,7 @@ export const DashboardTest = () => {
         );
     });
 
-   
+
     const f = filtered.filter(test => {
 
         if ((store.incomes?.find(i => i.id == test.income_id)?.state == 'Alta') && test.status == 'Finalizado') return false
@@ -124,7 +124,7 @@ export const DashboardTest = () => {
                             <option value="2">Emergencia</option>
                             <option value="3">Urgente</option>
                             <option value="4">No urgente</option>
-                            <option value="4">No urgente</option>
+                            <option value="5">Control</option>
                         </select>
                     }
                     {
@@ -168,10 +168,9 @@ export const DashboardTest = () => {
                                     <RowTest key={test.id} test={test} />
                                 ) : <tr>
                                     <td colSpan="5">
-                                        No hay resultados para este filtro
+                                        No hay registros
                                     </td>
                                 </tr>
-
                         }
                     </tbody>
 

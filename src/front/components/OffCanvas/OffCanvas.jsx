@@ -41,7 +41,7 @@ export const OffCanvas = ({ handlerChangeOrders, orders }) => {
                                             tests.items
                                                 .map((item, index) =>
 
-                                                    <div key={index} className="div-check m-1">
+                                                    <div key={index} className="div-check m-1" style={{ cursor: 'pointer' }}>
                                                         <input className="div-check-input mx-1" type="checkbox"
                                                             value=""
                                                             name={item} id={item}
