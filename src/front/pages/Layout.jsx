@@ -5,10 +5,11 @@ import { useLocation } from "react-router-dom/dist"
 import { useEffect, useState } from "react"
 import { SpinnerLoad } from "../components/Spinner/SpinnerLoad"
 import { getProfile } from "../APIServices/BACKENDservices"
+import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
 // Base component that maintains the navbar and footer throughout the page and the scroll to top functionality.
 export const Layout = () => {
     const location = useLocation();
-
+    const {store,dispatch} = useGlobalReducer()
     const excludedRoutes = ["/", "/activate", "/signup"];
     //Se pueden escribir ↓aqui↓ las rutas a las que se quiere acceder sin token para pruebas
     const publicRoutes = ["/", "/signup", "/activate"]
