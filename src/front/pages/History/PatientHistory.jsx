@@ -34,7 +34,7 @@ export const PatientsHistory = () => {
             <div className="container-fluid">
                 <h1 className="title w-100 text-start fs-3 mt-2">Historial de paciente en alta</h1>
                 <p>Gestión de historial de pacientes dados de alta</p>
-                <div className="container d-flex justify-content-center mb-2 align-items-center">
+                <div className="container d-flex flex-column align-items-center justify-content-center mb-2 align-items-center">
 
                     <form className="d-flex flex-column justify-content-center align-items-center" >
                         <div className="mb-3">

@@ -61,6 +61,7 @@ export const PatientsHistoryDetail = () => {
                     patient_lastname={store.patient.lastname}
                     patient_birthdate={store.patient.birthdate}
                     patient_allergies={store.patient.allergies}
+                    patient_gender={store.patient.gender}
                 ></PatientCardW>
 
 
@@ -78,12 +79,12 @@ export const PatientsHistoryDetail = () => {
                                         <TriageCard valoration_triage={income.valoration_triage} nurse={income.nurse} />
                                         <div className="container">
                                             <div className="border rounded mt-2 mb-2 container w-100 consultation-container">
-                                            <h2 className=" mt-1 fs-5 fw-semibold title">Pruebas:</h2>
-                                            <div className="mt-2 mb-2 d-flex container">
-                                                <p className="mb-0 me-2">Pruebas realizadas</p>
-                                                <Link to={`/test-result/${income.id}`} className='link-underline-dark text-dark fw-semibold'>Ver resultados</Link>
+                                                <h2 className=" mt-1 fs-5 fw-semibold title">Pruebas:</h2>
+                                                <div className="mt-2 mb-2 d-flex container">
+                                                    <p className="mb-0 me-2">Pruebas realizadas</p>
+                                                    <Link to={`/test-result/${income.id}`} className='link-underline-dark text-dark fw-semibold'>Ver resultados</Link>
+                                                </div>
                                             </div>
-                                        </div>
                                         </div>
                                         <div className="container">
                                             <div className="mt-2 mb-2 d-flex container">
