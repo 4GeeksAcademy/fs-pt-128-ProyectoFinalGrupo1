@@ -60,6 +60,7 @@
 		"@dnd-kit/sortable": "^10.0.0",
 		"@dnd-kit/utilities": "^3.2.2",
 		"bootstrap": "^5.3.8",
+		"jwt-decode": "^4.0.0",
 		"prop-types": "^15.8.1",
 		"react": "^18.2.0",
 		"react-bootstrap": "^2.10.10",

@@ -69,7 +69,7 @@ export const DashboardConsulta = () => {
             await loadNewOrder(orderedIds)
         }
     }
-    console.log(store.incomes)
+
 
     useEffect(() => {
         loadPatients()

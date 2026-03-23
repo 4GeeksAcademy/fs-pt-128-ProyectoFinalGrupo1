@@ -13,7 +13,7 @@ export const RowTest = ({ test }) => {
         borderRightColor: priorityColor,
         boxShadow: `inset 15px 0 70px -15px ${priorityColor}, inset 0 0 5px rgba(0,0,0,0.05)`,
     };
-    console.log(test);
+
 
     return (
         <tr className="color-primary medical-row row-test"

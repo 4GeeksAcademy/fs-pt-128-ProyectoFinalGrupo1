@@ -1,5 +1,5 @@
 // region:login
-export const login = async (user, navigate) => {
+export const login = async (user, navigate, dispatch) => {
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/login`,
     {
@@ -16,7 +16,7 @@ export const login = async (user, navigate) => {
     return data;
   }
   localStorage.setItem("token", data.token);
-  const profile = await getProfile();
+  await getProfile(dispatch);
   const rol = localStorage.getItem("rol");
 
   navigate(
@@ -386,7 +386,7 @@ export const getIncomeTest = async (dispatch) => {
   }
 };
 
-export const getProfile = async () => {
+export const getProfile = async (dispatch) => {
   const token = localStorage.getItem("token");
   const response = await fetch(
     `${import.meta.env.VITE_BACKEND_URL}/api/profile`,
@@ -400,12 +400,15 @@ export const getProfile = async () => {
   if (!response.ok) {
     return false;
   }
-  console.log(data);
-
-  localStorage.setItem("email", data.email);
-  localStorage.setItem("firstname", data.firstname);
-  localStorage.setItem("lastname", data.lastname);
-  localStorage.setItem("rol", data.rol);
+  
+  const profile = {
+    email: localStorage.setItem("email", data.email),
+    firstname: localStorage.setItem("firstname", data.firstname),
+    lastname: localStorage.setItem("lastname", data.lastname),
+    rol: localStorage.setItem("rol", data.rol),
+  };
+  console.log(typeof dispatch);
+  dispatch({ type: "set_profile", payload: data });
 };
 export const changeStatus = async (id, status) => {
   const token = localStorage.getItem("token");

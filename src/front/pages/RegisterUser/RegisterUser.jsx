@@ -6,7 +6,7 @@ import useGlobalReducer from "../../hooks/useGlobalReducer"
 
 export const RegisterUser = () => {
     const { store, dispatch } = useGlobalReducer();
-    console.log(store.users)
+    
     useEffect(() => {
         getUser(dispatch)
     }, [])

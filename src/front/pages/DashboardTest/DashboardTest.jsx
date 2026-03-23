@@ -33,8 +33,7 @@ export const DashboardTest = () => {
         );
     });
 
-    console.log(store.test)
-    console.log(store.incomes)
+   
     const f = filtered.filter(test => {
 
         if ((store.incomes?.find(i => i.id == test.income_id)?.state == 'Alta') && test.status == 'Finalizado') return false

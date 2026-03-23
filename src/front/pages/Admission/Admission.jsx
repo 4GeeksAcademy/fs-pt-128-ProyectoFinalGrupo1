@@ -59,7 +59,7 @@ export const Admission = () => {
     // region:handleSubmit
     const handleSubmit = async (e) => {
         setError(null)
-        console.log(admission);
+      
         e.preventDefault()
         if (!admission.dni || !admission.firstname || !admission.lastname || !admission.birthdate || !income.visitreason || !income.priority || !admission.gender) {
             setError("Todos los campos son obligatorios")
@@ -91,7 +91,7 @@ export const Admission = () => {
             }, 3000);
         }
     }
-    console.log(admission)
+  
     // region:handlePrio
     const handlePrio = (e) => {
         e.preventDefault()

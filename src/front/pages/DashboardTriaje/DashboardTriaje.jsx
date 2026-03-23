@@ -69,8 +69,7 @@ export const DashboardTriaje = () => {
         setIsLoading(false)
     }
 
-    console.log(typeSelect)
-    console.log(valueSelect)
+ 
     useEffect(() => {
         loadPatients()
         if (type && value) {

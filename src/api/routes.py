@@ -221,7 +221,8 @@ def login():
         return jsonify({'Error': 'Datos incorrectos'}), 400
 
     if user.check_hash(password):
-        acces_token = create_access_token(identity=str(user.id))
+        acces_token = create_access_token(identity=str(
+            user.id), additional_claims={"rol": user.rol})
         return jsonify({
             'Info': 'Inicio de sesión correcto',
             'token': acces_token

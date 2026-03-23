@@ -39,7 +39,7 @@ export const ControlPanelTriage = () => {
     }, [])
 
 
-    console.log(store.income)
+    
     return (
         <div>
             <div className="border-bottom mt-2 d-flex align-items-center" style={{ height: '53px' }} >

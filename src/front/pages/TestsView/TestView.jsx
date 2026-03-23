@@ -16,7 +16,7 @@ export const TestView = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState('')
     const test = store.test.filter(t => t.id == id)[0]
-    console.log(test);
+ 
 
     const loadData = async () => {
         setIsLoading(true)
