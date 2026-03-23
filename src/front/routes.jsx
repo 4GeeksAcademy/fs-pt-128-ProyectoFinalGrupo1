@@ -45,9 +45,9 @@ export const router = createBrowserRouter(
       <Route path="/single/:theId" element={<Single />} />  {/* Dynamic route for single items */}
       <Route path="/demo" element={<Demo />} />
       <Route element={<ProtectedRoute rol={['Admin']} />}>
-        <Route path="/register-user" element={<RegisterUser />}>
+        <Route path="/register-user" element={<RegisterUser />}/>
       </Route>
-        <Route element={<ProtectedRoute rol={['Administrativo']} />}>
+      <Route element={<ProtectedRoute rol={['Administrativo']} />}/>
         <Route path="/admission" element={<Admission />}>
       </Route>
       <Route element={<ProtectedRoute rol={['Enfermero']} />}>
