@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { useNavigate, useParams } from "react-router-dom"
 import useGlobalReducer from "../hooks/useGlobalReducer"
 import { useEffect } from "react"
@@ -23,8 +24,19 @@ export const TestResult = () => {
                 <h2 className="title w-100 text-start fs-6">Resultados de la prueba</h2>
             </div>
             <div className="container-fluid mt-3 container-table" style={{ maxHeight: "80vh", overflowX: "hidden", overflowY: "auto", maxWidht: '100%' }} >
-                <h1 className="title w-100 text-start fs-3 mt-1 d-flex">Resultados de la prueba</h1>
-                <p>Resultado de la prueba realizada al paciente</p>
+                <div className="d-flex justify-content-between">
+                    <div>
+                        <h1 className="title w-100 text-start fs-3 mt-1 d-flex">Resultados de la prueba</h1>
+                        <p>Resultado de la prueba realizada al paciente</p>
+                    </div>
+                    <div className="w-50 text-end me-3">
+                        <Link to={`/consultation/${store.income.id}`}>
+                            <button className="btn btn-sm btn-dark">
+                                <i class="fa-solid fa-arrow-left-long me-2"></i>Atrás
+                            </button>
+                        </Link>
+                    </div>
+                </div>
             </div>
             <div className="container">
                 <PatientCardW width={'w-100'}
@@ -43,24 +55,21 @@ export const TestResult = () => {
                                 <div key={order.id}>
 
                                     <div className='border border-secondary rounded me-1 mt-2 container consultation-container w-100'>
-                                        <h2 className="title fs-3 mt-3">Tipo de analitica realizada</h2>
-                                        <p className="title fs-5">{order.order_type}</p>
-                                    </div>
-                                    <div className='border border-secondary rounded me-1 mt-2 container consultation-container w-100'>
+                                        <h2 className="title fs-4 mt-3">Tipo de analitica realizada</h2>
+                                        <p className=" fs-5">{order.order_type}</p>
                                         <h2 className="title fs-4 mt-3">Observaciones anotadas durante la prueba:</h2>
-                                        <div className="bg-white rounded shadow px-2">
-                                            <p className="title fs-5">{order.observations}</p>
+                                        <div className="px-2">
+                                            <p className="fs-5">{order.observations}</p>
                                         </div>
 
                                         <h2 className="title fs-4 mt-3">Incidencias transcurridas en la prueba:</h2>
-                                        <div className="bg-white rounded shadow px-2">
-                                            <p className="title fs-5">{order.incidents}</p>
+                                        <div className="px-2">
+                                            <p className="fs-5">{order.incidents}</p>
                                         </div>
                                         <div className="d-flex container justify-content-center mt-2 mb-2">
                                             <a href={order.results} target="_blank" rel="noopener noreferrer" className="btn btn-dark">Ver resultados</a>
                                         </div>
                                     </div>
-
                                 </div>
                             </>
                         )

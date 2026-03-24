@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { getIncomeTest, postOrders } from "../../APIServices/BACKENDservices"
 import useGlobalReducer from "../../hooks/useGlobalReducer"
-import { SpinnerLoad } from "../../components/Spinner/SpinnerLoad"
 import './MedicalTest.css'
 import { countRequested } from "../../utils/countRequest"
 import { StateBtn } from "../../components/StateBtn/StateBtn"
@@ -15,7 +14,6 @@ import { isRecentEnough } from "../../utils/isRecentEnough"
 export const MedicalTest = () => {
     const { store, dispatch } = useGlobalReducer()
     const [btn, setBtn] = useState('StateBtn')
-
     const criticalPacient1 = store.test.filter(t => { if (Number(t.urgency) === 1 && t.status !== 'Finalizado') return true }).length
     const criticalPacient2 = store.test.filter(t => { if (Number(t.urgency) === 2 && t.status !== 'Finalizado') return true }).length
     const criticalPacient = criticalPacient1 + criticalPacient2
@@ -83,15 +81,22 @@ export const MedicalTest = () => {
                                 onClick={() => setBtn('SpecialtyBtn')}>Especialidades</button>
                         </div>
                         <div className="">
-                            {
-                                btn === 'StateBtn' && <StateBtn test={store.test} />
-                            }
-                            {
-                                btn === 'UrgencyBtn' && <UrgencyBtn urgency={store.test.urgency} test={store.test} />
-                            }
-                            {
-                                btn === 'SpecialtyBtn' && <SpecialtyBtn test={store.test} />
-                            }
+                            {store.test > 0 ?
+                                (<div>
+                                    {
+                                        btn === 'StateBtn' && <StateBtn test={store.test} />
+                                    }
+                                    {
+                                        btn === 'UrgencyBtn' && <UrgencyBtn urgency={store.test.urgency} test={store.test} />
+                                    }
+                                    {
+                                        btn === 'SpecialtyBtn' && <SpecialtyBtn test={store.test} />
+                                    }
+                                </div>):
+                                (<div>
+                                    <p className="mb-3 text-uppercase text-center fw-semibold">No hay registros</p>
+                                </div>)
+                                }
                         </div>
 
                     </div>

@@ -16,7 +16,7 @@ export const Consultation = () => {
     const navigate = useNavigate()
     const [consultation, setConsultation] = useState({
         "diagnosis": "",
-        "treament": ""
+        "treatment": ""
     })
     const [updateOrders, setUpdateOrders] = useState(false)
     const reloadData = () => setUpdateOrders(!updateOrders);
@@ -44,7 +44,7 @@ export const Consultation = () => {
     }
     const handlerSubmit = async (e) => {
         e.preventDefault()
-        if (!consultation.diagnosis || !consultation.treament) {
+        if (!consultation.diagnosis || !consultation.treatment) {
             setError("Es necesaria el diagnostico y su tratamiento")
             setLoading(false)
             setInterval(() => {
@@ -119,8 +119,8 @@ export const Consultation = () => {
                                     <h2 className="mt-1 mt-1 fs-5 fw-semibold">Tratamiento</h2>
                                     <textarea
                                         className="form-control rounded-1 mb-2 p-3 shadow bg-body-tertiary rounded"
-                                        name="treament"
-                                        value={consultation.treament}
+                                        name="treatment"
+                                        value={consultation.treatment}
                                         onChange={handlerChange}
                                         id="razonDeConsulta"
                                         rows="4"

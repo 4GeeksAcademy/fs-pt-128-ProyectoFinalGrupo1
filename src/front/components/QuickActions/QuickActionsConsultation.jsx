@@ -5,7 +5,7 @@ import { getIncomeTest } from "../../APIServices/BACKENDservices"
 
 export const QuickActionsConsultation = ({ criticalPacients }) => {
     const { store, dispatch } = useGlobalReducer()
-
+    console.log(store.test)
     useEffect(() => {
         getIncomeTest(dispatch)
     }, [])
@@ -51,7 +51,11 @@ export const QuickActionsConsultation = ({ criticalPacients }) => {
                             <p className="text-muted m-0">Pruebas solicitadas de forma individual para cada especialidad</p>
                         </div>
                         {
-                            store.test.filter(t => t.status == 'Solicitada').length > 0 &&
+                            store.test.filter(t => {
+                                if (t.status !== "Solicitada") return false
+                                const income = store.incomesAlta?.find(i => i.id = t.income_id)
+                                return income?.state == 'Alta'
+                            }).length > 0 &&
                             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 {store.test.filter(t => t.status == 'Solicitada').length}
                             </span>

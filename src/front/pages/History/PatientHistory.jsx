@@ -49,6 +49,7 @@ export const PatientsHistory = () => {
                                 <th scope="col">DNI</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Apellidos</th>
+                                <th scope="col" className="text-center">Resultados</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,7 +62,7 @@ export const PatientsHistory = () => {
                                                     <th scope="row">{patient.dni}</th>
                                                     <td>{patient.firstname}</td>
                                                     <td>{patient.lastname}</td>
-                                                    <td>
+                                                    <td className="text-center">
                                                         <Link to={`/patientsHistory/${patient.dni}`}>
                                                             <button className="btn btn-dark">Ver historial</button>
                                                         </Link>
