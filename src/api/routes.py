@@ -384,13 +384,13 @@ def put_incomes_consult(income_id):
         return jsonify({'error': 'Income not found'}), 404
 
     diagnosis = data.get('diagnosis')
-    treament = data.get('treament')
+    treatment = data.get('treatment')
 
-    if not diagnosis or not treament:
+    if not diagnosis or not treatment:
         return jsonify({'error': 'Diagnosis are required'}), 409
 
     actual_income.diagnosis = diagnosis
-    actual_income.treament = treament
+    actual_income.treatment = treatment
     actual_income.state = "Alta"
 
     db.session.add(actual_income)

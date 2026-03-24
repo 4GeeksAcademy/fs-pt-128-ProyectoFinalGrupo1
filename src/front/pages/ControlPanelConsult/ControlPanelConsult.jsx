@@ -30,7 +30,7 @@ export const ControlPanelConsult = () => {
         getIncomeTest(dispatch)
         loadPatients()
     }, [])
-  
+
     return (
         <div>
             <div className="border-bottom mt-2 d-flex align-items-center" style={{ height: '53px' }} >
@@ -84,11 +84,18 @@ export const ControlPanelConsult = () => {
                                 onClick={() => setBtn('Waiting')}>Lista de espera</button>
                         </div>
                         <div className="">
-                            {btn === 'Waiting' && store.incomes
-                                .filter(income => income.state === 'Esperando consulta')
-                                .slice().reverse().slice(0, 6)
-                                .map(income =>
-                                    <WaitingList key={income.id} income={income} />)}
+                            {store.incomes.filter(i => i.state == 'Esperando consulta').length > 0 ?
+                                (<div>
+
+                                    {btn === 'Waiting' && store.incomes
+                                        .filter(income => income.state === 'Esperando consulta')
+                                        .slice().reverse().slice(0, 6)
+                                        .map(income =>
+                                            <WaitingList key={income.id} income={income} />)}
+                                </div>) : (<div>
+                                    <p className="text-center mb-4 text-uppercase fw-semibold">No hay registros</p>
+                                </div>)
+                            }
                         </div>
                     </div>
                     <div className="border border-secondary rounded  container consultation-container" style={{ maxHeight: '625px' }}>
@@ -98,6 +105,6 @@ export const ControlPanelConsult = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

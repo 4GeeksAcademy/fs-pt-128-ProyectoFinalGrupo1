@@ -12,18 +12,15 @@ import { SpinnerLoad } from "../../components/Spinner/SpinnerLoad";
 
 export const PatientsHistoryDetail = () => {
 
-
     const { id } = useParams()
     const { store, dispatch } = useGlobalReducer()
     const [incomes, setIncomes] = useState([])
     const [loading, setLoading] = useState(true);
 
-
-
     const Income = async () => {
         const data = await getIncomeAlta(id)
         setLoading(true)
-
+        console.log(data)
         if (data) {
             setIncomes(data)
             setLoading(false)
@@ -41,8 +38,7 @@ export const PatientsHistoryDetail = () => {
         getIncomeTest(dispatch)
     }, [])
 
-
-
+    console.log(incomes)
 
     return (
         <>
@@ -57,7 +53,7 @@ export const PatientsHistoryDetail = () => {
                 <div>
                     <Link to={'/patientsHistory'}>
                         <button className="btn btn-dark">
-                            <i class="fa-solid fa-arrow-left me-2"></i> Volver
+                            <i className="fa-solid fa-arrow-left me-2"></i> Volver
                         </button>
                     </Link>
                 </div>
@@ -72,7 +68,7 @@ export const PatientsHistoryDetail = () => {
                     patient_gender={store.patient.gender} />
 
 
-                <h3 className="title w-100 mt-5 mb-3 text-center">Ingresos</h3>
+                <h3 className="title w-100 mt-3 mb-3 text-center">Ingresos</h3>
                 {
                     (incomes.length > 0) ?
                         (incomes.map(income => {

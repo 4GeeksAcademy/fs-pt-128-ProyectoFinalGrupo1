@@ -106,10 +106,17 @@ export const ControlPanelTriage = () => {
 
                                 </div>
                                 <div className="">
-                                    {btn === 'Waiting' && <PatientWaitingCard incomes={store.incomes} />}
-                                    {btn === 'Critical' && store.incomes.filter(s => (Number(s.triage_priority) < 3) && s.state === 'En espera de triaje')
-                                        .sort((a, b) => a.triage_priority - b.triage_priority)
-                                        .map(income => <PatientCriticalCard key={income.id} income={income} />)}
+                                    {
+                                        store.incomes.filter(i => i.state == 'En espera de triaje').length > 0 ?
+                                            (<div>
+                                                {btn === 'Waiting' && <PatientWaitingCard incomes={store.incomes} />}
+                                                {btn === 'Critical' && store.incomes.filter(s => (Number(s.triage_priority) < 3) && s.state === 'En espera de triaje')
+                                                    .sort((a, b) => a.triage_priority - b.triage_priority)
+                                                    .map(income => <PatientCriticalCard key={income.id} income={income} />)}
+                                            </div>) : (<div>
+                                                <p className="text-center mb-4 text-uppercase fw-semibold">No hay registros</p>
+                                            </div>)
+                                    }
                                 </div>
                             </div>
                             <div className="border border-secondary rounded  container consultation-container" style={{ maxHeight: '625px' }}>
