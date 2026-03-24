@@ -79,7 +79,12 @@ export const PatientsHistoryDetail = () => {
                                             <p className="p-0 m-0 me-2 label-custom fw-semibold title">Fecha y hora de ingreso:</p>
                                             <p className="p-0 m-0"> {new Date(income.created_at).toLocaleString('es-ES')}</p>
                                         </div>
-                                        <TriageCard valoration_triage={income.valoration_triage} nurse={income.nurse} />
+                                        <div className="container">
+                                            <div className="mt-2 container w-100 ">
+                                                <h2 className="mt-1 mt-1 fs-5 fw-semibold">Valoración de triaje: </h2>
+                                                <p className=" rounded mt-2 mb-2 d-flex container">{income.valoration_triage == null ? 'No paso aun por triaje' : income.valoration_triage}</p>
+                                            </div>
+                                        </div>
                                         <div className="container">
                                             <div className="mt-2 mb-2 container w-100 ">
                                                 <h2 className=" mt-1 fs-5 fw-semibold title">Pruebas:</h2>
